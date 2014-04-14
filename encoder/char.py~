@@ -1,0 +1,37 @@
+def stringtolist(str):
+	list = []
+	
+	for x in range(0,len(str)):
+		list.append(ord(str[x]))
+	
+	return list
+
+def correctstring(str):
+	name = str.replace(unichr(252),'ue')
+	name = name.replace(unichr(228),'ae')
+	name = name.replace(unichr(246),'oe')
+	return name
+		
+def int_to_bytearray(groesse):
+	eingabe = "111"
+	input = ""
+	
+	for x in range(0,groesse):
+		input = input + "0"
+	
+	input = input + "111"
+	
+	for x in range(groesse,255):
+		input = input + "0"	
+	
+	return input
+
+def name_to_list(str):	
+	namliste = []
+	ls = stringtolist(str)
+	
+	for element in ls: 
+		array = int_to_bytearray(element)
+		namliste.append(array)
+		
+	return namliste
