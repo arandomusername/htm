@@ -14,11 +14,10 @@ class dendrit():
 		self.permanenz = permanenz
 
 	def uebertraegt_signal(self,Input):
-		if Input == 1:
+		if Input == "1":
 			self.aktiver_input = True
-			print "yes"
 
-		if Input == 1 and self.permanenz > min_connection :
+		if Input == "1" and self.permanenz > min_connection :
 			return True
 			
 		else:
@@ -53,7 +52,6 @@ class dendritsegment():
 		for dendrit in self.dendrit_segment.dendrite:
 			if dendrit.aktiver_input:
 				dendrit.permanenz_erhoehen()
-				print "yes"
 			else:
 				dendrit.permanenz_senken()
 
