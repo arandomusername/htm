@@ -1,0 +1,9 @@
+Bug:
+
+alle dendritsegmente haben die gleichen dendriten (400 * 129)
+	
+	Vermutung:
+	Anstelle dass den einzelnen Objekten dendriten angefügt werden, werden diese der Klasse angefügt w	  as zu dem Verhalten führt.
+	
+	Lösung:
+	Informieren vom verhalten von Objekten und Klassen und deren Beziehung zu einander.
