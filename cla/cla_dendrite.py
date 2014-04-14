@@ -22,6 +22,7 @@ class dendrit():
 			
 		else:
 			return False
+			
 
 	def permanenz_erhoehen(self):
 		self.permanenz = self.permanenz + perm_schritt
@@ -59,7 +60,7 @@ class dendritsegment():
 
 	def initialize_distrale_dendriten(self,reg_groesse):
 		anzahl_kolloumnen      = cla_region.region.coll_groesse
-		gesamt_anzahl_neuronen = (reg_groesse ** 2) * anzahl_kolloumnen
+		gesamt_anzahl_neuronen = (reg_groesse * 2) * anzahl_kolloumnen
 		anzahl_dendrite        = (gesamt_anzahl_neuronen/4) -(gesamt_anzahl_neuronen % 4)
 		self.input_groesse	   = reg_groesse
 		self.dendrite_hinzufuegen(anzahl_dendrite,reg_groesse)
@@ -91,10 +92,10 @@ class dendritsegment():
 					test = True
 	
 def zufalls_permanenz():
-	z1 = random.randrange(0,6)
-	z2 = random.randrange(0,6)
-	z3 = z1/100.
-	z4 = z2/100.
+	z1 = random.randrange(0,20)
+	z2 = random.randrange(0,20)
+	z3 = z1 * perm_schritt
+	z4 = z2 * perm_schritt
 	perm = min_connection -z3 + z4
 	return perm
 	

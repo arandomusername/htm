@@ -5,4 +5,4 @@ def raum(Input, region):
 	raum_methods.get_overlap_onedim(Input, region)
 	print "		get winners"
 	winner = raum_methods.check_inhibition(region)
-	print len(winner)
+
