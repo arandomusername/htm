@@ -3,11 +3,10 @@ import cla_colloumn
 class region():
 
 	coll_groesse = 4
-	colloums     = []
 	max_groesse  = 20
-	input_groesse= 0
     
 	def __init__(self,groesse,input_groesse):
+		self.colloums      = []
 		self.input_groesse = input_groesse
 		self.max_groesse = groesse
 	

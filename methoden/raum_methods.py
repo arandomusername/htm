@@ -1,6 +1,6 @@
-inhibition_radius = 8 # shouldn't be 0
-min_overlap       = 1 # starts with 0
-minlocalactivity  = 4
+inhibition_radius = 5 # shouldn't be 0
+min_overlap       = 7 # starts with 0
+minlocalactivity  = 5
 
 
 
@@ -11,8 +11,7 @@ def get_overlap_onedim(Input,region):
 		overlap = 0
 		for dendrit in coll.dendrit_segment.dendrite:
 			
-			if dendrit.uebertraegt_signal(Input[dendrit.ziel_pos]):
-				
+			if dendrit.uebertraegt_signal(Input[dendrit.ziel_pos]):			
 				overlap = overlap + 1
 
 		coll.overlap = overlap
@@ -23,6 +22,7 @@ def check_inhibition(region):
 	for coll in region.colloums:
 		nachbarliste 	 = region.nachbaren(coll.position,inhibition_radius)
 		minlocalactivity = n_kleinste_ueberlappung(nachbarliste,region)
+
 		if coll.overlap > 0 and coll.overlap > minlocalactivity:
 			winner.append(coll.position)
 
@@ -30,7 +30,7 @@ def check_inhibition(region):
 
 def learning(winners,region):
 	for pos in winners:
-		coll = coll_by_position(pos)
+		coll = region.coll_by_position(pos)
 		coll.dendrit_segment.learning()
 
 	
@@ -43,6 +43,6 @@ def n_kleinste_ueberlappung(nachbarliste,region):
 	
 	overlap_measures.sort(key=int)
 
-	return overlap_measures[min_overlap]
+	return overlap_measures[len(overlap_measures) - min_overlap]
 	
 

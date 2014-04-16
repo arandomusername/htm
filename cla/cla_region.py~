@@ -3,10 +3,12 @@ import cla_colloumn
 class region():
 
 	coll_groesse = 4
-	colloums     = []
 	max_groesse  = 20
+	input_groesse= 0
     
-	def __init__(self,groesse):
+	def __init__(self,groesse,input_groesse):
+		self.colloums = []
+		self.input_groesse = input_groesse
 		self.max_groesse = groesse
 	
 		for x in range(0,self.max_groesse):
@@ -16,7 +18,7 @@ class region():
 		
 	def add_Colloum(self,pos):
 		coll = cla_colloumn.colloum(self.coll_groesse,pos)
-		coll.dendrit_segment.initialize_proximale_dendriten(4)
+		coll.dendrit_segment.initialize_proximale_dendriten(self.input_groesse)
 		self.colloums.append(coll)
 
 	def active_cells(self):	

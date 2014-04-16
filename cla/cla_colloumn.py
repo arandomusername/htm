@@ -17,7 +17,8 @@ class colloum():
 	position = ()
 	neurons  = []
 	active   = False
-	overlap  = 0 
+	overlap  = 0
+	dendrit_segment = cla_dendrite.dendritsegment(0)
 
 	def __init__(self,coll_groesse,Position):       
 		self.position = Position

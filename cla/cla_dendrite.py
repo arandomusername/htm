@@ -5,13 +5,12 @@ min_connection = 0.2
 perm_schritt   = 0.01 
 
 class dendrit():
-	permanenz     = 0.
-	ziel_pos      = ()
-	aktiver_input = False
 
 	def __init__(self,zi_pos,permanenz):
+		self.permanenz = 0.
 		self.ziel_pos = zi_pos
 		self.permanenz = permanenz
+		self.aktiver_input = False
 
 	def uebertraegt_signal(self,Input):
 		if Input == "1":
@@ -38,19 +37,20 @@ class dendrit():
 	
 
 class dendritsegment():
-	ursprungs_position = ()
-	dendrite           = []
+	
 	input_groesse 	   = 0
 
 	def __init__(self,ur_pos):
 		self.ursprungs_position = ur_pos
+		self.dendrite     = []
+		self.input_groesse= 0
 
 	def reset_aktivitaet(self):
 		for dendrit in self.dendrite:
 			dendrit.aktiv = False
 
 	def learning(self):
-		for dendrit in self.dendrit_segment.dendrite:
+		for dendrit in self.dendrite:
 			if dendrit.aktiver_input:
 				dendrit.permanenz_erhoehen()
 			else:
@@ -67,7 +67,6 @@ class dendritsegment():
 
 	def initialize_proximale_dendriten(self,input_groesse):
 		self.input_groesse 	   = input_groesse
-		#input_gesamt 		   = input_groesse ** 2
 		anzahl_dendrite        = (input_groesse/2) -(input_groesse % 2)
 		self.dendrite_hinzufuegen(anzahl_dendrite,input_groesse)
 
@@ -77,6 +76,7 @@ class dendritsegment():
 		
 	def dendrite_hinzufuegen(self,anzahl_dendrite,bereich):
 		List = []
+
 		for x in range(0,anzahl_dendrite):
 			test = False
 
@@ -90,6 +90,7 @@ class dendritsegment():
 					self.dendrite.append(den)
 					List.append(x_pos)
 					test = True
+
 	
 def zufalls_permanenz():
 	z1 = random.randrange(0,20)

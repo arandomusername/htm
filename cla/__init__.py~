@@ -1,3 +1,2 @@
-import cla_dendrite
-import cla_colloumn
-import cla_region
+from cla_region import region
+from cla_region import dendritsegment
