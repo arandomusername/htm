@@ -1,11 +1,6 @@
 import cla_dendrite
 
 class neuron():
-
-	active  = False
-	predic  = False
-	position= ()
-
 	def __init__(self,pos):
 		self.active = False
 		self.predic = False
@@ -14,16 +9,14 @@ class neuron():
 
 
 class colloum():
-	position = ()
-	neurons  = []
-	active   = False
-	overlap  = 0
-	dendrit_segment = cla_dendrite.dendritsegment(0)
-
-	def __init__(self,coll_groesse,Position):       
+	def __init__(self,coll_groesse,Position):
+		self.overlap  = 0
+		self.active   = False
 		self.position = Position
+		self.neurons  = []
 		self.add_Neurones(coll_groesse,self.neurons)
 		self.dendrit_segment = cla_dendrite.dendritsegment(Position)
+		
 
 	def add_Neurones(self,neur_quantity,neurs):
 		for x in range(0,neur_quantity):

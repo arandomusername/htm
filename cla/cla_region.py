@@ -20,25 +20,6 @@ class region():
 		coll.dendrit_segment.initialize_proximale_dendriten(self.input_groesse)
 		self.colloums.append(coll)
 
-	def active_cells(self):	
-		act = []
-		test = 0
-		for coll in self.colloums:
-			for cell in coll.neurons:
-				if cell.active:
-					act.append(cell)
-
-		return act
-    
-	def pred_cells(self):
-		pred = []
-
-		for coll in self.colloums:
-			for cell in coll.neurons:
-				if cell.predic:
-					pred.append(cell)
-		return pred
-
 	# returns a colloum by its position
 	def coll_by_position(self,pos):
 		for coll in self.colloums:
