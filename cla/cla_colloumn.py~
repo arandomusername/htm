@@ -5,7 +5,7 @@ class neuron():
 		self.active = False
 		self.predicted = False
 		self.position = pos
-		self.dendritsegment = cla_dendrite.dendritsegment(self.position)
+		self.dendritsegment = cla_dendrite.dendrit_segment(self.position)
 
 
 class colloum():
@@ -29,8 +29,17 @@ class colloum():
 
 		for neuron in self.neurons:
 			if neuron.predicted == True :
-				predicted_cells.append(neuron.pos)
+				predicted_cells.append(neuron)
 
 		return predicted_cells
 
-	
+	def activate_cells(self):
+		neurons = self.get_predicted_cells()
+		if len(predicted_cells) == 0 :
+			for neuron in self.neurons:
+				neuron.active = True
+		else:
+			for neuron in predicted_cells:
+				neuron.active    = True
+				neuron.predicted = False
+		

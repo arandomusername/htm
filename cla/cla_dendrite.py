@@ -22,7 +22,6 @@ class dendrit():
 		else:
 			return False
 			
-
 	def permanenz_erhoehen(self):
 		self.permanenz = self.permanenz + perm_schritt
 
@@ -36,10 +35,7 @@ class dendrit():
 			self.permanenz = 0
 	
 
-class dendritsegment():
-	
-	input_groesse 	   = 0
-
+class dendrit_segment():
 	def __init__(self,ur_pos):
 		self.ursprungs_position = ur_pos
 		self.dendrite     = []
@@ -49,6 +45,10 @@ class dendritsegment():
 		for dendrit in self.dendrite:
 			dendrit.aktiv = False
 
+	def reset_aktiver_input(self):
+		for dendrit in self.dendrite:
+			dendrit.aktiver_input = False
+
 	def learning(self):
 		for dendrit in self.dendrite:
 			if dendrit.aktiver_input:
@@ -56,7 +56,7 @@ class dendritsegment():
 			else:
 				dendrit.permanenz_senken()
 
-			dendrit.aktiver_input = False
+		self.reset_aktiver_input()
 
 	def initialize_distrale_dendriten(self,reg_groesse):
 		anzahl_kolloumnen      = cla_region.region.coll_groesse
@@ -76,21 +76,24 @@ class dendritsegment():
 		
 	def dendrite_hinzufuegen(self,anzahl_dendrite,bereich):
 		List = []
-
 		for x in range(0,anzahl_dendrite):
 			test = False
-
-			while not test :
-	
-				x_pos = random.randrange(0,bereich)
-				
+			while not test :	
+				x_pos = random.randrange(0,bereich)				
 				if x_pos not in List:
 					perm = zufalls_permanenz()
 					den = dendrit(x_pos,perm)
 					self.dendrite.append(den)
 					List.append(x_pos)
 					test = True
-
+	
+	def get_overlap_onedim(Input):
+		overlap = 0
+		for dendrit in self.dendrite:
+			if dendrit.uebertraegt_signal(Input[dendrit.ziel_pos])
+				overlap = overlap + 1
+		return overlap
+			
 	
 def zufalls_permanenz():
 	z1 = random.randrange(0,20)

@@ -5,7 +5,7 @@ class neuron():
 		self.active = False
 		self.predicted = False
 		self.position = pos
-		self.dendritsegment = cla_dendrite.dendritsegment(self.position)
+		self.dendritsegment = cla_dendrite.dendrit_segment(self.position)
 
 
 class colloum():
@@ -15,7 +15,7 @@ class colloum():
 		self.position = Position
 		self.neurons  = []
 		self.add_Neurones(coll_groesse,self.neurons)
-		self.dendrit_segment = cla_dendrite.dendritsegment(Position)
+		self.dendrit_segment = cla_dendrite.dendrit_segment(Position)
 		
 
 	def add_Neurones(self,neur_quantity,neurs):

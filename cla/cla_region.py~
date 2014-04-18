@@ -4,10 +4,9 @@ class region():
 
 	coll_groesse = 4
 	max_groesse  = 20
-	input_groesse= 0
     
 	def __init__(self,groesse,input_groesse):
-		self.colloums = []
+		self.colloums      = []
 		self.input_groesse = input_groesse
 		self.max_groesse = groesse
 	
@@ -20,25 +19,6 @@ class region():
 		coll = cla_colloumn.colloum(self.coll_groesse,pos)
 		coll.dendrit_segment.initialize_proximale_dendriten(self.input_groesse)
 		self.colloums.append(coll)
-
-	def active_cells(self):	
-		act = []
-		test = 0
-		for coll in self.colloums:
-			for cell in coll.neurons:
-				if cell.active:
-					act.append(cell)
-
-		return act
-    
-	def pred_cells(self):
-		pred = []
-
-		for coll in self.colloums:
-			for cell in coll.neurons:
-				if cell.predic:
-					pred.append(cell)
-		return pred
 
 	# returns a colloum by its position
 	def coll_by_position(self,pos):
@@ -78,3 +58,12 @@ class region():
 				nachbarlist.append(position)
 
 		return nachbarlist
+
+	def set_overlap(self,Input):
+		for coll in self.colloums:
+			coll.overlap = coll.dendrit_segment.get_overlap_onedim(Input)
+			for dendrit in coll.dendrit_segment.dendrite:
+				if dendrit.uebertraegt_signal(Input[dendrit.ziel_pos]):
+					overlap = overlap + 1
+			coll.overlap = overlap
+
