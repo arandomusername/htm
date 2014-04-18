@@ -1,2 +1,3 @@
-activate_cells(winner, region):
-	
+activate_cells(winners, region):
+	for winner in winners:
+		column = region.coll_by_position(winner)

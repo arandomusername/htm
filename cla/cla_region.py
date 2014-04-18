@@ -58,3 +58,12 @@ class region():
 				nachbarlist.append(position)
 
 		return nachbarlist
+
+	def get_overlap_onedim(self,Input):
+		for coll in self.colloums:
+			overlap = 0
+			for dendrit in coll.dendrit_segment.dendrite:
+				if dendrit.uebertraegt_signal(Input[dendrit.ziel_pos]):
+					overlap = overlap + 1
+			coll.overlap = overlap
+

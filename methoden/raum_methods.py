@@ -2,20 +2,6 @@ inhibition_radius = 5 # shouldn't be 0
 min_overlap       = 7 # starts with 0
 minlocalactivity  = 5
 
-
-
-def get_overlap_onedim(Input,region):
-	overlap_list = []
-
-	for coll in region.colloums:
-		overlap = 0
-		for dendrit in coll.dendrit_segment.dendrite:
-			
-			if dendrit.uebertraegt_signal(Input[dendrit.ziel_pos]):			
-				overlap = overlap + 1
-
-		coll.overlap = overlap
-
 def check_inhibition(region):
 	winner = []
 	
