@@ -11,7 +11,7 @@ class dendrit():
 		self.ziel_pos = zi_pos
 		self.permanenz = permanenz
 		self.aktiver_input = False
-
+	#checks if a dendrite transfers a signal
 	def uebertraegt_signal(self,Input):
 		if Input == "1":
 			self.aktiver_input = True
@@ -40,15 +40,16 @@ class dendrit_segment():
 		self.ursprungs_position = ur_pos
 		self.dendrite     = []
 		self.input_groesse= 0
-
+	# resets the activity score
 	def reset_aktivitaet(self):
 		for dendrit in self.dendrite:
 			dendrit.aktiv = False
-
+	#resets another score
 	def reset_aktiver_input(self):
 		for dendrit in self.dendrite:
 			dendrit.aktiver_input = False
 
+	# lets the dendrites learn based on the aktiver input.
 	def learning(self):
 		for dendrit in self.dendrite:
 			if dendrit.aktiver_input:
@@ -70,10 +71,7 @@ class dendrit_segment():
 		anzahl_dendrite        = (input_groesse/2) -(input_groesse % 2)
 		self.dendrite_hinzufuegen(anzahl_dendrite,input_groesse)
 
-	def zweidim_zu_eindim(self,(pos1,pos2)):
-		pos1_dim = pos1 * (self.input_groesse - 1) + pos2
-		return pos1_dim	
-		
+	# adds dendrites
 	def dendrite_hinzufuegen(self,anzahl_dendrite,bereich):
 		List = []
 		for x in range(0,anzahl_dendrite):
@@ -86,17 +84,16 @@ class dendrit_segment():
 					self.dendrite.append(den)
 					List.append(x_pos)
 					test = True
-	
-	def get_overlap_onedim(Input):
+
+	# calculates the overlap-score of a specif segment
+	def get_overlap(self,Input):
 		overlap = 0
 		for dendrit in self.dendrite:
-			if dendrit.uebertraegt_signal(Input[dendrit.ziel_pos])
+			if dendrit.uebertraegt_signal(Input[dendrit.ziel_pos]):
 				overlap = overlap + 1
 		return overlap
 			
-		
-
-	
+# sets a random permanent-score in a certain radius	
 def zufalls_permanenz():
 	z1 = random.randrange(0,20)
 	z2 = random.randrange(0,20)

@@ -14,7 +14,8 @@ class region():
 			for y in range(0,self.max_groesse):
 				pos = (x,y)
 				self.add_Colloum(pos)
-		
+
+	# add a coloumn at a certain position and initializes a dendrit_segment
 	def add_Colloum(self,pos):
 		coll = cla_colloumn.colloum(self.coll_groesse,pos)
 		coll.dendrit_segment.initialize_proximale_dendriten(self.input_groesse)
@@ -59,7 +60,8 @@ class region():
 
 		return nachbarlist
 
+	# sets the overlap score for each colloumn
 	def set_overlap(self,Input):
 		for coll in self.colloums:
-			coll.overlap = coll.dendrit_segment.get_overlap_onedim(Input)
+			coll.overlap = coll.dendrit_segment.get_overlap(Input)
 

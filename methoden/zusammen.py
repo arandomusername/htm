@@ -7,7 +7,7 @@ def raum(Input, region):
 	winner = raum_methods.check_inhibition(region)
 	print "		learning"
 	raum_methods.learning(winner,region)
-	region.reset_overlap()
+	region.reset_overlaps()
 
 
 	

@@ -17,22 +17,23 @@ class colloum():
 		self.add_Neurones(coll_groesse,self.neurons)
 		self.dendrit_segment = cla_dendrite.dendrit_segment(Position)
 		
-
+	# add neurones and gives them a position
 	def add_Neurones(self,neur_quantity,neurs):
 		for x in range(0,neur_quantity):
 			pos = (x,) + self.position
 			neur = neuron(pos)
 			self.neurons.append(neur)
 	
+	# returns a list of the cells which are in the "predicted"-state
 	def get_predicted_cells(self):
 		predicted_cells = []
-
 		for neuron in self.neurons:
 			if neuron.predicted == True :
 				predicted_cells.append(neuron)
 
 		return predicted_cells
 
+	# activates cells based on ther prediction-state
 	def activate_cells(self):
 		neurons = self.get_predicted_cells()
 		if len(predicted_cells) == 0 :
