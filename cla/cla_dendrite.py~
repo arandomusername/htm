@@ -11,6 +11,7 @@ class dendrit():
 		self.ziel_pos = zi_pos
 		self.permanenz = permanenz
 		self.aktiver_input = False
+
 	#checks if a dendrite transfers a signal
 	def uebertraegt_signal(self,Input):
 		if Input == "1":
@@ -59,31 +60,46 @@ class dendrit_segment():
 
 		self.reset_aktiver_input()
 
-	def initialize_distrale_dendriten(self,reg_groesse):
-		anzahl_kolloumnen      = cla_region.region.coll_groesse
-		gesamt_anzahl_neuronen = (reg_groesse * 2) * anzahl_kolloumnen
+	def initialize_distrale_dendriten(self,reg_groesse,anzahl_neuronen):
+		gesamt_anzahl_neuronen = (reg_groesse ** 2) * anzahl_kolloumnen
 		anzahl_dendrite        = (gesamt_anzahl_neuronen/4) -(gesamt_anzahl_neuronen % 4)
 		self.input_groesse	   = reg_groesse
-		self.dendrite_hinzufuegen(anzahl_dendrite,reg_groesse)
+		
+		test_liste = []
+		for x in range(0,anzahl_dendrite):
+			test = False
+			while not test:
+				x_pos = random.randrange(0,reg_groesse)
+				y_pos = random.randrange(0,reg_groesse)
+				z_pos = random.randrange(0,anzahl_neuronen)
+				pos   = (x_pos,y_pos,z_pos)
+				if pos not in test_liste:
+					test = True
+					test_liste.append(pos)
+					self.dendrit_hinzufuegen(pos)
+
+
 
 	def initialize_proximale_dendriten(self,input_groesse):
 		self.input_groesse 	   = input_groesse
 		anzahl_dendrite        = (input_groesse/2) -(input_groesse % 2)
-		self.dendrite_hinzufuegen(anzahl_dendrite,input_groesse)
 
-	# adds dendrites
-	def dendrite_hinzufuegen(self,anzahl_dendrite,bereich):
-		List = []
+		test_liste = []
 		for x in range(0,anzahl_dendrite):
 			test = False
-			while not test :	
-				x_pos = random.randrange(0,bereich)				
-				if x_pos not in List:
-					perm = zufalls_permanenz()
-					den = dendrit(x_pos,perm)
-					self.dendrite.append(den)
-					List.append(x_pos)
+			while not test:
+				x_pos = random.randrange(0,input_groesse)
+				if x_pos not in test_liste:
 					test = True
+					test_liste.append(x_pos)
+					self.dendrit_hinzufuegen(x_pos
+
+	# adds dendrites
+	def dendrit_hinzufuegen(self,pos):
+		perm = zufalls_permanenz()
+		den = dendrit(pos,perm)
+		self.dendrite.append(den)
+					
 
 	# calculates the overlap-score of a specif segment
 	def get_overlap(self,Input):
@@ -92,7 +108,7 @@ class dendrit_segment():
 			if dendrit.uebertraegt_signal(Input[dendrit.ziel_pos]):
 				overlap = overlap + 1
 		return overlap
-			
+
 # sets a random permanent-score in a certain radius	
 def zufalls_permanenz():
 	z1 = random.randrange(0,20)

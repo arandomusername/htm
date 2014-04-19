@@ -5,7 +5,11 @@ class neuron():
 		self.active = False
 		self.predicted = False
 		self.position = pos
-		self.dendritsegment = cla_dendrite.dendrit_segment(self.position)
+		self.dendrit_segment = cla_dendrite.dendrit_segment(self.position)
+
+	def check_overlap(self,Input):
+		self.dendrit_segment.get_overlap(Input)
+		
 
 
 class colloum():
