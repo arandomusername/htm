@@ -1,4 +1,3 @@
-import methoden
 import encoder
 import cla
 
@@ -12,4 +11,4 @@ if __name__ == "__main__":
 	row    = encoder.convert_row(datei[0])
 	name   = row[0]
 	b = encoder.show_only_actives(name[0])
-
+	region.raum(b)

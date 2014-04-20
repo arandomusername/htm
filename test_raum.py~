@@ -12,7 +12,4 @@ if __name__ == "__main__":
 	row    = encoder.convert_row(datei[0])
 	name   = row[0]
 	b = encoder.show_only_actives(name[0])
-	for x in range(0,100):
-		print "starte raum"
-		print x
-		methoden.raum(b,region)
+	region.raum(b)
