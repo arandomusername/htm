@@ -10,7 +10,9 @@ if __name__ == "__main__":
 
 	datei  = encoder.open_file(datei_pfad)
 	row    = encoder.convert_row(datei[0])
-	wert   = row[0]
-	print "starte raum" 
-	methoden.raum(wert[0],region)
-
+	name   = row[0]
+	b = encoder.show_only_actives(name[0])
+	for x in range(0,100):
+		print "starte raum"
+		print x
+		methoden.raum(b,region)

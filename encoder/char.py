@@ -27,11 +27,18 @@ def int_to_bytearray(groesse):
 	return Input
 
 def name_to_list(string):	
-	namliste = []
+	name_list = []
 	ls = stringtolist(string)
 	
 	for element in ls: 
 		array = int_to_bytearray(element)
-		namliste.append(array)
+		name_list.append(array)		
+	return name_list
+
+def show_only_actives(string):
+	pos_list = []
+	for x in range(0,len(string)):
+		if string[x] == "1":
+			pos_list.append(x)
+	return pos_list
 		
-	return namliste

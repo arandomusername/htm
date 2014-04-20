@@ -9,6 +9,12 @@ class neuron():
 
 	def check_overlap(self,Input):
 		self.dendrit_segment.get_overlap(Input)
+	
+	def is_active(self):
+		if self.active == True :
+			return True
+		else :
+			return False
 		
 
 

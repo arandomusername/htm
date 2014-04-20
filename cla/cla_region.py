@@ -32,6 +32,21 @@ class region():
 		for coll in self.colloums:
 			coll.overlap = 0
 
+	def get_active_cells(self):
+		active_cells = []
+		for coll in self.colloums:
+			for neuron in coll.neurons:
+				if neuron.is_active():
+					active_cells.append(neuron.pos)
+		return activate_cells
+
+# lets the winnercolloumn learn from their connections
+	def learning(self,winners):
+		for pos in winners:
+			coll = self.coll_by_position(pos)
+			coll.dendrit_segment.learning()
+				
+
 	# returns position of coll in the radius (the radius is a square not a circle)
 	def nachbaren(self,pos,radius): 	
 		nachbarlist = []

@@ -15,12 +15,6 @@ def check_inhibition(region):
 
 	return winner
 
-# lets the winnercolloumn learn from their connections
-def learning(winners,region):
-	for pos in winners:
-		coll = region.coll_by_position(pos)
-		coll.dendrit_segment.learning()
-
 #searches the neighbours of a coloumn for the n-te overlap score
 def n_kleinste_ueberlappung(nachbarliste,region):
 	overlap_measures = []

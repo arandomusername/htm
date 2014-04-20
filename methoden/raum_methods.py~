@@ -2,7 +2,7 @@ inhibition_radius = 5 # shouldn't be 0
 min_overlap       = 7 # starts with 0
 minlocalactivity  = 5
 
-# checks if a coloum "wins" based on his own overlap score and the score of its neighbours. Can this be implemented as OOP
+# checks if a coloum "wins" based on his own overlap score and the score of its neighbours. Can this be implemented as OOP?
 def check_inhibition(region):
 	winner = []
 	

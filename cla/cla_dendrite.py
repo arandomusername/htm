@@ -13,11 +13,10 @@ class dendrit():
 		self.aktiver_input = False
 
 	#checks if a dendrite transfers a signal
-	def uebertraegt_signal(self,Input):
-		if Input == "1":
-			self.aktiver_input = True
+	def uebertraegt_signal(self):
+		self.aktiver_input = True
 
-		if Input == "1" and self.permanenz > min_connection :
+		if self.permanenz > min_connection :
 			return True
 			
 		else:
@@ -37,14 +36,17 @@ class dendrit():
 	
 
 class dendrit_segment():
+
 	def __init__(self,ur_pos):
 		self.ursprungs_position = ur_pos
 		self.dendrite     = []
 		self.input_groesse= 0
+
 	# resets the activity score
 	def reset_aktivitaet(self):
 		for dendrit in self.dendrite:
 			dendrit.aktiv = False
+
 	#resets another score
 	def reset_aktiver_input(self):
 		for dendrit in self.dendrite:
@@ -105,7 +107,7 @@ class dendrit_segment():
 	def get_overlap(self,Input):
 		overlap = 0
 		for dendrit in self.dendrite:
-			if dendrit.uebertraegt_signal(Input[dendrit.ziel_pos]):
+			if dendrit.ziel_pos in Input and dendrit.uebertraegt_signal():				
 				overlap = overlap + 1
 		return overlap
 

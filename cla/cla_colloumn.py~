@@ -8,7 +8,7 @@ class neuron():
 		self.dendrit_segment = cla_dendrite.dendrit_segment(self.position)
 
 	def check_overlap(self,Input):
-		self.dendrit_segment
+		self.dendrit_segment.get_overlap(Input)
 		
 
 
