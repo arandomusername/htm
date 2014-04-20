@@ -36,11 +36,11 @@ class dendrit():
 	
 
 class dendrit_segment():
-
 	def __init__(self,ur_pos):
 		self.ursprungs_position = ur_pos
 		self.dendrite     = []
 		self.input_groesse= 0
+		self.overlap      = 0
 
 	# resets the activity score
 	def reset_aktivitaet(self):
@@ -104,12 +104,12 @@ class dendrit_segment():
 					
 
 	# calculates the overlap-score of a specif segment
-	def get_overlap(self,Input):
+	def set_overlap(self,Input):
 		overlap = 0
 		for dendrit in self.dendrite:
 			if dendrit.ziel_pos in Input and dendrit.uebertraegt_signal():				
 				overlap = overlap + 1
-		return overlap
+		self.overlap = overlap
 
 # sets a random permanent-score in a certain radius	
 def zufalls_permanenz():

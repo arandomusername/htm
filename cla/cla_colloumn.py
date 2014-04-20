@@ -20,7 +20,6 @@ class neuron():
 
 class colloum():
 	def __init__(self,coll_groesse,Position):
-		self.overlap  = 0
 		self.active   = False
 		self.position = Position
 		self.neurons  = []
@@ -33,6 +32,8 @@ class colloum():
 			pos = (x,) + self.position
 			neur = neuron(pos)
 			self.neurons.append(neur)
+
+	#set
 	
 	# returns a list of the cells which are in the "predicted"-state
 	def get_predicted_cells(self):

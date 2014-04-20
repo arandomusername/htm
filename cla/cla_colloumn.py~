@@ -9,6 +9,12 @@ class neuron():
 
 	def check_overlap(self,Input):
 		self.dendrit_segment.get_overlap(Input)
+	
+	def is_active(self):
+		if self.active == True :
+			return True
+		else :
+			return False
 		
 
 
@@ -27,6 +33,8 @@ class colloum():
 			pos = (x,) + self.position
 			neur = neuron(pos)
 			self.neurons.append(neur)
+
+	#set
 	
 	# returns a list of the cells which are in the "predicted"-state
 	def get_predicted_cells(self):

@@ -37,7 +37,7 @@ class region():
 			nachbarliste 	   = self.nachbaren(coll.position)
 			min_local_activity = self.n_smallest_overlap(nachbarliste)
 			
-			if coll.overlap > 0 and coll.overlap > min_local_activity:
+			if coll.dendrit_segment.overlap > 0 and coll.dendrit_segment.overlap > min_local_activity:
 				winner.append(coll.position)
 		return winner
 
@@ -56,7 +56,7 @@ class region():
 	# resets the overlap score of the colloums
 	def reset_overlaps(self):		
 		for coll in self.colloums:
-			coll.overlap = 0
+			coll.dendrit_segment.overlap = 0
 
 	# returns a list of which cells are in the active state
 	def get_active_cells(self):
@@ -78,7 +78,7 @@ class region():
 		overlap_measures = []
 		for position in nachbarliste:
 			coll  = self.coll_by_position(position)
-			overlap_measures.append(coll.overlap)
+			overlap_measures.append(coll.dendrit_segment.overlap)
 		overlap_measures.sort(key=int)
 		return overlap_measures[len(overlap_measures) - region.min_overlap]
 
@@ -119,5 +119,5 @@ class region():
 	# sets the overlap score for each colloumn
 	def set_overlap(self,Input):
 		for coll in self.colloums:
-			coll.overlap = coll.dendrit_segment.get_overlap(Input)
+			coll.dendrit_segment.set_overlap(Input)
 
