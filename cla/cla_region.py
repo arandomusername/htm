@@ -5,7 +5,7 @@ class region():
 	coll_groesse = 4
 	max_groesse  = 20
 	min_overlap  = 7
-	inhibition_radius = 5
+	inhibition_radius = 10
     
 	def __init__(self,groesse,input_groesse):
 		self.colloums      = []
@@ -35,8 +35,7 @@ class region():
 		winner = []
 		for coll in self.colloums:
 			nachbarliste 	   = self.nachbaren(coll.position)
-			min_local_activity = self.n_smallest_overlap(nachbarliste)
-			
+			min_local_activity = self.n_smallest_overlap(nachbarliste)			
 			if coll.dendrit_segment.overlap > 0 and coll.dendrit_segment.overlap > min_local_activity:
 				winner.append(coll.position)
 		return winner
@@ -57,6 +56,7 @@ class region():
 	def reset_overlaps(self):		
 		for coll in self.colloums:
 			coll.dendrit_segment.overlap = 0
+			coll.dendrit_segment.reset_aktivitaet()
 
 	# returns a list of which cells are in the active state
 	def get_active_cells(self):
@@ -86,7 +86,7 @@ class region():
 		active_cells = self.get_active_cells()
 		for coll in self.colloums:
 			for neuron in coll.neurons:
-				print "something"				
+							
 
 	# returns position of coll in the radius (the radius is a square not a circle)
 	def nachbaren(self,pos): 	

@@ -46,10 +46,6 @@ class dendrit_segment():
 	def reset_aktivitaet(self):
 		for dendrit in self.dendrite:
 			dendrit.aktiv = False
-
-	#resets another score
-	def reset_aktiver_input(self):
-		for dendrit in self.dendrite:
 			dendrit.aktiver_input = False
 
 	# lets the dendrites learn based on the aktiver input.
@@ -59,8 +55,6 @@ class dendrit_segment():
 				dendrit.permanenz_erhoehen()
 			else:
 				dendrit.permanenz_senken()
-
-		self.reset_aktiver_input()
 
 	def initialize_distrale_dendriten(self,reg_groesse,anzahl_neuronen):
 		gesamt_anzahl_neuronen = (reg_groesse ** 2) * anzahl_kolloumnen
@@ -107,8 +101,10 @@ class dendrit_segment():
 	def set_overlap(self,Input):
 		overlap = 0
 		for dendrit in self.dendrite:
-			if dendrit.ziel_pos in Input and dendrit.uebertraegt_signal():				
-				overlap = overlap + 1
+			if dendrit.ziel_pos in Input:
+				dendrit.aktiver_input = True
+				if dendrit.uebertraegt_signal():				
+					overlap = overlap + 1
 		self.overlap = overlap
 
 # sets a random permanent-score in a certain radius	

@@ -1,4 +1,3 @@
-import methoden
 import encoder
 import cla
 
@@ -10,6 +9,12 @@ if __name__ == "__main__":
 
 	datei  = encoder.open_file(datei_pfad)
 	row    = encoder.convert_row(datei[0])
-	name   = row[0]
-	b = encoder.show_only_actives(name[0])
-	region.raum(b)
+	ls     = encoder.name_to_list(",")[0]
+	zwischen = []
+	for name in row:
+		for wert in name:
+			b = encoder.show_only_actives(wert)
+			region.raum(b)
+		region.raum(ls)
+		
+	

@@ -33,15 +33,12 @@ class colloum():
 			neur = neuron(pos)
 			self.neurons.append(neur)
 
-	#set
-	
 	# returns a list of the cells which are in the "predicted"-state
 	def get_predicted_cells(self):
 		predicted_cells = []
 		for neuron in self.neurons:
 			if neuron.predicted == True :
 				predicted_cells.append(neuron)
-
 		return predicted_cells
 
 	# activates cells based on ther prediction-state
