@@ -15,7 +15,7 @@ class region():
         for x in range(0, self.max_groesse):
             for y in range(0, self.max_groesse):
                 pos = (x, y)
-                self.add_Colloum(pos)
+                self.add_colloum(pos)
 
     #starts the regional learning
     def raum(self, Input):
@@ -41,7 +41,7 @@ class region():
         return winner
 
     # add a coloumn at a certain position and initializes a dendrit_segment
-    def add_Colloum(self, pos):
+    def add_colloum(self, pos):
         coll = cla_colloumn.colloum(self.coll_groesse, pos)
         coll.dendrit_segment.initialize_proximale_dendriten(self.input_groesse)
         self.colloums.append(coll)
