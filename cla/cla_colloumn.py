@@ -2,12 +2,12 @@ import cla_dendrite
 import cla_region
 
 class neuron():
+    min_overlap = 3
     def __init__(self, pos):
         self.active = False
         self.predicted = False
         self.position = pos
-        self.dendrit_segment = cla_dendrite.dendrit_segment(self.position)
-        self.activate_dendrite_segment()
+
 
     def check_overlap(self, Input):
         self.dendrit_segment.get_overlap(Input)
@@ -18,10 +18,10 @@ class neuron():
         else:
             return False
 
-    def activate_dendrite_segment(self):
-        region_max = cla_region.region.max_groesse
-        anzahl_neuronen = cla_region.region.coll_groesse
-        self.dendrit_segment.initialize_distrale_dendriten(region_max,anzahl_neuronen)
+    def check_prediction(self,list_of_active_cells):
+        self.dendrit_segment.set_overlap(list_of_active_cells)
+        if self.dendrit_segment.overlap > neuron.min_overlap:
+            self.predicted = True
 
 class colloum():
     def __init__(self, coll_groesse, Position):

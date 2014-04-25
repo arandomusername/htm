@@ -1,21 +1,16 @@
 import random
-import cla_region
 
 min_connection = 0.2
 perm_schritt = 0.01
 
 
 class dendrit():
-    def __init__(self, zi_pos, permanenz):
-        self.permanenz = 0.
-        self.ziel_pos = zi_pos
+    def __init__(self, neuron, permanenz):
+        self.neuron    = neuron
         self.permanenz = permanenz
-        self.aktiver_input = False
 
     #checks if a dendrite transfers a signal
     def uebertraegt_signal(self):
-        self.aktiver_input = True
-
         if self.permanenz > min_connection:
             return True
 
@@ -42,57 +37,37 @@ class dendrit_segment():
         self.input_groesse = 0
         self.overlap = 0
 
-    # resets the activity score
-    def reset_aktivitaet(self):
-        for dendrit in self.dendrite:
-            dendrit.aktiv = False
-            dendrit.aktiver_input = False
-
     # lets the dendrites learn based on the aktiver input.
     def learning(self):
         for dendrit in self.dendrite:
-            if dendrit.aktiver_input:
+            if dendrit.neuron.active:
                 dendrit.permanenz_erhoehen()
             else:
                 dendrit.permanenz_senken()
 
-    def initialize_distrale_dendriten(self, reg_groesse, anzahl_neuronen):
-        gesamt_anzahl_neuronen = (reg_groesse ** 2) * anzahl_neuronen
-        anzahl_dendrite = (gesamt_anzahl_neuronen / 4) - (gesamt_anzahl_neuronen % 4)
-        self.input_groesse = reg_groesse
+    def initialize_dendriten(self,region,divisor):
+        gesamt_anzahl_neuronen = (region.max_groesse ** 2) * region.coll_groesse
+        anzahl_dendrite = (gesamt_anzahl_neuronen / divisor) - (gesamt_anzahl_neuronen % divisor)
 
         test_liste = []
         for x in range(0, anzahl_dendrite):
             test = False
             while not test:
-                x_pos = random.randrange(0, reg_groesse)
-                y_pos = random.randrange(0, reg_groesse)
-                z_pos = random.randrange(0, anzahl_neuronen)
+                x_pos = random.randrange(0, region.max_groesse)
+                y_pos = random.randrange(0, region.max_groesse)
+                z_pos = random.randrange(0, region.coll_groesse)
                 pos = (x_pos, y_pos, z_pos)
                 if pos not in test_liste:
                     test = True
                     test_liste.append(pos)
-                    self.dendrit_hinzufuegen(pos)
+                    neuron = region.neuron_by_position(pos)
+                    self.dendrit_hinzufuegen(neuron)
 
-
-    def initialize_proximale_dendriten(self, input_groesse):
-        self.input_groesse = input_groesse
-        anzahl_dendrite = (input_groesse / 2) - (input_groesse % 2)
-
-        test_liste = []
-        for x in range(0, anzahl_dendrite):
-            test = False
-            while not test:
-                x_pos = random.randrange(0, input_groesse)
-                if x_pos not in test_liste:
-                    test = True
-                    test_liste.append(x_pos)
-                    self.dendrit_hinzufuegen(x_pos)
 
     # adds dendrites
-    def dendrit_hinzufuegen(self, pos):
+    def dendrit_hinzufuegen(self, neuron):
         perm = zufalls_permanenz()
-        den = dendrit(pos, perm)
+        den = dendrit(neuron, perm)
         self.dendrite.append(den)
 
 
@@ -100,8 +75,7 @@ class dendrit_segment():
     def set_overlap(self, Input):
         overlap = 0
         for dendrit in self.dendrite:
-            if dendrit.ziel_pos in Input:
-                dendrit.aktiver_input = True
+            if dendrit.neuron.position in Input:
                 if dendrit.uebertraegt_signal():
                     overlap = overlap + 1
         self.overlap = overlap

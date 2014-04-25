@@ -2,52 +2,76 @@ import cla_colloumn
 
 
 class region():
-    coll_groesse = 4
-    max_groesse = 20
-    min_overlap = 7
-    inhibition_radius = 10
+    def __init__(self, groesse, input_region):
+        self.coll_groesse = 4
+        self.overlap_range = 7
+        self.inhibition_radius = 10
+        self.min_overlap = 3
 
-    def __init__(self, groesse, input_groesse):
         self.colloums = []
-        self.input_groesse = input_groesse
         self.max_groesse = groesse
 
         for x in range(0, self.max_groesse):
             for y in range(0, self.max_groesse):
                 pos = (x, y)
-                self.add_colloum(pos)
+                self.add_colloum(pos,input_region)
 
-    #starts the regional learning
-    def raum(self, Input):
+    def raeumliche_wahrnehmung(self, Input):
+        """
+        starts the regional learning
+        :param Input:
+        """
         self.set_overlap(Input)
         winner = self.check_inhibition()
         self.learning(winner)
         self.reset_overlaps()
 
-    #activate cell based on their prediction state
     def activate_cells(self, winners):
+        """
+        activate cells in the winnercoloum based on their prediction state
+        :param winners:
+        """
         for winner in winners:
             coloumn = self.coll_by_position(winner)
             coloumn.activate_cells()
 
-    # checks if a coloum "wins" based on his own overlap score and the score of its neighbours
+
     def check_inhibition(self):
+        """
+        checks if a coloum "wins" based on his own overlap score and the score of its neighbours and returns a list of said winners
+
+        :return:
+        """
         winner = []
         for coll in self.colloums:
-            nachbarliste = self.nachbaren(coll.position)
-            min_local_activity = self.n_smallest_overlap(nachbarliste)
+            nachbar_liste = self.nachbaren(coll.position)
+            min_local_activity = self.n_smallest_overlap(nachbar_liste)
             if coll.dendrit_segment.overlap > 0 and coll.dendrit_segment.overlap > min_local_activity:
                 winner.append(coll.position)
         return winner
 
-    # add a coloumn at a certain position and initializes a dendrit_segment
-    def add_colloum(self, pos):
+    def add_colloum(self, pos,input_region):
+        """
+        add a coloumn at a certain position and initializes a dendrit_segment for each colloum
+        :param pos:
+        """
         coll = cla_colloumn.colloum(self.coll_groesse, pos)
-        coll.dendrit_segment.initialize_proximale_dendriten(self.input_groesse)
+        coll.dendrit_segment.initialize_dendriten(input_region,2)
         self.colloums.append(coll)
 
-    # returns a colloum by its position
+    def neuron_by_position(self,pos):
+        x_pos,y_pos,z_pos = pos
+        coll_pos = (x_pos,y_pos)
+        coll = self.coll_by_position(coll_pos)
+        neuron = coll.neurons(z_pos)
+        return neuron
+
     def coll_by_position(self, pos):
+        """
+        returns a colloum by its position
+        :param pos:
+        :return:
+        """
         for coll in self.colloums:
             if coll.position == pos:
                 return coll
@@ -80,13 +104,15 @@ class region():
             coll = self.coll_by_position(position)
             overlap_measures.append(coll.dendrit_segment.overlap)
         overlap_measures.sort(key=int)
-        return overlap_measures[len(overlap_measures) - region.min_overlap]
+        return overlap_measures[len(overlap_measures) - region.overlap_range]
 
     def predict_activation(self):
+        list_of_active_cells = self.get_active_cells()
         active_cells = self.get_active_cells()
         for coll in self.colloums:
             for neuron in coll.neurons:
-                print "something"
+                neuron.check_prediction(list_of_active_cells)
+
 
     # returns position of coll in the radius (the radius is a square not a circle)
     def nachbaren(self, pos):

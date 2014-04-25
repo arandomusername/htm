@@ -13,4 +13,4 @@ if __name__ == "__main__":
     for name in row:
         for wert in name:
             b = encoder.show_only_actives(wert)
-            region.raum(b)
+            region.raeumliche_wahrnehmung(b)
