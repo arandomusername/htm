@@ -60,9 +60,8 @@ class region():
         self.colloums.append(coll)
 
     def neuron_by_position(self,pos):
-        x_pos,y_pos,z_pos = pos
-        coll_pos = (x_pos,y_pos)
-        coll = self.coll_by_position(coll_pos)
+        x_pos,z_pos = pos
+        coll = self.colloums[x_pos]
         neuron = coll.neurons(z_pos)
         return neuron
 

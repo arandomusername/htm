@@ -1,40 +1,40 @@
 import cla_dendrite
-import cla_region
+
 
 class neuron():
     min_overlap = 3
-    def __init__(self, pos):
+
+    def __init__(self, pos, region):
         self.active = False
         self.predicted = False
         self.position = pos
+        self.dendrit_segment = cla_dendrite.dendrit_segment(pos)
+        self.dendrit_segment.initialize_dendriten(region, 4)
 
-
-    def check_overlap(self, Input):
-        self.dendrit_segment.get_overlap(Input)
+    def check_overlap(self, active_cells):
+        self.dendrit_segment.set_overlap(active_cells)
 
     def is_active(self):
-        if self.active == True:
-            return True
-        else:
-            return False
+        return self.active
 
-    def check_prediction(self,list_of_active_cells):
+    def check_prediction(self, list_of_active_cells):
         self.dendrit_segment.set_overlap(list_of_active_cells)
         if self.dendrit_segment.overlap > neuron.min_overlap:
             self.predicted = True
 
 class colloum():
-    def __init__(self, coll_groesse, Position):
+    def __init__(self, coll_groesse, position):
         self.active = False
-        self.position = Position
+        self.position = position
         self.neurons = []
-        self.add_Neurones(coll_groesse, self.neurons)
-        self.dendrit_segment = cla_dendrite.dendrit_segment(Position)
+        self.add_neurones(coll_groesse, self.neurons)
+        self.dendrit_segment = cla_dendrite.dendrit_segment(position)
+
 
     # add neurones and gives them a position
-    def add_Neurones(self, neur_quantity, neurs):
+    def add_neurones(self, neur_quantity):
         for x in range(0, neur_quantity):
-            pos = (x,) + self.position
+            pos = (x, self.position)
             neur = neuron(pos)
             self.neurons.append(neur)
 

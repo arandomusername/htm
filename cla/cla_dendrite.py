@@ -46,17 +46,17 @@ class dendrit_segment():
                 dendrit.permanenz_senken()
 
     def initialize_dendriten(self,region,divisor):
-        gesamt_anzahl_neuronen = (region.max_groesse ** 2) * region.coll_groesse
+        coloum_groesse = region.max_groesse ** 2
+        gesamt_anzahl_neuronen = coloum_groesse * region.coll_groesse
         anzahl_dendrite = (gesamt_anzahl_neuronen / divisor) - (gesamt_anzahl_neuronen % divisor)
 
         test_liste = []
         for x in range(0, anzahl_dendrite):
             test = False
             while not test:
-                x_pos = random.randrange(0, region.max_groesse)
-                y_pos = random.randrange(0, region.max_groesse)
+                x_pos = random.randrange(0, coloum_groesse)
                 z_pos = random.randrange(0, region.coll_groesse)
-                pos = (x_pos, y_pos, z_pos)
+                pos = (x_pos, z_pos)
                 if pos not in test_liste:
                     test = True
                     test_liste.append(pos)
