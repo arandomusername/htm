@@ -23,19 +23,19 @@ class Neuron():
             self.predicted = True
 
 
-class Colloum():
-    def __init__(self, coll_groesse, position):
+class Column():
+    def __init__(self, coll_groesse, position, input_region):
         self.active = False
         self.position = position
         self.neurons = []
-        self.add_neurones(coll_groesse)
+        self.add_neurones(coll_groesse, input_region)
         self.dendrit_segment = cla_dendrite.DendritSegment(position)
 
     # add neurones and gives them a position
-    def add_neurones(self, neur_quantity):
+    def add_neurones(self, neur_quantity, input_region):
         for x in range(0, neur_quantity):
             pos = (x, self.position)
-            neur = Neuron(pos)
+            neur = Neuron(pos, input_region)
             self.neurons.append(neur)
 
     # returns a list of the cells which are in the "predicted"-state

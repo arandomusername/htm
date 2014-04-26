@@ -55,13 +55,13 @@ class Region():
         add a coloumn at a certain position and initializes a dendrit_segment for each colloum
         :param pos:
         """
-        coll = cla_colloumn.Colloum(self.coll_groesse, pos)
+        coll = cla_colloumn.Column(self.coll_groesse, pos,input_region)
         coll.dendrit_segment.initialize_dendriten(input_region, 2)
         self.colloums.append(coll)
 
     def neuron_by_position(self, pos):
-        x_pos, z_pos = pos
-        coll = self.colloums[x_pos]
+        x_pos, y_pos, z_pos = pos
+        coll = self.coll_by_position((x_pos,y_pos))
         neuron = coll.neurons(z_pos)
         return neuron
 

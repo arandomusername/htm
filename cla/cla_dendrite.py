@@ -37,8 +37,11 @@ class DendritSegment():
         self.input_groesse = 0
         self.overlap = 0
 
-    # lets the dendrites learn based on the aktiver input.
     def learning(self):
+        """
+        lets the dendrites learn based on the aktiver input.
+
+        """
         for single_dendrit in self.dendrite:
             if single_dendrit.neuron.active:
                 single_dendrit.permanenz_erhoehen()
@@ -46,7 +49,8 @@ class DendritSegment():
                 single_dendrit.permanenz_senken()
 
     def initialize_dendriten(self, region, divisor):
-        coloum_groesse = region.max_groesse ** 2
+        coloum_groesse = len(region.colloums)
+
         gesamt_anzahl_neuronen = coloum_groesse * region.coll_groesse
         anzahl_dendrite = (gesamt_anzahl_neuronen / divisor) - (gesamt_anzahl_neuronen % divisor)
         test_liste = []
@@ -60,7 +64,7 @@ class DendritSegment():
                 if pos not in test_liste:
                     test = True
                     test_liste.append(pos)
-                    neuron = region.neuron_by_position(pos)
+                    neuron = region.colloums[x_pos].neurons[z_pos]
                     self.dendrit_hinzufuegen(neuron)
 
     # adds dendrites
