@@ -1,36 +1,35 @@
-def stringtolist(string):
-    list = []
+def string_to_list(string):
+    string_list = []
 
     for x in range(0, len(string)):
-        list.append(ord(string[x]))
+        string_list.append(ord(string[x]))
 
-    return list
+    return string_list
 
 
-def correctstring(str):
-    name = str.replace(unichr(252), 'ue')
+def correct_string(string):
+    name = string.replace(unichr(252), 'ue')
     name = name.replace(unichr(228), 'ae')
     name = name.replace(unichr(246), 'oe')
     return name
 
 
 def int_to_bytearray(groesse):
-    eingabe = "111"
-    Input = ""
+    byte_array = ""
 
     for x in range(0, groesse):
-        Input = Input + "0"
-    Input = Input + "111"
+        byte_array += "0"
+    byte_array += "111"
 
     for x in range(groesse, 255):
-        Input = Input + "0"
+        byte_array += "0"
 
-    return Input
+    return byte_array
 
 
 def name_to_list(string):
     name_list = []
-    ls = stringtolist(string)
+    ls = string_to_list(string)
 
     for element in ls:
         array = int_to_bytearray(element)

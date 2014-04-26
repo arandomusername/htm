@@ -1,7 +1,7 @@
 import cla_colloumn
 
 
-class region():
+class Region():
     def __init__(self, groesse, input_region):
         self.coll_groesse = 4
         self.overlap_range = 7
@@ -14,14 +14,14 @@ class region():
         for x in range(0, self.max_groesse):
             for y in range(0, self.max_groesse):
                 pos = (x, y)
-                self.add_colloum(pos,input_region)
+                self.add_colloum(pos, input_region)
 
-    def raeumliche_wahrnehmung(self, Input):
+    def raeumliche_wahrnehmung(self, input_region):
         """
         starts the regional learning
-        :param Input:
+        :param input_region:
         """
-        self.set_overlap(Input)
+        self.set_overlap(input_region)
         winner = self.check_inhibition()
         self.learning(winner)
         self.reset_overlaps()
@@ -35,10 +35,10 @@ class region():
             coloumn = self.coll_by_position(winner)
             coloumn.activate_cells()
 
-
     def check_inhibition(self):
         """
-        checks if a coloum "wins" based on his own overlap score and the score of its neighbours and returns a list of said winners
+        checks if a coloum "wins" based on his own overlap score and the score of its neighbours and returns a list of
+        said winners
 
         :return:
         """
@@ -50,17 +50,17 @@ class region():
                 winner.append(coll.position)
         return winner
 
-    def add_colloum(self, pos,input_region):
+    def add_colloum(self, pos, input_region):
         """
         add a coloumn at a certain position and initializes a dendrit_segment for each colloum
         :param pos:
         """
-        coll = cla_colloumn.colloum(self.coll_groesse, pos)
-        coll.dendrit_segment.initialize_dendriten(input_region,2)
+        coll = cla_colloumn.Colloum(self.coll_groesse, pos)
+        coll.dendrit_segment.initialize_dendriten(input_region, 2)
         self.colloums.append(coll)
 
-    def neuron_by_position(self,pos):
-        x_pos,z_pos = pos
+    def neuron_by_position(self, pos):
+        x_pos, z_pos = pos
         coll = self.colloums[x_pos]
         neuron = coll.neurons(z_pos)
         return neuron
@@ -97,32 +97,30 @@ class region():
             coll.dendrit_segment.learning()
 
     #searches the neighbours of a coloumn for the n-te overlap score
-    def n_smallest_overlap(self, nachbarliste):
+    def n_smallest_overlap(self, nachbar_liste):
         overlap_measures = []
-        for position in nachbarliste:
+        for position in nachbar_liste:
             coll = self.coll_by_position(position)
             overlap_measures.append(coll.dendrit_segment.overlap)
         overlap_measures.sort(key=int)
-        return overlap_measures[len(overlap_measures) - region.overlap_range]
+        return overlap_measures[len(overlap_measures) - self.overlap_range]
 
     def predict_activation(self):
         list_of_active_cells = self.get_active_cells()
-        active_cells = self.get_active_cells()
         for coll in self.colloums:
             for neuron in coll.neurons:
                 neuron.check_prediction(list_of_active_cells)
 
-
     # returns position of coll in the radius (the radius is a square not a circle)
     def nachbaren(self, pos):
-        nachbarlist = []
+        nachbar_list = []
         pos_x = pos[0]
         pos_y = pos[1]
 
-        x1 = pos_x - region.inhibition_radius
-        x2 = pos_x + region.inhibition_radius
-        y1 = pos_y - region.inhibition_radius
-        y2 = pos_y + region.inhibition_radius
+        x1 = pos_x - self.inhibition_radius
+        x2 = pos_x + self.inhibition_radius
+        y1 = pos_y - self.inhibition_radius
+        y2 = pos_y + self.inhibition_radius
 
         if x1 < 0:
             x1 = 0
@@ -137,11 +135,11 @@ class region():
         for x in range(x1, x2):
             for y in range(y1, y2):
                 position = (x, y)
-                nachbarlist.append(position)
+                nachbar_list.append(position)
 
-        return nachbarlist
+        return nachbar_list
 
     # sets the overlap score for each colloumn
-    def set_overlap(self, Input):
+    def set_overlap(self, input_array):
         for coll in self.colloums:
-            coll.dendrit_segment.set_overlap(Input)
+            coll.dendrit_segment.set_overlap(input_array)

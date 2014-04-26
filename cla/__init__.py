@@ -1,2 +1,2 @@
-from cla_region import region
-from cla_dendrite import dendrit_segment
+from cla_region import Region
+from cla_dendrite import DendritSegment

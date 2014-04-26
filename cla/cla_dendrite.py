@@ -4,9 +4,9 @@ min_connection = 0.2
 perm_schritt = 0.01
 
 
-class dendrit():
+class Dendrit():
     def __init__(self, neuron, permanenz):
-        self.neuron    = neuron
+        self.neuron = neuron
         self.permanenz = permanenz
 
     #checks if a dendrite transfers a signal
@@ -18,19 +18,19 @@ class dendrit():
             return False
 
     def permanenz_erhoehen(self):
-        self.permanenz = self.permanenz + perm_schritt
+        self.permanenz += perm_schritt
 
         if self.permanenz > 1:
             self.permanenz = 1
 
     def permanenz_senken(self):
-        self.permanenz = self.permanenz + perm_schritt
+        self.permanenz -= perm_schritt
 
         if self.permanenz < 0:
             self.permanenz = 0
 
 
-class dendrit_segment():
+class DendritSegment():
     def __init__(self, ur_pos):
         self.ursprungs_position = ur_pos
         self.dendrite = []
@@ -39,18 +39,18 @@ class dendrit_segment():
 
     # lets the dendrites learn based on the aktiver input.
     def learning(self):
-        for dendrit in self.dendrite:
-            if dendrit.neuron.active:
-                dendrit.permanenz_erhoehen()
+        for single_dendrit in self.dendrite:
+            if single_dendrit.neuron.active:
+                single_dendrit.permanenz_erhoehen()
             else:
-                dendrit.permanenz_senken()
+                single_dendrit.permanenz_senken()
 
-    def initialize_dendriten(self,region,divisor):
+    def initialize_dendriten(self, region, divisor):
         coloum_groesse = region.max_groesse ** 2
         gesamt_anzahl_neuronen = coloum_groesse * region.coll_groesse
         anzahl_dendrite = (gesamt_anzahl_neuronen / divisor) - (gesamt_anzahl_neuronen % divisor)
-
         test_liste = []
+
         for x in range(0, anzahl_dendrite):
             test = False
             while not test:
@@ -63,21 +63,19 @@ class dendrit_segment():
                     neuron = region.neuron_by_position(pos)
                     self.dendrit_hinzufuegen(neuron)
 
-
     # adds dendrites
     def dendrit_hinzufuegen(self, neuron):
         perm = zufalls_permanenz()
-        den = dendrit(neuron, perm)
+        den = Dendrit(neuron, perm)
         self.dendrite.append(den)
 
-
     # calculates the overlap-score of a specif segment
-    def set_overlap(self, Input):
+    def set_overlap(self, input_array):
         overlap = 0
         for dendrit in self.dendrite:
-            if dendrit.neuron.position in Input:
+            if dendrit.neuron.position in input_array:
                 if dendrit.uebertraegt_signal():
-                    overlap = overlap + 1
+                    overlap +=  1
         self.overlap = overlap
 
 
@@ -89,4 +87,3 @@ def zufalls_permanenz():
     z4 = z2 * perm_schritt
     perm = min_connection - z3 + z4
     return perm
-	

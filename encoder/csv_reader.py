@@ -3,18 +3,18 @@ import char
 
 
 def open_file(pfad):
-    List = []
+    row_list = []
     with open(pfad, "rb") as csvfile:
         reader = csv.reader(csvfile)
         for row in reader:
-            List.append(row)
-    return List
+            row_list.append(row)
+    return row_list
 
 
 def convert_row(row):
-    List = []
+    byte_list = []
 
     for element in row:
-        List.append(char.name_to_list(element))
+        byte_list.append(char.name_to_list(element))
 
-    return List
+    return byte_list

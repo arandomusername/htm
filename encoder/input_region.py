@@ -1,4 +1,4 @@
-class input_region():
+class InputRegion():
     def __init__(self, input_groesse):
         self.colloums = []
         self.max_groesse = input_groesse
@@ -7,7 +7,7 @@ class input_region():
         for x in range(0, self.max_groesse):
             self.add_colloum()
 
-    def new_input(self,input_array):
+    def new_input(self, input_array):
         self.reset_region()
         for single_input in input_array:
             self.colloums[single_input].neurons[0].active = True
@@ -17,14 +17,16 @@ class input_region():
             coll.neurons[0].active = False
 
     def add_colloum(self):
-        coll = colloum()
+        coll = Colloum()
         self.colloums.append(coll)
 
-class colloum():
+
+class Colloum():
     def __init__(self):
         self.neurons = []
+        self.neurons.append(Neuron())
 
 
-class neuron():
+class Neuron():
     def __init__(self):
         self.active = False
