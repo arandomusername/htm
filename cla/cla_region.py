@@ -2,7 +2,7 @@ import cla_colloumn
 
 
 class Region():
-    def __init__(self, groesse, input_region):
+    def __init__(self, groesse):
         self.coll_groesse = 4
         self.overlap_range = 7
         self.inhibition_radius = 10
@@ -14,14 +14,14 @@ class Region():
         for x in range(0, self.max_groesse):
             for y in range(0, self.max_groesse):
                 pos = (x, y)
-                self.add_colloum(pos, input_region)
+                self.add_colloum(pos)
 
-    def raeumliche_wahrnehmung(self, input_region):
+    def raeumliche_wahrnehmung(self):
         """
         starts the regional learning
-        :param input_region:
+        :param
         """
-        self.set_overlap(input_region)
+        self.set_overlap()
         winner = self.check_inhibition()
         self.learning(winner)
         self.reset_overlaps()
@@ -50,20 +50,13 @@ class Region():
                 winner.append(coll.position)
         return winner
 
-    def add_colloum(self, pos, input_region):
+    def add_colloum(self, pos):
         """
         add a coloumn at a certain position and initializes a dendrit_segment for each colloum
         :param pos:
         """
-        coll = cla_colloumn.Column(self.coll_groesse, pos,input_region)
-        coll.dendrit_segment.initialize_dendriten(input_region, 2)
+        coll = cla_colloumn.Column(self.coll_groesse, pos)
         self.colloums.append(coll)
-
-    def neuron_by_position(self, pos):
-        x_pos, y_pos, z_pos = pos
-        coll = self.coll_by_position((x_pos,y_pos))
-        neuron = coll.neurons(z_pos)
-        return neuron
 
     def coll_by_position(self, pos):
         """
@@ -79,16 +72,12 @@ class Region():
     def reset_overlaps(self):
         for coll in self.colloums:
             coll.dendrit_segment.overlap = 0
-            coll.dendrit_segment.reset_aktivitaet()
 
-    # returns a list of which cells are in the active state
-    def get_active_cells(self):
-        active_cells = []
-        for coll in self.colloums:
-            for neuron in coll.neurons:
-                if neuron.is_active():
-                    active_cells.append(neuron.pos)
-        return active_cells
+    def initialize_dendrites(self, input_region):
+        for col in self.colloums:
+            col.dendrit_segment.initialize_dendriten(input_region, 2)
+            for neuron in col.neurons:
+                neuron.dendrit_segment.initialize_dendriten(self, 4)
 
     # lets the winnercolloumn learn from their connections
     def learning(self, winners):
@@ -106,10 +95,9 @@ class Region():
         return overlap_measures[len(overlap_measures) - self.overlap_range]
 
     def predict_activation(self):
-        list_of_active_cells = self.get_active_cells()
         for coll in self.colloums:
             for neuron in coll.neurons:
-                neuron.check_prediction(list_of_active_cells)
+                neuron.check_prediction()
 
     # returns position of coll in the radius (the radius is a square not a circle)
     def nachbaren(self, pos):
@@ -140,6 +128,6 @@ class Region():
         return nachbar_list
 
     # sets the overlap score for each colloumn
-    def set_overlap(self, input_array):
+    def set_overlap(self):
         for coll in self.colloums:
-            coll.dendrit_segment.set_overlap(input_array)
+            coll.dendrit_segment.set_overlap()

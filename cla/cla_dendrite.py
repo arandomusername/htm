@@ -11,7 +11,7 @@ class Dendrit():
 
     #checks if a dendrite transfers a signal
     def uebertraegt_signal(self):
-        if self.permanenz > min_connection:
+        if self.permanenz > min_connection and self.neuron.active is True:
             return True
 
         else:
@@ -43,14 +43,13 @@ class DendritSegment():
 
         """
         for single_dendrit in self.dendrite:
-            if single_dendrit.neuron.active:
+            if single_dendrit.neuron.active is True:
                 single_dendrit.permanenz_erhoehen()
             else:
                 single_dendrit.permanenz_senken()
 
     def initialize_dendriten(self, region, divisor):
         coloum_groesse = len(region.colloums)
-
         gesamt_anzahl_neuronen = coloum_groesse * region.coll_groesse
         anzahl_dendrite = (gesamt_anzahl_neuronen / divisor) - (gesamt_anzahl_neuronen % divisor)
         test_liste = []
@@ -74,12 +73,11 @@ class DendritSegment():
         self.dendrite.append(den)
 
     # calculates the overlap-score of a specif segment
-    def set_overlap(self, input_array):
+    def set_overlap(self):
         overlap = 0
         for dendrit in self.dendrite:
-            if dendrit.neuron.position in input_array:
-                if dendrit.uebertraegt_signal():
-                    overlap +=  1
+            if dendrit.uebertraegt_signal():
+                overlap += 1
         self.overlap = overlap
 
 

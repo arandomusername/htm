@@ -4,38 +4,37 @@ import cla_dendrite
 class Neuron():
     min_overlap = 3
 
-    def __init__(self, pos, region):
+    def __init__(self, pos):
         self.active = False
         self.predicted = False
         self.position = pos
         self.dendrit_segment = cla_dendrite.DendritSegment(pos)
-        self.dendrit_segment.initialize_dendriten(region, 4)
 
-    def check_overlap(self, active_cells):
-        self.dendrit_segment.set_overlap(active_cells)
+    def check_overlap(self):
+        self.dendrit_segment.set_overlap()
 
     def is_active(self):
         return self.active
 
-    def check_prediction(self, list_of_active_cells):
-        self.dendrit_segment.set_overlap(list_of_active_cells)
+    def check_prediction(self):
+        self.dendrit_segment.set_overlap()
         if self.dendrit_segment.overlap > Neuron.min_overlap:
             self.predicted = True
 
 
 class Column():
-    def __init__(self, coll_groesse, position, input_region):
+    def __init__(self, coll_groesse, position):
         self.active = False
         self.position = position
         self.neurons = []
-        self.add_neurones(coll_groesse, input_region)
+        self.add_neurones(coll_groesse)
         self.dendrit_segment = cla_dendrite.DendritSegment(position)
 
     # add neurones and gives them a position
-    def add_neurones(self, neur_quantity, input_region):
+    def add_neurones(self, neur_quantity):
         for x in range(0, neur_quantity):
             pos = (x, self.position)
-            neur = Neuron(pos, input_region)
+            neur = Neuron(pos)
             self.neurons.append(neur)
 
     # returns a list of the cells which are in the "predicted"-state
