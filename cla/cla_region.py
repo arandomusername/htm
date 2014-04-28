@@ -26,6 +26,10 @@ class Region():
         self.learning(winner)
         self.reset_overlaps()
 
+    def temporale_wahrnehmung(self, winner):
+        self.activate_cells(winner)
+        self.predict_activation()
+
     def activate_cells(self, winners):
         """
         activate cells in the winnercoloum based on their prediction state
@@ -68,8 +72,11 @@ class Region():
             if coll.position == pos:
                 return coll
 
-    # resets the overlap score of the colloums
     def reset_overlaps(self):
+        """
+        resets the overlap score of the colloums
+
+        """
         for coll in self.colloums:
             coll.dendrit_segment.overlap = 0
 
@@ -79,14 +86,21 @@ class Region():
             for neuron in col.neurons:
                 neuron.dendrit_segment.initialize_dendriten(self, 4)
 
-    # lets the winnercolloumn learn from their connections
     def learning(self, winners):
+        """
+# lets the winnercolloumn learn from their connections
+        :param winners:
+        """
         for pos in winners:
             coll = self.coll_by_position(pos)
             coll.dendrit_segment.learning()
 
-    #searches the neighbours of a coloumn for the n-te overlap score
     def n_smallest_overlap(self, nachbar_liste):
+        """
+        searches the neighbours of a coloumn for the n-te overlap score
+        :param nachbar_liste:
+        :return:
+        """
         overlap_measures = []
         for position in nachbar_liste:
             coll = self.coll_by_position(position)
@@ -99,8 +113,12 @@ class Region():
             for neuron in coll.neurons:
                 neuron.check_prediction()
 
-    # returns position of coll in the radius (the radius is a square not a circle)
     def nachbaren(self, pos):
+        """
+        returns position of coll in the radius (the radius is a square not a circle)
+        :param pos:
+        :return:
+        """
         nachbar_list = []
         pos_x = pos[0]
         pos_y = pos[1]
@@ -127,7 +145,10 @@ class Region():
 
         return nachbar_list
 
-    # sets the overlap score for each colloumn
     def set_overlap(self):
+        """
+      sets the overlap score for each colloumn
+
+        """
         for coll in self.colloums:
             coll.dendrit_segment.set_overlap()
