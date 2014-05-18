@@ -4,8 +4,8 @@ import cla_colloumn
 class Region():
     def __init__(self, groesse):
         self.coll_groesse = 4
-        self.overlap_range = 7
-        self.inhibition_radius = 10
+        self.overlap_range = 3
+        self.inhibition_radius = 4
         self.min_overlap = 3
 
         self.colloums = []
@@ -23,7 +23,8 @@ class Region():
         """
         self.set_overlap()
         winner = self.check_inhibition()
-        self.learning(winner)
+        self.spacial_learning(winner)
+        print winner
         self.reset_overlaps()
 
     def temporale_wahrnehmung(self, winner):
@@ -36,8 +37,8 @@ class Region():
         :param winners:
         """
         for winner in winners:
-            coloumn = self.coll_by_position(winner)
-            coloumn.activate_cells()
+            column = self.get_column(winner)
+            column.activate_cells()
 
     def check_inhibition(self):
         """
@@ -48,8 +49,7 @@ class Region():
         """
         winner = []
         for coll in self.colloums:
-            nachbar_liste = self.nachbaren(coll.position)
-            min_local_activity = self.n_smallest_overlap(nachbar_liste)
+            min_local_activity = self.n_smallest_overlap(coll)
             if coll.dendrit_segment.overlap > 0 and coll.dendrit_segment.overlap > min_local_activity:
                 winner.append(coll.position)
         return winner
@@ -62,15 +62,18 @@ class Region():
         coll = cla_colloumn.Column(self.coll_groesse, pos)
         self.colloums.append(coll)
 
-    def coll_by_position(self, pos):
+    def get_column(self, pos):
         """
         returns a colloum by its position
         :param pos:
         :return:
         """
-        for coll in self.colloums:
-            if coll.position == pos:
-                return coll
+        x_position = pos[0]
+        y_position = pos[1]
+
+        one_dimension = x_position*self.max_groesse + y_position
+        column = self.colloums[one_dimension]
+        return column
 
     def reset_overlaps(self):
         """
@@ -86,24 +89,25 @@ class Region():
             for neuron in col.neurons:
                 neuron.dendrit_segment.initialize_dendriten(self, 4)
 
-    def learning(self, winners):
+    def spacial_learning(self, winners):
         """
 # lets the winnercolloumn learn from their connections
         :param winners:
         """
         for pos in winners:
-            coll = self.coll_by_position(pos)
+            coll = self.get_column(pos)
             coll.dendrit_segment.learning()
 
-    def n_smallest_overlap(self, nachbar_liste):
+    def n_smallest_overlap(self, column):
         """
         searches the neighbours of a coloumn for the n-te overlap score
-        :param nachbar_liste:
+        :param column:
         :return:
         """
+        nachbar_liste = self.nachbaren(column.position)
         overlap_measures = []
         for position in nachbar_liste:
-            coll = self.coll_by_position(position)
+            coll = self.get_column(position)
             overlap_measures.append(coll.dendrit_segment.overlap)
         overlap_measures.sort(key=int)
         return overlap_measures[len(overlap_measures) - self.overlap_range]

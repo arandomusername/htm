@@ -1,7 +1,7 @@
 import encoder
 import cla
 
-region_groesse = 20
+region_groesse = 10
 datei_pfad = "/home/martin/Dokumente/htm/daten/test.csv"
 
 if __name__ == "__main__":
@@ -10,10 +10,11 @@ if __name__ == "__main__":
     region.initialize_dendrites(input_region)
 
     opened_file = encoder.open_file(datei_pfad)
-    row = encoder.convert_row(opened_file[0])
-
-    for name in row:
-        for wert in name:
-            b = encoder.show_only_actives(wert)
-            input_region.new_input(b)
-            region.raeumliche_wahrnehmung()
+    for row in opened_file:
+        for name in row:
+            converted_name = encoder.name_to_list(name)
+            print name
+            for wert in converted_name:
+                b = encoder.show_only_actives(wert)
+                input_region.new_input(b)
+                region.raeumliche_wahrnehmung()
