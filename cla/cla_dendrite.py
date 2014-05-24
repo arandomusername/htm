@@ -1,7 +1,7 @@
 import random
 
 min_connection = 0.2
-perm_schritt = 0.01
+perm_schritt = 0.02
 
 
 class Dendrit():
@@ -37,16 +37,6 @@ class DendritSegment():
         self.input_groesse = 0
         self.overlap = 0
 
-    def learning(self):
-        """
-        lets the dendrites learn based on the aktiver input.
-
-        """
-        for single_dendrit in self.dendrite:
-            if single_dendrit.neuron.active is True:
-                single_dendrit.permanenz_erhoehen()
-            else:
-                single_dendrit.permanenz_senken()
 
     def initialize_dendriten(self, region, divisor):
         coloum_groesse = len(region.colloums)

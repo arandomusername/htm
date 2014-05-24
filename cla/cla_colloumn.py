@@ -23,11 +23,12 @@ class Neuron():
 
 
 class Column():
-    def __init__(self, coll_groesse, position):
+    size = 4
+    def __init__(self, position):
         self.active = False
         self.position = position
         self.neurons = []
-        self.add_neurones(coll_groesse)
+        self.add_neurones(self.size)
         self.dendrit_segment = cla_dendrite.DendritSegment(position)
 
     # add neurones and gives them a position

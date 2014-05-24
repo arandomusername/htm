@@ -22,7 +22,7 @@ def int_to_bytearray(groesse):
     byte_array += "111"
 
     for x in range(groesse, 255):
-        byte_array += "0"
+        byte_array += "000"
 
     return byte_array
 
