@@ -108,7 +108,7 @@ class Region():
         nachbar_liste = self.nachbaren(column.position)
         overlap_list = []
 
-        #fill list
+        #fills the list
         for x in range(0, self.search_range):
             overlap_list.append(0)
 
