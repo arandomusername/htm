@@ -12,9 +12,10 @@ if __name__ == "__main__":
     opened_file = encoder.open_file(datei_pfad)
     for row in opened_file:
         for name in row:
+            print name
             converted_name = encoder.name_to_list(name)
             print name
-            for wert in converted_name:
-                b = encoder.show_only_actives(wert)
+            for value in converted_name:
+                b = encoder.show_only_actives(value)
                 input_region.new_input(b)
                 region.raeumliche_wahrnehmung()

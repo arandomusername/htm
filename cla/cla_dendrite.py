@@ -37,23 +37,20 @@ class DendritSegment():
         self.input_groesse = 0
         self.overlap = 0
 
-
     def initialize_dendriten(self, region, divisor):
-        coloum_groesse = len(region.colloums)
-        gesamt_anzahl_neuronen = coloum_groesse * region.coll_groesse
-        anzahl_dendrite = (gesamt_anzahl_neuronen / divisor) - (gesamt_anzahl_neuronen % divisor)
-        test_liste = []
+
+        anzahl_dendrite = (region.neuron_quantity/ divisor) - (region.neuron_quantity % divisor)
+        test_list = []
 
         for x in range(0, anzahl_dendrite):
             test = False
             while not test:
-                x_pos = random.randrange(0, coloum_groesse)
-                z_pos = random.randrange(0, region.coll_groesse)
-                pos = (x_pos, z_pos)
-                if pos not in test_liste:
+                column = random.choice(region.columns)
+                neuron = random.choice(column.neurons)
+
+                if neuron.position not in test_list:
                     test = True
-                    test_liste.append(pos)
-                    neuron = region.colloums[x_pos].neurons[z_pos]
+                    test_list.append(neuron.position)
                     self.dendrit_hinzufuegen(neuron)
 
     # adds dendrites

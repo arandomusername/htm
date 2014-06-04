@@ -1,12 +1,14 @@
-import cla_colloumn
+import cla_column
 
 
 class Region():
-    def __init__(self, groesse):
+    def __init__(self, size):
         self.search_range = 5        # at which radius winners are searched.
         self.inhibition_radius = 4   #
+        self.winner_quantity   = 5   # used for
         self.columns = []
-        self.max_size = groesse
+        self.max_size = size
+        self.neuron_quantity = (size**2) * cla_column.Column.size
 
         for x in range(0, self.max_size):
             for y in range(0, self.max_size):
@@ -19,14 +21,10 @@ class Region():
         :param
         """
         self.set_overlap()
-        winner = self.get_winner()
+        winner = self.get_global_winner()   #In order to be biologically correct one would use get_local_winner but this way is much faster and hasnt much difference
         self.spacial_learning(winner)
         print winner
         self.reset_overlaps()
-
-    def temporale_wahrnehmung(self, winner):
-        self.activate_cells(winner)
-        self.predict_activation()
 
     def activate_cells(self, winners):
         """
@@ -37,7 +35,21 @@ class Region():
             column = self.get_column(winner)
             column.activate_cells()
 
-    def get_winner(self):
+    def get_global_winner(self):
+        """
+        return a list with n objects of columns with the highest overlap score
+
+        :return:winners
+        """
+        winners = []
+        for column in self.columns:
+            if len(winners) < self.winner_quantity or column.dendrit_segment.overlap > winners[self.winner_quantity]:
+                winners.pop(self.winner_quantity)
+                winners.append(column)
+                winners = sorted(winners).reverse()
+        return winners
+
+    def get_local_winner(self):
         """
         checks if a coloum "wins" based on his own overlap score and the score of its neighbours and returns a list of
         said winners
@@ -56,7 +68,7 @@ class Region():
         add a coloumn at a certain position and initializes a dendrit_segment for each colloum
         :param pos:
         """
-        coll = cla_colloumn.Column(pos)
+        coll = cla_column.Column(pos)
         self.columns.append(coll)
 
     def get_column(self, pos):
