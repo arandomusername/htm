@@ -42,15 +42,15 @@ class DendritSegment():
         anzahl_dendrite = (region.neuron_quantity/ divisor) - (region.neuron_quantity % divisor)
         test_list = []
 
-        for x in range(0, anzahl_dendrite):
+        for x in range(anzahl_dendrite):
             test = False
             while not test:
                 column = random.choice(region.columns)
                 neuron = random.choice(column.neurons)
 
-                if neuron.position not in test_list:
+                if neuron not in test_list:
                     test = True
-                    test_list.append(neuron.position)
+                    test_list.append(neuron)
                     self.dendrit_hinzufuegen(neuron)
 
     # adds dendrites

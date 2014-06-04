@@ -2,7 +2,7 @@ import encoder
 import cla
 
 region_groesse = 10
-datei_pfad = "/home/martin/Dokumente/htm/daten/test.csv"
+datei_pfad = "daten/test.csv"
 
 if __name__ == "__main__":
     input_region = encoder.InputRegion(258)

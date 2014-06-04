@@ -5,13 +5,13 @@ class Region():
     def __init__(self, size):
         self.search_range = 5        # at which radius winners are searched.
         self.inhibition_radius = 4   #
-        self.winner_quantity   = 5   # used for
+        self.winner_quantity = 5     # used for
         self.columns = []
         self.max_size = size
         self.neuron_quantity = (size**2) * cla_column.Column.size
 
-        for x in range(0, self.max_size):
-            for y in range(0, self.max_size):
+        for x in range(self.max_size):
+            for y in range(self.max_size):
                 pos = (x, y)
                 self.add_column(pos)
 
@@ -42,11 +42,14 @@ class Region():
         :return:winners
         """
         winners = []
+        quantity = self.winner_quantity - 1  #cause you start counting with 0
         for column in self.columns:
-            if len(winners) < self.winner_quantity or column.dendrit_segment.overlap > winners[self.winner_quantity]:
-                winners.pop(self.winner_quantity)
+            if len(winners) < self.winner_quantity or column.dendrit_segment.overlap > winners[quantity]:
+                if len(winners) == self.winner_quantity:
+                    winners.pop(quantity)
                 winners.append(column)
-                winners = sorted(winners).reverse()
+                winners.sort()
+                winners.reverse()
         return winners
 
     def get_local_winner(self):
@@ -80,7 +83,7 @@ class Region():
         x_position = pos[0]
         y_position = pos[1]
 
-        one_dimension = x_position*self.max_size + y_position
+        one_dimension = x_position * self.max_size + y_position
         column = self.columns[one_dimension]
         return column
 
