@@ -5,7 +5,6 @@ class Region():
     def __init__(self, size):
         self.search_range = 5        # at which radius winners are searched.
         self.inhibition_radius = 4   #
-        self.winner_quantity = 5     # used for
         self.columns = []
         self.max_size = size
         self.neuron_quantity = (size**2) * cla_column.Column.size
@@ -15,16 +14,39 @@ class Region():
                 pos = (x, y)
                 self.add_column(pos)
 
-    def raeumliche_wahrnehmung(self):
+    def spacial_cognition(self):
         """
         starts the regional learning
         :param
         """
         self.set_overlap()
-        winner = self.get_global_winner()   #In order to be biologically correct one would use get_local_winner but this way is much faster and hasnt much difference
+        winner = self.get_global_winner() # In order to be biologically correct one would use get_local_winner but this way is much faster and hasnt much difference
+        self.update_activation(winner)
+        self.booster(winner)
         self.spacial_learning(winner)
-        print winner
+        print len(winner)
         self.reset_overlaps()
+
+    def booster(self, winners):
+        quantity_needed = len((self.columns)*5)/100     # at least 5% of all columns must be active
+
+        while quantity_needed>= len(winners):
+            
+
+
+    def update_activation(self, winners):
+        for column in self.columns:
+            if column in winners:
+                column.last_activation = 0
+            else:
+                column.last_activation += 1
+
+    def set_overlap(self):
+        """
+        sets the overlap score for each column
+        """
+        for coll in self.columns:
+            coll.dendrit_segment.set_overlap()
 
     def activate_cells(self, winners):
         """
@@ -41,15 +63,18 @@ class Region():
 
         :return:winners
         """
-        winners = []
-        quantity = self.winner_quantity - 1  #cause you start counting with 0
+        overlap_list = []
+        winners      = []
         for column in self.columns:
-            if len(winners) < self.winner_quantity or column.dendrit_segment.overlap > winners[quantity]:
-                if len(winners) == self.winner_quantity:
-                    winners.pop(quantity)
+            overlap_list.append(column.dendrit_segment.overlap)
+
+        overlap_list.sort()
+        overlap_list.reverse()
+        overlap_threshold = overlap_list[self.inhibition_radius]
+
+        for column in self.columns:
+            if column.dendrit_segment.overlap > overlap_threshold or overlap_threshold == overlap_list[0] and column.dendrit_segment.overlap == overlap_threshold:
                 winners.append(column)
-                winners.sort()
-                winners.reverse()
         return winners
 
     def get_local_winner(self):
@@ -103,11 +128,10 @@ class Region():
 
     def spacial_learning(self, winners):
         """
-        lets the winnercolloumn learn from their connections
+        lets the winner-column learn from their connections
         :param winners:
         """
-        for pos in winners:
-            column = self.get_column(pos)
+        for column in winners:
             for single_dendrit in column.dendrit_segment.dendrite:
                 if single_dendrit.neuron.active is True:
                     single_dendrit.permanenz_erhoehen()
@@ -120,7 +144,7 @@ class Region():
         :param column:
         :return:
         """
-        nachbar_liste = self.nachbaren(column.position)
+        nachbar_liste = self.neighbors(column.position)
         overlap_list = []
 
         #fills the list
@@ -143,7 +167,7 @@ class Region():
             for neuron in coll.neurons:
                 neuron.check_prediction()
 
-    def nachbaren(self, pos):
+    def neighbors(self, pos):
         """
         returns position of coll in the radius (the radius is a square not a circle)
         :param pos:
@@ -174,11 +198,3 @@ class Region():
                 nachbar_list.append(position)
 
         return nachbar_list
-
-    def set_overlap(self):
-        """
-      sets the overlap score for each colloumn
-
-        """
-        for coll in self.columns:
-            coll.dendrit_segment.set_overlap()

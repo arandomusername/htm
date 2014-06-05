@@ -30,24 +30,33 @@ class Column():
         self.neurons = []
         self.add_neurones(self.size)
         self.dendrit_segment = cla_dendrite.DendritSegment(position)
+        self.last_activation = 0
 
-    # add neurones and gives them a position
     def add_neurones(self, neur_quantity):
+        """
+        add neurones and gives them a position
+        :param neur_quantity:
+        """
         for x in range(0, neur_quantity):
             pos = (x, self.position)
-            neur = Neuron(pos)
-            self.neurons.append(neur)
+            neuron = Neuron(pos)
+            self.neurons.append(neuron)
 
-    # returns a list of the cells which are in the "predicted"-state
     def get_predicted_cells(self):
+        """
+        returns a list of the cells which are in the "predicted"-state
+        :return:
+        """
         predicted_cells = []
         for cell in self.neurons:
             if cell.predicted is True:
                 predicted_cells.append(cell)
         return predicted_cells
 
-    # activates cells based on ther prediction-state
     def activate_cells(self):
+        """
+        activates cells based on their prediction-state
+        """
         predicted_cells = self.get_predicted_cells()
         if len(predicted_cells) == 0:
             for cell in self.neurons:
