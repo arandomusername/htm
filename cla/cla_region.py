@@ -30,9 +30,14 @@ class Region():
     def booster(self, winners):
         quantity_needed = len((self.columns)*5)/100     # at least 5% of all columns must be active
 
-        while quantity_needed>= len(winners):
 
 
+    def get_overlap_columns(self,overlap):
+        overlap_columns = []
+        for column in self.columns:
+            if column.dendrit_segment.overlap == overlap:
+                overlap_columns.append(column)
+        return overlap_columns
 
     def update_activation(self, winners):
         for column in self.columns:
@@ -72,9 +77,13 @@ class Region():
         overlap_list.reverse()
         overlap_threshold = overlap_list[self.inhibition_radius]
 
-        for column in self.columns:
-            if column.dendrit_segment.overlap > overlap_threshold or overlap_threshold == overlap_list[0] and column.dendrit_segment.overlap == overlap_threshold:
-                winners.append(column)
+        if overlap_threshold == overlap_list[0]:
+            winners.append(self.get_overlap_columns(overlap_threshold))
+        else:
+            overlap_counter = overlap_list[0]
+            while overlap_counter > overlap_threshold:
+                winners.append(self.get_overlap_columns(overlap_counter))
+                overlap_counter -= 1
         return winners
 
     def get_local_winner(self):
