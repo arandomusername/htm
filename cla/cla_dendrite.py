@@ -43,10 +43,10 @@ class DendritSegment():
         list_of_neurons = []
 
         for column in region.columns:
-            list_of_neurons.append(column.neurons)
+            list_of_neurons.extend(column.neurons)
 
         for x in range(anzahl_dendrite):
-            neuron = random.choice(list_of_neurons.neurons)
+            neuron = random.choice(list_of_neurons)
             list_of_neurons.remove(neuron)
             self.add_dendrite(neuron)
 

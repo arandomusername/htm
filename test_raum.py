@@ -12,7 +12,7 @@ if __name__ == "__main__":
     opened_file = encoder.open_file(datei_pfad)
     for row in opened_file:
         for name in row:
-            print name
+            print(name)
             converted_name = encoder.name_to_list(name)
             for value in converted_name:
                 b = encoder.show_only_actives(value)

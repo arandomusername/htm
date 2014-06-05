@@ -82,7 +82,7 @@ class Region():
         else:
             overlap_counter = overlap_list[0]
             while overlap_counter > overlap_threshold:
-                winners.append(self.get_overlap_columns(overlap_counter))
+                winners.extend(self.get_overlap_columns(overlap_counter))
                 overlap_counter -= 1
         return winners
 
