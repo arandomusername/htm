@@ -31,7 +31,7 @@ class Region():
         quantity_needed = len((self.columns)*5)/100     # at least 5% of all columns must be active
 
         while quantity_needed>= len(winners):
-            
+
 
 
     def update_activation(self, winners):
