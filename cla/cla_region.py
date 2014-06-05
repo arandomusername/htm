@@ -20,19 +20,30 @@ class Region():
         :param
         """
         self.set_overlap()
-        winner = self.get_global_winner() # In order to be biologically correct one would use get_local_winner but this way is much faster and hasnt much difference
-        self.update_activation(winner)
+        winner = self.get_global_winner()                                                       # In order to be biologically correct one would use get_local_winner but this way is much faster and hasnt much difference
         self.booster(winner)
+        self.update_activation(winner)
         self.spacial_learning(winner)
         print len(winner)
         self.reset_overlaps()
 
     def booster(self, winners):
-        quantity_needed = len((self.columns)*5)/100     # at least 5% of all columns must be active
+        quantity_needed = len((self.columns)*5)/100                                             # at least 5% of all columns must be active
+
+        while len(winners) < quantity_needed:
+            smallest_overlap = 0
+            boosted_columns  = []
+            for column in winners:
+                if smallest_overlap > column.dendrit_segment.overlap or smallest_overlap==0:
+                    smallest_overlap = column.dendrit_segment.overlap                           #gets the smallest overlap from the list winners
+
+            boosted_columns = self.get_columns_by_overlap(smallest_overlap)                     # <----- ANSCHAUEN WASN LOS HIER
 
 
+            boosted_columns.sort(key=lambda x: x.last_activation, reverse=True)
+            winners.append(boosted_columns.pop(0))                                              #adds the one coloumn with the latest activation time.
 
-    def get_overlap_columns(self,overlap):
+    def get_columns_by_overlap(self,overlap):
         overlap_columns = []
         for column in self.columns:
             if column.dendrit_segment.overlap == overlap:
@@ -78,11 +89,11 @@ class Region():
         overlap_threshold = overlap_list[self.inhibition_radius]
 
         if overlap_threshold == overlap_list[0]:
-            winners.append(self.get_overlap_columns(overlap_threshold))
+            winners.extend(self.get_columns_by_overlap(overlap_threshold))
         else:
             overlap_counter = overlap_list[0]
             while overlap_counter > overlap_threshold:
-                winners.extend(self.get_overlap_columns(overlap_counter))
+                winners.extend(self.get_columns_by_overlap(overlap_counter))
                 overlap_counter -= 1
         return winners
 
