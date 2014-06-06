@@ -3,8 +3,8 @@ import cla_column
 
 class Region():
     def __init__(self, size):
-        self.search_range = 5        # at which radius winners are searched.
-        self.inhibition_radius = 4   #
+        self.search_range = 5        # at which radius winners are searched. only used in get_local_winner
+        self.inhibition_radius = 4   # used to determinate the winners
         self.columns = []
         self.max_size = size
         self.neuron_quantity = (size**2) * cla_column.Column.size
@@ -28,7 +28,11 @@ class Region():
         self.reset_overlaps()
 
     def booster(self, winners):
-        quantity_needed = len((self.columns)*5)/100                                             # at least 5% of all columns must be active and then adds
+        """
+        Helps the learningprocess by adding winners if needed
+        :param winners:
+        """
+        quantity_needed = len((self.columns)*5)/100                                             # at least 5% of all columns must be active if not th
 
         while len(winners) < quantity_needed:
             smallest_overlap = 0
@@ -38,7 +42,7 @@ class Region():
                 if smallest_overlap > column.dendrit_segment.overlap or smallest_overlap==0:
                     smallest_overlap = column.dendrit_segment.overlap                           #gets the smallest overlap from the list winners
 
-            boosted_columns = self.get_columns_by_overlap(smallest_overlap)                     # <----- ANSCHAUEN WASN LOS HIER
+            boosted_columns = self.get_columns_by_overlap(smallest_overlap)
 
 
             boosted_columns.sort(key=lambda x: x.last_activation, reverse=True)
