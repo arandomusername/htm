@@ -16,7 +16,7 @@ class Region():
 
     def spacial_cognition(self):
         """
-        starts the regional learning
+        starts the spacial learning
         :param
         """
         self.set_overlap()
@@ -28,11 +28,12 @@ class Region():
         self.reset_overlaps()
 
     def booster(self, winners):
-        quantity_needed = len((self.columns)*5)/100                                             # at least 5% of all columns must be active
+        quantity_needed = len((self.columns)*5)/100                                             # at least 5% of all columns must be active and then adds
 
         while len(winners) < quantity_needed:
             smallest_overlap = 0
-            boosted_columns  = []
+            boosted_columns = []
+
             for column in winners:
                 if smallest_overlap > column.dendrit_segment.overlap or smallest_overlap==0:
                     smallest_overlap = column.dendrit_segment.overlap                           #gets the smallest overlap from the list winners
@@ -80,21 +81,20 @@ class Region():
         :return:winners
         """
         overlap_list = []
-        winners      = []
+        winners = []
+
         for column in self.columns:
             overlap_list.append(column.dendrit_segment.overlap)
 
         overlap_list.sort()
         overlap_list.reverse()
         overlap_threshold = overlap_list[self.inhibition_radius]
+        overlap_counter = overlap_list[0]
 
-        if overlap_threshold == overlap_list[0]:
-            winners.extend(self.get_columns_by_overlap(overlap_threshold))
-        else:
-            overlap_counter = overlap_list[0]
-            while overlap_counter > overlap_threshold:
-                winners.extend(self.get_columns_by_overlap(overlap_counter))
-                overlap_counter -= 1
+        while overlap_counter >= overlap_threshold:
+            winners.extend(self.get_columns_by_overlap(overlap_counter))
+            overlap_counter -= 1
+
         return winners
 
     def get_local_winner(self):
@@ -177,7 +177,7 @@ class Region():
             if column.dendrit_segment.overlap > overlap_list[self.search_range]:
                 overlap_list.remove(overlap_list[self.search_range])
                 overlap_list.append(column.dendrit_segment.overlap)
-                overlap_list = sorted(overlap_list)
+                overlap_list.sort()
                 overlap_list.reverse()
 
         return overlap_list[self.search_range]
