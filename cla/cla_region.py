@@ -27,24 +27,25 @@ class Region():
         print len(winner)
         self.reset_overlaps()
 
+    def temporal_cognition(self,winners):
+        self.activate_cells(winners)
+
+
     def booster(self, winners):
         """
         Helps the learningprocess by adding winners if needed
         :param winners:
         """
-        quantity_needed = len((self.columns)*5)/100                                             # at least 5% of all columns must be active if not th
+        quantity_needed = len(self.columns*5)/100                                             # at least 5% of all columns must be active if not th
 
         while len(winners) < quantity_needed:
             smallest_overlap = 0
-            boosted_columns = []
 
             for column in winners:
                 if smallest_overlap > column.dendrit_segment.overlap or smallest_overlap==0:
                     smallest_overlap = column.dendrit_segment.overlap                           #gets the smallest overlap from the list winners
 
             boosted_columns = self.get_columns_by_overlap(smallest_overlap)
-
-
             boosted_columns.sort(key=lambda x: x.last_activation, reverse=True)
             winners.append(boosted_columns.pop(0))                                              #adds the one coloumn with the latest activation time.
 
@@ -95,7 +96,7 @@ class Region():
         overlap_threshold = overlap_list[self.inhibition_radius]
         overlap_counter = overlap_list[0]
 
-        while overlap_counter >= overlap_threshold:
+        while overlap_counter >= overlap_threshold and overlap_counter > 0:
             winners.extend(self.get_columns_by_overlap(overlap_counter))
             overlap_counter -= 1
 
