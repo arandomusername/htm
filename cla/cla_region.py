@@ -4,7 +4,7 @@ import cla_column
 class Region():
     def __init__(self, size):
         self.search_range = 5        # at which radius winners are searched. only used in get_local_winner
-        self.inhibition_radius = 4   # used to determinate the winners
+        self.inhibition_radius = 5   # used to determinate the winners
         self.columns = []
         self.max_size = size
         self.neuron_quantity = (size**2) * cla_column.Column.size

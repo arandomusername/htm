@@ -13,6 +13,8 @@ def correct_string(string):
     name = name.replace(unichr(246), 'oe')
     return name
 
+def int_to_binarray(groesse):
+    return str(bin(groesse)[2:])
 
 def int_to_bytearray(groesse):
     byte_array = ""
@@ -22,7 +24,7 @@ def int_to_bytearray(groesse):
     byte_array += "111"
 
     for x in range(groesse, 255):
-        byte_array += "000"
+        byte_array += "0"
 
     return byte_array
 
