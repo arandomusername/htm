@@ -1,4 +1,4 @@
-import cla_dendrite
+from cla import cla_dendrite
 
 
 class Neuron():

@@ -1,5 +1,5 @@
 import cla.Cognition
-import cla_column
+from cla import cla_column
 
 
 class Region():
@@ -32,7 +32,7 @@ class Region():
     def get_active_neurons(self):
         actives = []
         for col in self.columns:
-            actives.extend(col.get_active_cells)
+            actives.extend(col.get_active_cells())
 
     def set_overlap(self):
         """
