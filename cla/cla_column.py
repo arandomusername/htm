@@ -53,6 +53,12 @@ class Column():
                 predicted_cells.append(cell)
         return predicted_cells
 
+    def increase_last_activation(self):
+        self.last_activation += 1
+
+    def reset_last_activation(self):
+        self.last_activation = 0
+
     def activate_cells(self):
         """
         activates cells based on their prediction-state

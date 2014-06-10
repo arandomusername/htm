@@ -13,9 +13,14 @@ class Dendrit():
     def uebertraegt_signal(self):
         if self.permanenz > min_connection and self.neuron.active is True:
             return True
-
         else:
             return False
+
+    def update_permanence(self):
+        if self.neuron.active is True:
+            self.permanenz_erhoehen()
+        else:
+            self.permanenz_senken()
 
     def permanenz_erhoehen(self):
         self.permanenz += perm_schritt
