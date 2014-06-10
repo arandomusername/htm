@@ -36,7 +36,7 @@ class SpacialCognitor():
         overlap_threshold = overlap_list[self.region.inhibition_radius]
         overlap_counter = overlap_list[0]
 
-        while overlap_counter >= overlap_threshold:
+        while overlap_counter >= overlap_threshold and overlap_counter > 0:
             winners.extend(self.region.get_columns_by_overlap(overlap_counter))
             overlap_counter -= 1
         self.winner = winners
