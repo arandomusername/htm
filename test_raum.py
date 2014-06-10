@@ -17,4 +17,4 @@ if __name__ == "__main__":
             for value in converted_name:
                 b = encoder.show_only_actives(value)
                 input_region.new_input(b)
-                region.spacial_cognition()
+                region.cognition()

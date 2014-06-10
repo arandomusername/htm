@@ -27,7 +27,7 @@ class Neuron():
     def check_overlap(self):
         self.dendrit_segment.set_overlap()
 
-    def check_prediction(self):
+    def set_prediction(self):
         self.dendrit_segment.set_overlap()
         if self.dendrit_segment.overlap > Neuron.min_overlap:
             self.predicted = True
@@ -35,7 +35,6 @@ class Neuron():
 
 class Column():
     size = 4
-
     def __init__(self, position):
         self.active = False
         self.position = position
@@ -76,6 +75,10 @@ class Column():
 
     def reset_last_activation(self):
         self.last_activation = 0
+
+    def reset_activity(self):
+        for neuron in self.columns:
+            neuron.active = False
 
     def activate_cells(self):
         """

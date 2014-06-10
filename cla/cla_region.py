@@ -1,4 +1,4 @@
-from cla.Cognition import spacial_cognition
+import cla.Cognition
 import cla_column
 
 
@@ -11,14 +11,16 @@ class Region():
         self.neuron_quantity = (size**2) * cla_column.Column.size
         self.add_column()
 
-    def spacial_cognition(self):
+    def cognition(self):
         """
         starts the spacial learning
         :param
         """
-        cognitor = spacial_cognition.SpacialCognitor(self)
-        winner = cognitor.do()
-        print(len(winner))
+        sp_cognitor = cla.Cognition.SpacialCognitor(self)
+        winner = sp_cognitor.do()
+
+        te_cognitor = cla.Cognition.TemporalCognitor(self, winner)
+        te_cognitor.do()
 
     def get_columns_by_overlap(self, overlap):
         overlap_columns = []
@@ -69,6 +71,10 @@ class Region():
         """
         for coll in self.columns:
             coll.dendrit_segment.overlap = 0
+
+    def reset_activity(self):
+        for col in self.columns:
+            col.reset_activity()
 
     def initialize_dendrites(self, input_region):
         for col in self.columns:
