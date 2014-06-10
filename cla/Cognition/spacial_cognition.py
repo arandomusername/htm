@@ -65,7 +65,6 @@ class SpacialCognitor():
     def spacial_learning(self):
         """
         lets the winner-column learn from their connections
-        :param winners:
         """
         for column in self.winner:
             for single_dendrit in column.dendrit_segment.dendrite:

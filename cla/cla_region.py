@@ -1,5 +1,6 @@
+from cla.Cognition import spacial_cognition
 import cla_column
-import cla_cognition
+
 
 class Region():
     def __init__(self, size):
@@ -10,22 +11,26 @@ class Region():
         self.neuron_quantity = (size**2) * cla_column.Column.size
         self.add_column()
 
-
     def spacial_cognition(self):
         """
         starts the spacial learning
         :param
         """
-        cognitor = cla_cognition.SpacialCognitor(self)
+        cognitor = spacial_cognition.SpacialCognitor(self)
         winner = cognitor.do()
         print(len(winner))
 
-    def get_columns_by_overlap(self,overlap):
+    def get_columns_by_overlap(self, overlap):
         overlap_columns = []
         for column in self.columns:
             if column.dendrit_segment.overlap == overlap:
                 overlap_columns.append(column)
         return overlap_columns
+
+    def get_active_neurons(self):
+        actives = []
+        for col in self.columns:
+            actives.extend(col.get_active_cells)
 
     def set_overlap(self):
         """
@@ -34,42 +39,9 @@ class Region():
         for coll in self.columns:
             coll.dendrit_segment.set_overlap()
 
-    def activate_cells(self, winners):
-        """
-        activate cells in the winnercoloum based on their prediction state
-        :param winners:
-        """
-        for winner in winners:
-            column = self.get_column(winner)
-            column.activate_cells()
-
-    def get_global_winner(self):
-        """
-        return a list with n objects of columns with the highest overlap score
-
-        :return:winners
-        """
-        overlap_list = []
-        winners = []
-
-        for column in self.columns:
-            overlap_list.append(column.dendrit_segment.overlap)
-
-        overlap_list.sort()
-        overlap_list.reverse()
-        overlap_threshold = overlap_list[self.inhibition_radius]
-        overlap_counter = overlap_list[0]
-
-        while overlap_counter >= overlap_threshold:
-            winners.extend(self.get_columns_by_overlap(overlap_counter))
-            overlap_counter -= 1
-
-        return winners
-
     def add_column(self):
         """
         add a coloumn at a certain position and initializes a dendrit_segment for each colloum
-        :param pos:
         """
         for x in range(self.max_size):
             for y in range(self.max_size):
@@ -77,7 +49,7 @@ class Region():
                 coll = cla_column.Column(pos)
                 self.columns.append(coll)
 
-    def get_column(self, pos):
+    def get_column_by_position(self, pos):
         """
         returns a colloum by its position
         :param pos:

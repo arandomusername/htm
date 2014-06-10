@@ -10,11 +10,22 @@ class Neuron():
         self.position = pos
         self.dendrit_segment = cla_dendrite.DendritSegment(pos)
 
-    def check_overlap(self):
-        self.dendrit_segment.set_overlap()
+    def status(self):
+        if self.active is True:
+            return "active"
+        elif self.predicted is True:
+            return "predicted"
+        else:
+            return "not active"
 
     def is_active(self):
         return self.active
+
+    def is_predicted(self):
+        return self.predicted
+
+    def check_overlap(self):
+        self.dendrit_segment.set_overlap()
 
     def check_prediction(self):
         self.dendrit_segment.set_overlap()
@@ -24,6 +35,7 @@ class Neuron():
 
 class Column():
     size = 4
+
     def __init__(self, position):
         self.active = False
         self.position = position
@@ -41,6 +53,12 @@ class Column():
             pos = (x, self.position)
             neuron = Neuron(pos)
             self.neurons.append(neuron)
+
+    def get_active_cells(self):
+        actives = []
+        for cell in self.neurons:
+            if cell.is_active():
+                actives.append(cell)
 
     def get_predicted_cells(self):
         """

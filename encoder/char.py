@@ -13,8 +13,10 @@ def correct_string(string):
     name = name.replace(unichr(246), 'oe')
     return name
 
+
 def int_to_binarray(groesse):
     return str(bin(groesse)[2:])
+
 
 def int_to_bytearray(groesse):
     byte_array = ""
@@ -45,4 +47,3 @@ def show_only_actives(string):
         if string[x] == "1":
             pos_list.append(x)
     return pos_list
-		
