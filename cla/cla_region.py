@@ -4,18 +4,12 @@ from cla import cla_column
 
 class Region():
     def __init__(self, size):
-        self.search_range = 5        # at which radius winners are searched.
-        self.inhibition_radius = 4   #
         self.columns = []
         self.max_size = size
         self.neuron_quantity = (size**2) * cla_column.Column.size
         self.add_column()
 
     def cognition(self):
-        """
-        starts the spacial learning
-        :param
-        """
         sp_cognitor = cla.Cognition.SpacialCognitor(self)
         winner = sp_cognitor.do()
 
@@ -35,16 +29,10 @@ class Region():
             actives.extend(col.get_active_cells())
 
     def set_overlap(self):
-        """
-        sets the overlap score for each column
-        """
         for coll in self.columns:
             coll.dendrit_segment.set_overlap()
 
     def add_column(self):
-        """
-        add a coloumn at a certain position and initializes a dendrit_segment for each colloum
-        """
         for x in range(self.max_size):
             for y in range(self.max_size):
                 pos = (x, y)
@@ -52,11 +40,6 @@ class Region():
                 self.columns.append(coll)
 
     def get_column_by_position(self, pos):
-        """
-        returns a colloum by its position
-        :param pos:
-        :return:
-        """
         x_position = pos[0]
         y_position = pos[1]
 

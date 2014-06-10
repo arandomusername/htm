@@ -3,6 +3,7 @@ class SpacialCognitor():
     def __init__(self, region):
         self.region = region
         self.winner = []
+        self.inhibition_radius = 4
 
     def do(self):
         self.set_overlap()
@@ -33,7 +34,7 @@ class SpacialCognitor():
 
         overlap_list.sort()
         overlap_list.reverse()
-        overlap_threshold = overlap_list[self.region.inhibition_radius]
+        overlap_threshold = overlap_list[self.inhibition_radius]
         overlap_counter = overlap_list[0]
 
         while overlap_counter >= overlap_threshold and overlap_counter > 0:
@@ -42,7 +43,7 @@ class SpacialCognitor():
         self.winner = winners
 
     def booster(self):
-        quantity_needed = len((self.region.columns)*5)/100                                             # at least 5% of all columns must be active and then adds
+        quantity_needed = len((self.region.columns)*5)/100 # at least 5% of all columns must be active and then adds
 
         while len(self.winner) < quantity_needed:
             smallest_overlap = 0

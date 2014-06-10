@@ -24,7 +24,7 @@ class Neuron():
     def is_predicted(self):
         return self.predicted
 
-    def check_overlap(self):
+    def set_overlap(self):
         self.dendrit_segment.set_overlap()
 
     def set_prediction(self):
@@ -58,6 +58,7 @@ class Column():
         for cell in self.neurons:
             if cell.is_active():
                 actives.append(cell)
+        return actives
 
     def get_predicted_cells(self):
         """
@@ -77,7 +78,7 @@ class Column():
         self.last_activation = 0
 
     def reset_activity(self):
-        for neuron in self.columns:
+        for neuron in self.neurons:
             neuron.active = False
 
     def activate_cells(self):
