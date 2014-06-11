@@ -12,6 +12,7 @@ class Region():
     def cognition(self):
         sp_cognitor = cla.Cognition.SpacialCognitor(self)
         winner = sp_cognitor.do()
+        sp_cognitor.print_winners()
 
         te_cognitor = cla.Cognition.TemporalCognitor(self, winner)
         te_cognitor.do()

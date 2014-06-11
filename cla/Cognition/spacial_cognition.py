@@ -43,14 +43,16 @@ class SpacialCognitor():
         self.winner = winners
 
     def booster(self):
-        quantity_needed = len((self.region.columns)*5)/100 # at least 5% of all columns must be active and then adds
+        # at least 5% of all columns must be active and then adds
+        quantity_needed = len((self.region.columns)*5)/100
 
         while len(self.winner) < quantity_needed:
             smallest_overlap = 0
 
             for column in self.winner:
-                if smallest_overlap > column.dendrit_segment.overlap or smallest_overlap==0:
-                    smallest_overlap = column.dendrit_segment.overlap                           #gets the smallest overlap from the list winners
+                if smallest_overlap > column.dendrit_segment.overlap or smallest_overlap == 0:
+                    #gets the smallest overlap from the list winners
+                    smallest_overlap = column.dendrit_segment.overlap
 
             boosted_columns = self.region.get_columns_by_overlap(smallest_overlap)
             boosted_columns.sort(key=lambda x: x.last_activation, reverse=True)
@@ -70,3 +72,9 @@ class SpacialCognitor():
         for column in self.winner:
             for single_dendrit in column.dendrit_segment.dendrite:
                 single_dendrit.update_permanence()
+
+    def print_winners(self):
+        position_list = []
+        for each in self.winner:
+            position_list.append(each.position)
+        print position_list
