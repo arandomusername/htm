@@ -1,4 +1,3 @@
-
 class TemporalCognitor:
 
     def __init__(self, region, winner_columns):
