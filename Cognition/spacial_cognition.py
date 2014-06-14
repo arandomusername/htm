@@ -72,7 +72,7 @@ class SpacialCognitor():
     def get_smallest_overlap(self):
         overlap = None
         for column in self.winner:
-            if column.dendrit_segment.overlap < overlap  or overlap is None:
+            if column.dendrit_segment.overlap < overlap or overlap is None:
                 overlap = column.dendrit_segment.overlap
         return overlap
 
@@ -81,7 +81,7 @@ class SpacialCognitor():
         lets the winner-column learn from their connections
         """
         for column in self.winner:
-            for single_dendrit in column.dendrit_segment.dendrite:
+            for single_dendrit in column.dendrit_segment.dendrites:
                 single_dendrit.update_permanence()
 
     def print_winners(self):

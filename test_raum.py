@@ -19,4 +19,5 @@ if __name__ == "__main__":
             for value in converted_name:
                 b = encoder.show_only_actives(value)
                 input_region.new_input(b)
-                Cognition.main_cognition.do(region)
+                cognitor = Cognition.Cognitor()
+                cognitor.assign_and_execute(region)

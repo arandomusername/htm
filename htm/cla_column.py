@@ -2,7 +2,6 @@ from htm import cla_dendrite
 
 
 class Neuron():
-    min_overlap = 3
 
     def __init__(self, pos):
         self.active = False
@@ -26,11 +25,6 @@ class Neuron():
 
     def set_overlap(self):
         self.dendrit_segment.set_overlap()
-
-    def set_prediction(self):
-        self.dendrit_segment.set_overlap()
-        if self.dendrit_segment.overlap > Neuron.min_overlap:
-            self.predicted = True
 
 
 class Column():

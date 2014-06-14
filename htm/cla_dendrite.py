@@ -18,7 +18,7 @@ class Dendrit():
             return False
 
     def is_connected(self):
-        return (self.permanenz >= Dendrit.min_connection)
+        return self.permanenz >= Dendrit.min_connection
 
     def update_permanence(self):
         if self.neuron.active is True:

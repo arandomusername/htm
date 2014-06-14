@@ -1,4 +1,5 @@
 class TemporalCognitor:
+    min_overlap = 3
 
     def __init__(self, region, winner_columns):
         self.region = region

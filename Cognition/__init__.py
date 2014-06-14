@@ -1,2 +1,2 @@
 __author__ = 'root'
-import main_cognition
+from main_cognition import Cognitor
