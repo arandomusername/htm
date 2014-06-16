@@ -16,9 +16,12 @@ class TemporalCognitor:
         self.deactivate()
         self.activate()
 
+    def assign_and_execute(self, region, winner_columns):
+        self.assign(region, winner_columns)
+        self.do()
+
     def deactivate(self):
-        for column in self.winner:
-            column.deactivate_cells()
+        self.region.reset_activity()
 
     def activate(self):
         for column in self.winner:
@@ -41,13 +44,14 @@ class TemporalCognitor:
             for neuron in column.neurons:
                 overlap_list.append(neuron.dendrit_segment.overlap)
 
+            overlap_list.sort()
             overlap_list.reverse()
-            overlap_list.reverse()
-            if self.check_list(overlap_list) and overlap_list[0] == 0:  # if nothing is predicted all get activated
+            check = self.check_list(overlap_list)
+            if check and overlap_list[0] == 0:  # if nothing is predicted all get activated
                 for neuron in column.neurons:
                     neuron.predicted = True
 
-            elif self.check_list(overlap_list):  # if all are equaly predicted the first element is preferred
+            elif check:  # if all are equaly predicted the first element is preferred
                 column.neurons[0].predicted = True
 
             else:                               # else all neurons with the highest overlap get predicted

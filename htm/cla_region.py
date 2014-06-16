@@ -19,6 +19,7 @@ class Region():
         actives = []
         for col in self.columns:
             actives.extend(col.get_active_cells())
+        return actives
 
     def set_overlap(self):
         for coll in self.columns:
@@ -40,12 +41,11 @@ class Region():
         return column
 
     def reset_overlaps(self):
-        """
-        resets the overlap score of the colloums
-
-        """
         for coll in self.columns:
             coll.dendrit_segment.overlap = 0
+            for neuron in coll.neurons:
+                neuron.dendrit_segment.overlap = 0
+
 
     def reset_activity(self):
         for col in self.columns:

@@ -90,9 +90,3 @@ class SpacialCognitor():
         """
         for column in self.winner:
             column.learn()
-
-    def print_winners(self):
-        position_list = []
-        for each in self.winner:
-            position_list.append(each.position)
-        print position_list

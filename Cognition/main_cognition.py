@@ -12,10 +12,8 @@ class Cognitor:
 
     def do(self):
         self.winner = self.spacial.do()
-        self.spacial.print_winners()
-
-        self.temporal.assign(self.region, self.winner)
-        self.temporal.do()
+        self.temporal.assign_and_execute(self.region, self.winner)
+        self.print_actives()
 
     def assign_to(self, region):
         self.region = region
@@ -25,3 +23,16 @@ class Cognitor:
     def assign_and_execute(self, region):
         self.assign_to(region)
         self.do()
+
+    def print_actives(self):
+        actives = self.region.get_active_neurons()
+        list = []
+        for neuron in actives:
+            list.append(neuron.position)
+        print list
+
+    def print_winners(self):
+        position_list = []
+        for each in self.winner:
+            position_list.append(each.position)
+        print position_list

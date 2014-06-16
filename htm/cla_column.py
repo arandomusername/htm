@@ -47,7 +47,9 @@ class Column():
         :param neur_quantity:
         """
         for x in range(0, neur_quantity):
-            pos = (x, self.position)
+            pos = []
+            pos.extend(self.position)
+            pos.append(x)
             neuron = Neuron(pos)
             self.neurons.append(neuron)
 
