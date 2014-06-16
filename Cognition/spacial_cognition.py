@@ -22,8 +22,8 @@ class SpacialCognitor():
         for coll in self.region.columns:
             coll.dendrit_segment.set_overlap()
 
-    def check_winners(self): # used for debugging
-        if len(self.winner)!=len(set(self.winner)):
+    def check_winners(self):  # used for debugging
+        if len(self.winner) != len(set(self.winner)):
             print("soso")
 
     def get_global_winner(self):
@@ -50,15 +50,15 @@ class SpacialCognitor():
     def booster(self):
         # at least 5% of all columns must be active and then adds
         quantity_needed = (len(self.region.columns)*5)/100
-        smallest_overlap = None
+        boosted_overlap = self.get_smallest_overlap()
         boosted_columns = []
 
-        while len(self.winner) < quantity_needed:
-            if smallest_overlap is None or len(boosted_columns) == 0:
-                smallest_overlap = self.get_smallest_overlap() - 1
-                boosted_columns = self.region.get_columns_by_overlap(smallest_overlap)
+        while quantity_needed > len(self.winner):
+            while len(boosted_columns) == 0:
+                boosted_overlap -= 1
+                boosted_columns = self.region.get_columns_by_overlap(boosted_overlap)
+                boosted_columns.sort(key=lambda x: x.last_activation, reverse=True)
 
-            boosted_columns.sort(key=lambda x: x.last_activation, reverse=True)
             self.winner.append(boosted_columns.pop(0))
 
     def update_activation(self):

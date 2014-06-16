@@ -15,7 +15,7 @@ class Cognitor:
         tem_cog = temporal_cognition.TemporalCognitor(self.region, self.winner)
         tem_cog.do()
 
-    def assign_to(self,region):
+    def assign_to(self, region):
         self.region = region
         self.winner = []
 

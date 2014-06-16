@@ -29,6 +29,7 @@ class Neuron():
 
 class Column():
     size = 4
+
     def __init__(self, position):
         self.active = False
         self.position = position

@@ -73,9 +73,10 @@ class DendritSegment():
     def potential_actives(self):
         n = 0
         for dendrite in self.dendrites:
-            if dendrite.is_connected :
+            if dendrite.is_connected:
                 n += 1
         return n
+
 
 # sets a random permanent-score in a certain radius
 def zufalls_permanenz():
