@@ -37,6 +37,7 @@ class TemporalCognitor:
     def select_predicted(self):
         for column in self.winner:
             overlap_list = []
+
             for neuron in column.neurons:
                 overlap_list.append(neuron.dendrit_segment.overlap)
 
@@ -46,7 +47,7 @@ class TemporalCognitor:
                 for neuron in column.neurons:
                     neuron.predicted = True
 
-            elif self.check_list(overlap_list): # if all are equaly predicted the first element is preferred
+            elif self.check_list(overlap_list):  # if all are equaly predicted the first element is preferred
                 column.neurons[0].predicted = True
 
             else:                               # else all neurons with the highest overlap get predicted

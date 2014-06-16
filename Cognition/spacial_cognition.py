@@ -8,7 +8,6 @@ class SpacialCognitor():
     def assign(self, region):
         self.region = region
         self.winner = []
-        self.inhibtion_radius = 4
 
     def do(self):
         self.set_overlap()

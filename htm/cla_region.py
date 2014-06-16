@@ -1,4 +1,3 @@
-import Cognition
 from htm import cla_column
 
 

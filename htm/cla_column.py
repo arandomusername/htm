@@ -91,7 +91,7 @@ class Column():
         predicted_cells = self.get_predicted_cells()
         for neuron in predicted_cells:
             neuron.predicted = False
-            neuron.active    = True
+            neuron.active = True
 
     def learn(self):
         self.dendrit_segment.learn()
