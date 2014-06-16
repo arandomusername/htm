@@ -26,6 +26,9 @@ class Neuron():
     def set_overlap(self):
         self.dendrit_segment.set_overlap()
 
+    def learn(self):
+        self.dendrit_segment.learn()
+
 
 class Column():
     size = 4
@@ -76,15 +79,19 @@ class Column():
         for neuron in self.neurons:
             neuron.active = False
 
+    def deactivate_cells(self):
+        actives = self.get_active_cells()
+        for neuron in actives:
+            neuron.active = False
+
     def activate_cells(self):
         """
         activates cells based on their prediction-state
         """
         predicted_cells = self.get_predicted_cells()
-        if len(predicted_cells) == 0:
-            for cell in self.neurons:
-                cell.active = True
-        else:
-            for cell in predicted_cells:
-                cell.active = True
-                cell.predicted = False
+        for neuron in predicted_cells:
+            neuron.predicted = False
+            neuron.active    = True
+
+    def learn(self):
+        self.dendrit_segment.learn()

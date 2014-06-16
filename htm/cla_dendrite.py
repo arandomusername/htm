@@ -77,6 +77,9 @@ class DendritSegment():
                 n += 1
         return n
 
+    def learn(self):
+        for dendrite in self.dendrites:
+            dendrite.update_permanence()
 
 # sets a random permanent-score in a certain radius
 def zufalls_permanenz():

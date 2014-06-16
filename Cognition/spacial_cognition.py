@@ -1,9 +1,14 @@
 class SpacialCognitor():
 
-    def __init__(self, region):
-        self.region = region
+    def __init__(self):
+        self.region = None
         self.winner = []
         self.inhibition_radius = 4
+
+    def assign(self, region):
+        self.region = region
+        self.winner = []
+        self.inhibtion_radius = 4
 
     def do(self):
         self.set_overlap()
@@ -85,8 +90,7 @@ class SpacialCognitor():
         lets the winner-column learn from their connections
         """
         for column in self.winner:
-            for single_dendrit in column.dendrit_segment.dendrites:
-                single_dendrit.update_permanence()
+            column.learn()
 
     def print_winners(self):
         position_list = []
