@@ -7,6 +7,7 @@ class Region():
         self.max_size = size
         self.neuron_quantity = (size**2) * cla_column.Column.size
         self.add_column()
+        self.initialize_proximale_dendrites()
 
     def get_columns_by_overlap(self, overlap):
         overlap_columns = []
@@ -51,8 +52,12 @@ class Region():
         for col in self.columns:
             col.reset_activity()
 
-    def initialize_dendrites(self, input_region):
+    def connect_to_inputregion(self, input_region):
         for col in self.columns:
-            col.dendrit_segment.initialize_dendriten(input_region, 2)
-            for neuron in col.neurons:
-                neuron.dendrit_segment.initialize_dendriten(self, 4)
+            col.dendrit_segment.init_dendrites(input_region, 2)
+
+
+    def initialize_proximale_dendrites(self):
+        for column in self.columns:
+            for neuron in column.neurons:
+                neuron.dendrit_segment.init_dendrites(self, 2)

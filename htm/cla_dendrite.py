@@ -3,8 +3,8 @@ import random
 
 class Dendrit():
 
-    min_connection = 0.7
-    perm_schritt = 0.02
+    min_connection = 0.5
+    perm_schritt = 0.05
 
     def __init__(self, neuron, permanenz):
         self.neuron = neuron
@@ -44,7 +44,7 @@ class DendritSegment():
         self.input_groesse = 0
         self.overlap = 0
 
-    def initialize_dendriten(self, region, divisor):
+    def init_dendrites(self, region, divisor):
         anzahl_dendrite = (region.neuron_quantity / divisor) - (region.neuron_quantity % divisor)
         list_of_neurons = []
 
