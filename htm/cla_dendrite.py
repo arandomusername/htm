@@ -4,7 +4,7 @@ import random
 class Dendrit():
 
     min_connection = 0.5
-    perm_schritt = 0.05
+    perm_schritt = 0.1
 
     def __init__(self, neuron, permanenz):
         self.neuron = neuron

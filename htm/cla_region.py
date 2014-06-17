@@ -60,4 +60,4 @@ class Region():
     def initialize_proximale_dendrites(self):
         for column in self.columns:
             for neuron in column.neurons:
-                neuron.dendrit_segment.init_dendrites(self, 2)
+                neuron.dendrit_segment.init_dendrites(self, 4)
