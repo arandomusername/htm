@@ -47,17 +47,20 @@ class TemporalCognitor:
             overlap_list.sort()
             overlap_list.reverse()
             check = self.check_list(overlap_list)
-            if check and overlap_list[0] == 0:  # if nothing is predicted all get activated
-                for neuron in column.neurons:
+            self.set_prediction(overlap_list, check, column)
+
+    def set_prediction(self, overlap_list, check, column):
+        if check and overlap_list[0] == 0:  # if nothing is predicted all get activated
+            for neuron in column.neurons:
                     neuron.predicted = True
 
-            elif check:  # if all are equaly predicted the first element is preferred
-                column.neurons[0].predicted = True
+        elif check:  # if all are equally predicted the first element is preferred
+            column.neurons[0].predicted = True
 
-            else:                               # else all neurons with the highest overlap get predicted
-                for neuron in column.neurons:
-                    if neuron.dendrit_segment.overlap == overlap_list[0]:
-                        neuron.predicted = True
+        else:                               # else all neurons with the highest overlap get predicted
+            for neuron in column.neurons:
+                if neuron.dendrit_segment.overlap == overlap_list[0]:
+                    neuron.predicted = True
 
     def check_list(self, list):
         return len(set(list)) <= 1

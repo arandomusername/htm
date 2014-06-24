@@ -4,7 +4,9 @@ import random
 class Dendrit():
 
     min_connection = 0.5
-    perm_schritt = 0.1
+    perm_schritt = 0.02
+    perm_erhoeht = 0
+    perm_gesenkt = 0
 
     def __init__(self, neuron, permanenz):
         self.neuron = neuron
@@ -30,11 +32,13 @@ class Dendrit():
         self.permanenz += Dendrit.perm_schritt
         if self.permanenz > 1:
             self.permanenz = 1
+            Dendrit.perm_erhoeht += 1
 
     def permanenz_senken(self):
         self.permanenz -= Dendrit.perm_schritt
         if self.permanenz < 0:
             self.permanenz = 0
+            Dendrit.perm_gesenkt += 1
 
 
 class DendritSegment():
