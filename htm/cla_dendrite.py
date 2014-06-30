@@ -5,8 +5,6 @@ class Dendrit():
 
     min_connection = 0.5
     perm_schritt = 0.02
-    perm_erhoeht = 0
-    perm_gesenkt = 0
 
     def __init__(self, neuron, permanenz):
         self.neuron = neuron
@@ -32,13 +30,14 @@ class Dendrit():
         self.permanenz += Dendrit.perm_schritt
         if self.permanenz > 1:
             self.permanenz = 1
-            Dendrit.perm_erhoeht += 1
 
     def permanenz_senken(self):
         self.permanenz -= Dendrit.perm_schritt
         if self.permanenz < 0:
             self.permanenz = 0
-            Dendrit.perm_gesenkt += 1
+
+    def reset_permanenz(self):
+        self.permanenz = 0
 
 
 class DendritSegment():
@@ -49,7 +48,7 @@ class DendritSegment():
         self.overlap = 0
 
     def init_dendrites(self, region, divisor):
-        anzahl_dendrite = (region.neuron_quantity / divisor) - (region.neuron_quantity % divisor)
+        anzahl_dendrite = (region.neuron_quantity / divisor) - (region.neuron_quantity % divisor)/divisor
         list_of_neurons = []
 
         for column in region.columns:
@@ -85,6 +84,9 @@ class DendritSegment():
         for dendrite in self.dendrites:
             dendrite.update_permanence()
 
+    def reset_dendrites(self):
+        for dendrite in self.dendrites:
+            dendrite.reset_permanenz()
 
 # sets a random permanent-score in a certain radius
 def zufalls_permanenz():

@@ -20,7 +20,7 @@ class Cognitor:
         self.winner = []
         self.spacial.assign(region)
 
-    def assign_and_execute(self, region):
+    def execute(self, region):
         self.assign_to(region)
         self.do()
 
