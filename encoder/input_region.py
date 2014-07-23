@@ -21,6 +21,15 @@ class InputRegion():
         coll = Column()
         self.columns.append(coll)
 
+    def all_neurons(self):
+        for column in self.all_columns():
+            for neuron in column.neurons:
+                yield neuron
+
+    def all_columns(self):
+        for x in range(self.max_size):
+            for y in range(self.max_size):
+                yield self.columns[x][y]
 
 class Column():
     def __init__(self):

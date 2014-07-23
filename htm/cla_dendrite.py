@@ -51,7 +51,7 @@ class DendritSegment():
         anzahl_dendrite = (region.neuron_quantity / divisor) - (region.neuron_quantity % divisor)/divisor
         list_of_neurons = []
 
-        for column in region.columns:
+        for column in region.all_columns():
             list_of_neurons.extend(column.neurons)
 
         for x in range(anzahl_dendrite):
