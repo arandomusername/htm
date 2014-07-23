@@ -3,22 +3,22 @@ from htm import cla_column
 
 class Region():
     def __init__(self, size):
-        self.columns = []
+        self.columns = [[]]
         self.max_size = size
         self.neuron_quantity = (size**2) * cla_column.Column.size
-        self.add_column()
+        self.add_columns()
         self.initialize_proximale_dendrites()
 
     def get_columns_by_overlap(self, overlap):
         overlap_columns = []
-        for column in self.columns:
+        for column in self.all_columns():
             if column.dendrit_segment.overlap == overlap:
                 overlap_columns.append(column)
         return overlap_columns
 
     def get_active_neurons(self):
         actives = []
-        for col in self.columns:
+        for col in self.all_columns():
             actives.extend(col.get_active_cells())
         return actives
 
@@ -26,7 +26,7 @@ class Region():
         for coll in self.all_columns():
             coll.dendrit_segment.set_overlap()
 
-    def add_column(self):
+    def add_columns(self):
         self.columns = [[cla_column.Column((x,y)) for x in xrange(self.max_size)]for y in xrange(self.max_size)]
 
     def all_neurons(self):

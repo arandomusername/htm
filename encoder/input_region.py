@@ -1,11 +1,11 @@
 class InputRegion():
     def __init__(self, input_groesse):
         self.columns = []
-        self.max_groesse = input_groesse
+        self.max_size = input_groesse
         self.coll_groesse = 1
         self.neuron_quantity = input_groesse
 
-        for x in range(0, self.max_groesse):
+        for x in range(0, self.max_size):
             self.add_column()
 
     def new_input(self, input_array):
@@ -28,8 +28,7 @@ class InputRegion():
 
     def all_columns(self):
         for x in range(self.max_size):
-            for y in range(self.max_size):
-                yield self.columns[x][y]
+                yield self.columns[x]
 
 class Column():
     def __init__(self):
