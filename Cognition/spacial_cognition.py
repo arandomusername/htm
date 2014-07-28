@@ -11,10 +11,9 @@ class SpacialCognitor():
 
     def do(self):
         self.set_overlap()
-        self.get_global_winner()
+        self.set_winners()
         self.booster()
-        self.check_winners()
-        self.update_activation()
+        self.update_activation_cycle()
         self.spacial_learning()
         self.region.reset_overlaps()
 
@@ -30,11 +29,7 @@ class SpacialCognitor():
         for column in self.region.all_columns():
             column.dendrite_segment.set_overlap()
 
-    def check_winners(self):  # used for debugging
-        if len(self.winner) != len(set(self.winner)):
-            print("soso")
-
-    def get_global_winner(self):
+    def set_winners(self):
         """
         return a list with n objects of columns with the highest overlap score
         :return:winners
@@ -69,7 +64,7 @@ class SpacialCognitor():
 
             self.winner.append(boosted_columns.pop(0))
 
-    def update_activation(self):
+    def update_activation_cycle(self):
         for column in self.region.all_columns():
             if column in self.winner:
                 column.reset_last_activation()
@@ -78,7 +73,7 @@ class SpacialCognitor():
 
     def smallest_overlap_from_winner(self):
         overlap_list = [column.dendrite_segment.overlap for column in self.winner]
-        if not overlap_list:
+        if overlap_list != []:
             smallest_overlap = min(overlap_list)
         else:
             smallest_overlap = 1
