@@ -1,19 +1,29 @@
 import encoder
-import cla
+import htm
+import Cognition
 
-region_groesse = 20
-datei_pfad = "/home/martin/Dokumente/htm/daten/test.csv"
+
+region_groesse = 10
+datei_pfad = "daten/test.csv"
 
 if __name__ == "__main__":
     input_region = encoder.InputRegion(258)
-    region = cla.Region(region_groesse)
-    region.initialize_dendrites(input_region)
+    region1 = htm.Region(region_groesse)
+    region2 = htm.Region(region_groesse)
+
+    cognitor = Cognition.Cognitor()
+
+    region1.connect_to_inputregion(input_region)
+    region2.connect_to_inputregion(region1)
 
     opened_file = encoder.open_file(datei_pfad)
-    row = encoder.convert_row(opened_file[0])
 
-    for name in row:
-        for wert in name:
-            b = encoder.show_only_actives(wert)
-            input_region.new_input(b)
-            region.raeumliche_wahrnehmung()
+    for row in opened_file:
+        for name in row:
+            print(name)
+            converted_name = encoder.name_to_list(name)
+            for value in converted_name:
+                b = encoder.show_only_actives(value)
+                input_region.new_input(b)
+                cognitor.execute(region1)
+                cognitor.execute(region2)
