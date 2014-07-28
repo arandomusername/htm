@@ -42,7 +42,7 @@ class TemporalCognitor:
             overlap_list = []
 
             for neuron in column.neurons:
-                overlap_list.append(neuron.dendrit_segment.overlap)
+                overlap_list.append(neuron.dendrite_segment.overlap)
 
             overlap_list.sort()
             overlap_list.reverse()
@@ -59,7 +59,7 @@ class TemporalCognitor:
 
         else:                               # else all neurons with the highest overlap get predicted
             for neuron in column.neurons:
-                if neuron.dendrit_segment.overlap == overlap_list[0]:
+                if neuron.dendrite_segment.overlap == overlap_list[0]:
                     neuron.predicted = True
 
     def check_list(self, list):

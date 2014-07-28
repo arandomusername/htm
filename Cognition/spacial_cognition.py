@@ -58,9 +58,7 @@ class SpacialCognitor():
     def booster(self):
         # at least 5% of all columns must be active. If not some columns get "boosted"
         quantity_needed = len(self.region.columns)*5/100
-
-        # Create new list from which I can easly remove an element without fucking things up.
-        boosted_overlap = self.biggest_overlap()
+        boosted_overlap = self.smallest_overlap_from_winner
         boosted_columns = []
 
         while quantity_needed > len(self.winner):
@@ -78,8 +76,12 @@ class SpacialCognitor():
             else:
                 column.increase_last_activation()
 
-    def smallest_overlap(self):
-        smallest_overlap = min([column.dendrite_segment.overlap for column in self.winner])
+    def smallest_overlap_from_winner(self):
+        overlap_list = [column.dendrite_segment.overlap for column in self.winner]
+        if not overlap_list:
+            smallest_overlap = min(overlap_list)
+        else:
+            smallest_overlap = 1
         return smallest_overlap
 
     def biggest_overlap(self):
