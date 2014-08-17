@@ -1,11 +1,11 @@
-from htm import cla_column
+from htm import column
 
 
 class Region():
     def __init__(self, size):
         self.columns = [[]]
         self.max_size = size
-        self.neuron_quantity = (size**2) * cla_column.Column.size
+        self.neuron_quantity = (size**2) * column.Column.size
         self.add_columns()
         self.initialize_proximale_dendrites()
 
@@ -24,7 +24,7 @@ class Region():
             column.dendrite_segment.set_overlap()
 
     def add_columns(self):
-        self.columns = [[cla_column.Column((x, y)) for x in xrange(self.max_size)]for y in xrange(self.max_size)]
+        self.columns = [[column.Column((x, y)) for x in xrange(self.max_size)]for y in xrange(self.max_size)]
 
     def all_neurons(self):
         for column in self.all_columns():

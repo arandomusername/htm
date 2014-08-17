@@ -1,5 +1,5 @@
-import cla_dendrite
-import cla_neuron
+import dendrite
+import neuron
 
 
 class Column():
@@ -10,7 +10,7 @@ class Column():
         self.position = position
         self.neurons = []
         self.add_neurones(self.size)
-        self.dendrite_segment = cla_dendrite.DendritSegment(position)
+        self.dendrite_segment = dendrite.DendriteSegment(position)
         self.last_activation = 0
 
     def add_neurones(self, neur_quantity):
@@ -22,7 +22,7 @@ class Column():
             pos = []
             pos.extend(self.position)
             pos.append(x)
-            neuron = cla_neuron.Neuron(pos)
+            neuron = neuron.Neuron(pos)
             self.neurons.append(neuron)
 
     def active_cells(self):

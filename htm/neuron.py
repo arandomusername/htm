@@ -1,4 +1,5 @@
-import cla_dendrite
+import dendrite
+
 
 class Neuron():
 
@@ -6,7 +7,7 @@ class Neuron():
         self.active = False
         self.predicted = False
         self.position = pos
-        self.dendrite_segment = cla_dendrite.DendritSegment(pos)
+        self.dendrite_segment = dendrite.DendriteSegment(pos)
 
     def status(self):
         if self.active is True:

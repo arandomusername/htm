@@ -1,10 +1,10 @@
 import random
 
 
-class Dendrit():
+class Dendrite():
 
     connection_threshold = 0.5
-    connection_strength_step = 0.02
+    connection_strength_step = 0.1
 
     def __init__(self, neuron, strength):
         self.neuron = neuron
@@ -12,13 +12,13 @@ class Dendrit():
 
     #checks if a dendrite transfers a signal
     def forwards_signal(self):
-        if self.connection_strength >= Dendrit.connection_threshold and self.neuron.active:
+        if self.connection_strength >= Dendrite.connection_threshold and self.neuron.active:
             return True
         else:
             return False
 
     def is_connected(self):
-        return self.connection_strength >= Dendrit.connection_threshold
+        return self.connection_strength >= Dendrite.connection_threshold
 
     def update_permanence(self):
         if self.neuron.active is True:
@@ -27,12 +27,12 @@ class Dendrit():
             self.decrease_threshold()
 
     def increase_threshold(self):
-        self.connection_strength += Dendrit.connection_strength_step
+        self.connection_strength += Dendrite.connection_strength_step
         if self.connection_strength > 1:
             self.connection_strength = 1
 
     def decrease_threshold(self):
-        self.connection_strength -= Dendrit.connection_strength_step
+        self.connection_strength -= Dendrite.connection_strength_step
         if self.connection_strength < 0:
             self.connection_strength = 0
 
@@ -40,7 +40,7 @@ class Dendrit():
         self.connection_strength = 0
 
 
-class DendritSegment():
+class DendriteSegment():
     def __init__(self, origin):
         self.origin = origin
         self.dendrites = []
@@ -62,7 +62,7 @@ class DendritSegment():
     # adds dendrites
     def add_dendrite(self, neuron):
         strength = random_connection_strength()
-        den = Dendrit(neuron, strength)
+        den = Dendrite(neuron, strength)
         self.dendrites.append(den)
 
     # calculates the overlap-score of a specif segment
@@ -93,7 +93,7 @@ class DendritSegment():
 def random_connection_strength():
     z1 = random.randrange(0, 20)
     z2 = random.randrange(0, 20)
-    z3 = z1 * Dendrit.connection_strength_step
-    z4 = z2 * Dendrit.connection_strength_step
-    perm = Dendrit.connection_threshold - z3 + z4
+    z3 = z1 * Dendrite.connection_strength_step
+    z4 = z2 * Dendrite.connection_strength_step
+    perm = Dendrite.connection_threshold - z3 + z4
     return perm
