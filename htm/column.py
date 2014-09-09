@@ -25,17 +25,18 @@ class Column():
             self.neurons.append(neuron.Neuron(pos))
 
     def active_cells(self):
-        actives = [cell for cell in self.neurons if cell.is_active()]
-        return actives
+        for cell in self.neurons:
+            if cell.is_active():
+                yield cell
 
     def predicted_cells(self):
         """
         returns a list of the cells which are in the "predicted"-state
         :return:
         """
-
-        predicted_cells = [cell for cell in self.neurons if cell.is_predicted()]
-        return predicted_cells
+        for cell in self.neurons:
+            if cell.is_predicted():
+                yield cell
 
     def increase_last_activation(self):
         self.last_activation += 1

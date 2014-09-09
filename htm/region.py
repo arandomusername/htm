@@ -12,7 +12,7 @@ class Region():
         self.initialize_proximale_dendrites()
 
     def get_columns_by_overlap(self, overlap):
-        overlap_columns = [col for col in self.all_columns() if column.dendrite_segment.overlap == overlap]
+        overlap_columns = [col for col in self.all_columns() if col.dendrite_segment.overlap == overlap]
         return overlap_columns
 
     def get_active_neurons(self):

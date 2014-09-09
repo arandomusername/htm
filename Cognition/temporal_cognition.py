@@ -36,7 +36,6 @@ class TemporalCognitor:
             for neuron in column.neurons:
                 neuron.set_overlap()
 
-
     def select_predicted(self):
         for column in self.winner:
             highest_overlap = 0

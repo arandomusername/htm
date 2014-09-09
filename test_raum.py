@@ -8,7 +8,7 @@ datei_pfad = "daten/test.csv"
 
 if __name__ == "__main__":
     input_region = encoder.InputRegion(258)
-    region1 = htm.Region(region_groesse)
+    region1 = htm.Region(region_groesse,region_groesse)
 
     cognitor = Cognition.Cognitor()
 
