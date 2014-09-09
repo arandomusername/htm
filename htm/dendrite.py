@@ -12,10 +12,7 @@ class Dendrite():
 
     #checks if a dendrite transfers a signal
     def forwards_signal(self):
-        if self.connection_strength >= Dendrite.connection_threshold and self.neuron.active:
-            return True
-        else:
-            return False
+        return self.connection_strength >= Dendrite.connection_threshold and self.neuron.active
 
     def is_connected(self):
         return self.connection_strength >= Dendrite.connection_threshold
@@ -27,14 +24,10 @@ class Dendrite():
             self.decrease_threshold()
 
     def increase_threshold(self):
-        self.connection_strength += Dendrite.connection_strength_step
-        if self.connection_strength > 1:
-            self.connection_strength = 1
+        self.connection_strength = 1 if self.connection_strength > 1 else self.connection_strength + Dendrite.connection_strength_step
 
     def decrease_threshold(self):
-        self.connection_strength -= Dendrite.connection_strength_step
-        if self.connection_strength < 0:
-            self.connection_strength = 0
+        self.connection_strength = 0 if self.connection_strength < 0 else self.connection_strength - Dendrite.connection_strength_step
 
     def reset_threshold(self):
         self.connection_strength = 0
@@ -62,8 +55,8 @@ class DendriteSegment():
     # adds dendrites
     def add_dendrite(self, neuron):
         strength = random_connection_strength()
-        den = Dendrite(neuron, strength)
-        self.dendrites.append(den)
+        dendrite = Dendrite(neuron, strength)
+        self.dendrites.append(dendrite)
 
     # calculates the overlap-score of a specif segment
     def set_overlap(self):
@@ -81,13 +74,11 @@ class DendriteSegment():
         return n
 
     def learn(self):
-        for dendrite in self.dendrites:
-            dendrite.update_permanence()
+        [dendrite.update_permanence() for dendrite in self.dendrites]
+
 
     def reset_dendrites(self):
-        for dendrite in self.dendrites:
-            dendrite.reset_threshold()
-
+        [dendrite.reset_threshold() for dendrite in self.dendrites]
 
 # sets a random permanent-score in a certain radius
 def random_connection_strength():

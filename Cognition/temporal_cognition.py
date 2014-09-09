@@ -24,8 +24,7 @@ class TemporalCognitor:
         self.region.reset_activity()
 
     def activate(self):
-        for column in self.winner:
-            column.activate_cells()
+        [column.activate_cells() for column in self.winner]
 
     def set_overlap(self):
         for column in self.winner:
@@ -33,37 +32,28 @@ class TemporalCognitor:
                 neuron.set_overlap()
 
     def predict_cells(self):
-        for each in self.winner:
-            for neuron in each.neurons:
+        for column in self.winner:
+            for neuron in column.neurons:
                 neuron.set_overlap()
+
 
     def select_predicted(self):
         for column in self.winner:
-            overlap_list = []
+            highest_overlap = 0
 
             for neuron in column.neurons:
-                overlap_list.append(neuron.dendrite_segment.overlap)
+                current_overlap = neuron.dendrite_segment.overlap
+                highest_overlap = current_overlap if current_overlap > highest_overlap else highest_overlap
 
-            overlap_list.sort()
-            overlap_list.reverse()
-            check = self.check_list(overlap_list)
-            self.set_prediction(overlap_list, check, column)
+            self.set_prediction(highest_overlap, column)
 
-    def set_prediction(self, overlap_list, check, column):
-        if check and overlap_list[0] == 0:  # if nothing is predicted all get activated
+    def set_prediction(self, highest_overlap, column):
+        if highest_overlap == 0:  # if nothing is predicted all get activated
+            [neuron.predict() for neuron in column.neurons]
+        else:                               # else neurons with the highest overlap get predicted
             for neuron in column.neurons:
-                    neuron.predicted = True
-
-        elif check:  # if all are equally predicted the first element is preferred
-            column.neurons[0].predicted = True
-
-        else:                               # else all neurons with the highest overlap get predicted
-            for neuron in column.neurons:
-                if neuron.dendrite_segment.overlap == overlap_list[0]:
-                    neuron.predicted = True
-
-    def check_list(self, list):
-        return len(set(list)) <= 1
+                if neuron.dendrite_segment.overlap == highest_overlap:
+                    neuron.predict()
 
     def learning(self):
         for column in self.winner:

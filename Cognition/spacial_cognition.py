@@ -26,8 +26,8 @@ class SpacialCognitor():
         """
         sets the overlap score for each column
         """
-        for column in self.region.all_columns():
-            column.dendrite_segment.set_overlap()
+
+        [column.dendrite_segment.set_overlap() for column in self.region.all_columns()]
 
     def set_winners(self):
         """
@@ -37,8 +37,7 @@ class SpacialCognitor():
         overlap_list = []
         winners = []
 
-        for column in self.region.all_columns():
-            overlap_list.append(column.dendrite_segment.overlap)
+        [overlap_list.append(column.dendrite_segment.overlap) for column in self.region.all_columns()]
 
         overlap_list.sort()
         overlap_list.reverse()
@@ -73,10 +72,7 @@ class SpacialCognitor():
 
     def smallest_overlap_from_winner(self):
         overlap_list = [column.dendrite_segment.overlap for column in self.winner]
-        if overlap_list != []:
-            smallest_overlap = min(overlap_list)
-        else:
-            smallest_overlap = 1
+        smallest_overlap = min(overlap_list) if overlap_list != [] else 1
         return smallest_overlap
 
     def biggest_overlap(self):

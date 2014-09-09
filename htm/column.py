@@ -13,17 +13,16 @@ class Column():
         self.dendrite_segment = dendrite.DendriteSegment(position)
         self.last_activation = 0
 
-    def add_neurones(self, neur_quantity):
+    def add_neurones(self, quantity):
         """
         add neurones and gives them a position
         :param neur_quantity:
         """
-        for x in range(0, neur_quantity):
+        for x in range(0, quantity):
             pos = []
             pos.extend(self.position)
             pos.append(x)
-            neuron = neuron.Neuron(pos)
-            self.neurons.append(neuron)
+            self.neurons.append(neuron.Neuron(pos))
 
     def active_cells(self):
         actives = [cell for cell in self.neurons if cell.is_active()]
@@ -34,6 +33,7 @@ class Column():
         returns a list of the cells which are in the "predicted"-state
         :return:
         """
+
         predicted_cells = [cell for cell in self.neurons if cell.is_predicted()]
         return predicted_cells
 
@@ -44,21 +44,17 @@ class Column():
         self.last_activation = 0
 
     def reset_activity(self):
-        for neuron in self.neurons:
-            neuron.active = False
+        [cell.reset() for cell in self.neurons]
 
     def deactivate_cells(self):
-        for neuron in self.active_cells():
-            neuron.active = False
+        [cell.activate() for cell in self.active_cells()]
 
     def activate_cells(self):
         """
         activates cells based on their prediction-state
         """
 
-        for neuron in self.predicted_cells():
-            neuron.predicted = False
-            neuron.active = True
+        [cell.update() for cell in self.predicted_cells()]
 
     def learn(self):
         self.dendrite_segment.learn()
