@@ -27,7 +27,8 @@ class SpacialCognitor():
         sets the overlap score for each column
         """
 
-        [column.dendrite_segment.set_overlap() for column in self.region.all_columns()]
+        [column.dendrite_segment.set_overlap() for column in self.region.all_columns()
+        ]
 
     def set_winners(self):
         """
