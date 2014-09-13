@@ -21,9 +21,7 @@ class Cognitor:
         self.print_actives()
 
     def print_actives(self):
-        active_positions = [neuron.position for neuron in self.region.get_active_neurons()]
-        print active_positions
+        print [neuron.position for neuron in self.region.get_active_neurons()]
 
     def print_winners(self):
-        position_list = [winner.position for winner in self.winner]
-        print position_list
+        print [winner.position for winner in self.winner]

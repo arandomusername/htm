@@ -53,7 +53,7 @@ class SpacialCognitor():
     def booster(self):
         # at least 5% of all columns must be active. If not some columns get "boosted"
         quantity_needed = len(self.region.columns)*5/100
-        boosted_overlap = self.smallest_overlap_from_winner
+        boosted_overlap = self.smallest_overlap_from_winner()
         boosted_columns = []
 
         while quantity_needed > len(self.winner):

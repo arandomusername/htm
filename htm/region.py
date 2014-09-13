@@ -17,13 +17,13 @@ class Region():
 
     def get_active_neurons(self):
         actives = []
-        for col in self.all_columns():
-            actives.extend(col.active_cells())
+        for column in self.all_columns():
+            actives.extend(column.active_cells())
         return actives
 
     def set_overlap(self):
-        for col in self.all_columns():
-            col.dendrite_segment.set_overlap()
+        for column in self.all_columns():
+            column.dendrite_segment.set_overlap()
 
     def add_columns(self):
         self.columns = [[column.Column((x, y)) for x in xrange(self.max_size)]for y in xrange(self.max_size)]
@@ -49,8 +49,7 @@ class Region():
             neuron.dendrite_segment.overlap = 0
 
     def reset_activity(self):
-        for col in self.all_columns():
-            col.reset_activity()
+        [col.reset_activity() for col in self.all_columns()]
 
     def connect_to_inputregion(self, input_region):
         for col in self.all_columns():
