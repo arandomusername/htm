@@ -26,7 +26,7 @@ class Region():
             column.dendrite_segment.set_overlap()
 
     def add_columns(self):
-        self.columns = [[column.Column((x, y)) for x in xrange(self.max_size)]for y in xrange(self.max_size)]
+        self.columns = [[column.Column((x, y)) for x in range(self.row_quantity)]for y in range(self.column_quantity)]
 
     def all_neurons(self):
         for col in self.all_columns():
