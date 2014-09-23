@@ -1,4 +1,4 @@
-from htm import column
+from htm_sub import column
 
 
 class Region(object):
