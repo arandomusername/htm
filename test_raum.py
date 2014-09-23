@@ -24,3 +24,4 @@ if __name__ == "__main__":
                 b = encoder.show_only_actives(value)
                 input_region.new_input(b)
                 cognitor.execute(region1)
+

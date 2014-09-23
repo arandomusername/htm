@@ -1,7 +1,7 @@
 from htm import column
 
 
-class Region():
+class Region(object):
     def __init__(self, row_quantity, column_quantity):
         self.columns = [[]]
         self.column_quantity = column_quantity
