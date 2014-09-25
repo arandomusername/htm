@@ -1,6 +1,4 @@
 import csv
-import char
-
 
 def open_file(pfad):
     row_list = []

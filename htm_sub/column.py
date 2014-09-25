@@ -1,5 +1,5 @@
-import dendrite
-import neuron
+from htm_sub import dendrite
+from htm_sub import neuron
 
 
 class Column():

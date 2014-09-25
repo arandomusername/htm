@@ -1,4 +1,4 @@
-import region
+from htm_sub import region
 
 class InputRegion(region.Region):
     def __init__(self, input_size):

@@ -3,7 +3,7 @@ import Cognition
 
 class HTM(object):
     def __init__(self, region_quantity, region_size, input_size):
-        self.input_region = htm_sub.InputRegion(input_size)
+        self.input_region = htm_sub.input_region.InputRegion(input_size)
         self.cognitor = Cognition.Cognitor
         self.regions = []
 

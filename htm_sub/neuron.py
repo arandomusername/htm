@@ -1,4 +1,4 @@
-import dendrite
+from htm_sub import dendrite
 
 
 class Neuron():

@@ -1,5 +1,5 @@
-import spacial_cognition
-import temporal_cognition
+from Cognition import spacial_cognition
+from Cognition import temporal_cognition
 
 
 class Cognitor:
@@ -21,7 +21,7 @@ class Cognitor:
         self.print_actives()
 
     def print_actives(self):
-        print [neuron.position for neuron in self.region.get_active_neurons()]
+        print([neuron.position for neuron in self.region.get_active_neurons()])
 
     def print_winners(self):
-        print [winner.position for winner in self.winner]
+        print([winner.position for winner in self.winner])
