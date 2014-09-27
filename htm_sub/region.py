@@ -36,7 +36,7 @@ class Region(object):
     def all_columns(self):
         for y in range(self.column_quantity):
             for x in range(self.row_quantity):
-                yield self.columns[x][y]
+                yield self.columns[y][x]
 
     def get_column_by_position(self, pos):
         x_position = pos[0]

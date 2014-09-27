@@ -41,7 +41,7 @@ class DendriteSegment():
         self.overlap = 0
 
     def init_dendrites(self, region, divisor):
-        number_of_dendrites = (region.neuron_quantity / divisor)
+        number_of_dendrites = int(region.neuron_quantity / divisor)
         list_of_neurons = []
 
         for column in region.all_columns():

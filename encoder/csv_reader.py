@@ -1,8 +1,9 @@
 import csv
+from encoder import char
 
 def open_file(pfad):
     row_list = []
-    with open(pfad, "rb") as csvfile:
+    with open(pfad, "r") as csvfile:
         reader = csv.reader(csvfile)
         for row in reader:
             row_list.append(row)
