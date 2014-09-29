@@ -2,8 +2,6 @@ from htm_sub import region
 
 class InputRegion(region.Region):
     def __init__(self, input_size):
-        region.Region.__init__(self, 1, input_size)
-
         self.columns = []
         self.max_size = input_size
         self.row_quantity = 1
@@ -11,7 +9,7 @@ class InputRegion(region.Region):
         self.neuron_quantity = input_size
 
         for x in range(0, self.max_size):
-            self.add_columns()
+            self.add_column()
 
     def new_input(self, input_array):
         self.reset_activity()
