@@ -34,9 +34,11 @@ class Region(object):
                 yield neuron
 
     def all_columns(self):
+        columns = []
         for y in range(self.column_quantity):
             for x in range(self.row_quantity):
-                yield self.columns[y][x]
+                columns.append(self.columns[y][x])
+        return columns
 
     def get_column_by_position(self, pos):
         x_position = pos[0]

@@ -18,16 +18,22 @@ class Dendrite():
         return self.connection_strength >= Dendrite.connection_threshold
 
     def update_permanence(self):
-        if self.neuron.active is True:
+        if self.neuron.is_active():
             self.increase_threshold()
         else:
             self.decrease_threshold()
 
     def increase_threshold(self):
-        self.connection_strength = 1 if self.connection_strength > 1 else self.connection_strength + Dendrite.connection_strength_step
+        if self.connection_strength + Dendrite.connection_strength_step >= 1:
+            self.connection_strength = 1
+        else:
+            self.connection_strength += Dendrite.connection_strength_step
 
     def decrease_threshold(self):
-        self.connection_strength = 0 if self.connection_strength < 0 else self.connection_strength - Dendrite.connection_strength_step
+        if self.connection_strength - self.connection_strength_step <= 0:
+            self.connection_strength = 0
+        else:
+            self.connection_strength += Dendrite.connection_strength_step
 
     def reset_threshold(self):
         self.connection_strength = 0
