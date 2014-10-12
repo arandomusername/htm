@@ -9,10 +9,12 @@ class InputRegion(region.Region):
         self.neuron_quantity = input_size
 
         for x in range(0, self.max_size):
-            self.add_column()
+            self.add_columns()
 
     def new_input(self, input_array):
         self.reset_activity()
+
         for x in range(len(input_array)):
             if input_array[x] == 1:
                 self.columns[x].neurons[0].activate()
+1
