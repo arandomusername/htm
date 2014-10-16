@@ -55,7 +55,7 @@ class Region(object):
 
     def connect_to_inputregion(self, input_region):
         for col in self.all_columns():
-            col.dendrite_segment.init_dendrites(input_region, 2)
+            col.dendrite_segment.init_dendrites(input_region, 8)
 
     def initialize_proximale_dendrites(self):
         for neuron in self.all_neurons():
