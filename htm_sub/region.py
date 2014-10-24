@@ -29,9 +29,11 @@ class Region(object):
         self.columns = [[column.Column((x, y)) for x in range(self.row_quantity)]for y in range(self.column_quantity)]
 
     def all_neurons(self):
+        list_of_neurons = []
         for col in self.all_columns():
             for neuron in col.neurons:
-                yield neuron
+                list_of_neurons.append(neuron)
+        return list_of_neurons
 
     def all_columns(self):
         columns = []
@@ -43,19 +45,20 @@ class Region(object):
     def get_column_by_position(self, pos):
         x_position = pos[0]
         y_position = pos[1]
-        col = self.columns[x_position][y_position]
-        return col
+
+        return self.columns[x_position][y_position]
 
     def reset_overlaps(self):
         for neuron in self.all_neurons():
             neuron.dendrite_segment.overlap = 0
 
     def reset_activity(self):
-        [col.reset_activity() for col in self.all_columns()]
+        for column in self.all_columns():
+           column.reset_activity()
 
     def connect_to_inputregion(self, input_region):
-        for col in self.all_columns():
-            col.dendrite_segment.init_dendrites(input_region, 2)
+        for column in self.all_columns():
+            column.dendrite_segment.init_dendrites(input_region, 2)
 
     def initialize_proximale_dendrites(self):
         for neuron in self.all_neurons():

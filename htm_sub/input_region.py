@@ -5,7 +5,7 @@ class InputRegion(region.Region):
         self.columns = []
         self.max_size = input_size
         self.row_quantity = 1
-        self.input_size = input_size
+        self.column_quantity = input_size
         self.neuron_quantity = input_size
 
         for x in range(0, self.max_size):
