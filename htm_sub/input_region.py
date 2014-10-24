@@ -2,6 +2,7 @@ from htm_sub import region
 
 class InputRegion(region.Region):
     def __init__(self, input_size):
+        region.Region.__init__(self, input_size, 1)
         self.columns = []
         self.max_size = input_size
         self.row_quantity = 1
