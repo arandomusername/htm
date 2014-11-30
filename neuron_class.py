@@ -2,10 +2,9 @@ __author__ = 'Martin'
 
 
 class Neuron(object):
-    def __init__(self, reference_neuron):
+    def __init__(self):
         self.activity  = NeuronState()
         self.prognosis = NeuronState()
-        self.connection = reference_neuron #remove later (only for testing)
 
     def turn_off(self):
         self.activity.turn_off()
@@ -19,6 +18,7 @@ class Neuron(object):
         state = (self.activity.get_state(), self.prognosis.get_state())
         return state
 
+
 class NeuronState(object):
     def __init__(self):
         self.state = False
@@ -31,5 +31,3 @@ class NeuronState(object):
 
     def turn_off(self):
         self.state = False
-
-class Connection
