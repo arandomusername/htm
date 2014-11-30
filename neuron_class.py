@@ -1,6 +1,3 @@
-__author__ = 'Martin'
-
-
 class Neuron(object):
     def __init__(self):
         self.activity  = NeuronState()

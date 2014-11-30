@@ -1,5 +1,3 @@
-__author__ = 'Martin'
-
 class Dendrites(object):
     def __init__(self):
         self.list = []
@@ -16,7 +14,7 @@ class SingleDendrite(object):
     def increase_strength(self):
         self.strength += SingleDendrite.strength_step
         self.__check_strength__()
-    
+
     def decrease_strength(self):
         self.strength -= SingleDendrite.strength_step
         self.__check_strength__()
