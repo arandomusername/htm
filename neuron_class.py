@@ -5,7 +5,7 @@ class Neuron(object):
         self.position  = pos
 
     def __repr__(self):
-        return "Neuronn: {0}, {1}".format(self.activity, self.prognosis)
+        return "{0}: {1}/{2}".format(self.__class__.__name__, self.activity, self.prognosis)
 
     def turn_off(self):
         self.activity.turn_off()
