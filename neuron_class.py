@@ -1,7 +1,11 @@
 class Neuron(object):
-    def __init__(self):
+    def __init__(self, pos=0):
         self.activity  = NeuronState()
         self.prognosis = NeuronState()
+        self.position  = pos
+
+    def __repr__(self):
+        return "Neuronn: {0}, {1}".format(self.activity, self.prognosis)
 
     def turn_off(self):
         self.activity.turn_off()
@@ -19,6 +23,9 @@ class Neuron(object):
 class NeuronState(object):
     def __init__(self):
         self.state = False
+
+    def __repr__(self):
+        return "{0}".format(self.get_state())
 
     def get_state(self):
         return self.state
