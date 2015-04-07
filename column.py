@@ -16,13 +16,13 @@ class column(object):
         self.neurons  = []
         self.boost    = 1
         self.__add_neurons()
-
-    def __repr__(self):
-        return '{0} at {1}'.format(self.activity, self.position)
+        self.neuron_activation = np.array([])
+        self.neuron_prognosis  = np.array([])
 
     def __add_neurons(self, region_size):
         for x in range(column.neuron_num):
-            self.neurons.append(9)
+            self.neurons.append([column.input_size, column.input_size,
+                                 column.neuron_num], column.synapse_cutoff)
 
     def get_activity(self):
         return self.activity
