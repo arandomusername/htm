@@ -1,13 +1,12 @@
 import numpy as np
 import random
-import util
 
 
 class dendrite_segment:
     cutoff = 0.5
+
     def __init__(self, input_shape):
         self.shape        = input_shape
-
         self.pot_synapses = np.empty(self.shape)
         self.per_synapses = np.empty(self.shape)
 
@@ -21,7 +20,7 @@ class dendrite_segment:
             self.synapse_perm[x] = random.random()
 
     def get_active_synapses(self):
-        actives = util.empty_array(self.shape)
+        actives = np.zeros(self.shape)
         actives[self.synapse_perm > dendrite_segment.cutoff] = 1
         actives[self.synapse_perm <= dendrite_segment.cutoff] = 0
         return actives

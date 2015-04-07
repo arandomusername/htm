@@ -1,4 +1,4 @@
-from dedrite_segment import dendrite_segment as dendrites
+from dendrite_segment import dendrite_segment as dendrites
 import numpy as np
 
 
@@ -14,17 +14,15 @@ class column(object):
         self.dendrites = dendrites([column.input_size, column.input_size],
                                    column.synapse_cutoff)
         self.neurons  = []
-        self.activity = False
-        self.position = pos                     # Position inside the Region
         self.boost    = 1
-
-        self.__add_neurons(reg_s)
+        self.__add_neurons()
 
     def __repr__(self):
         return '{0} at {1}'.format(self.activity, self.position)
 
     def __add_neurons(self, region_size):
-        pass
+        for x in range(column.neuron_num):
+            self.neurons.append(9)
 
     def get_activity(self):
         return self.activity
