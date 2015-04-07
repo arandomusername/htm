@@ -7,7 +7,7 @@ class neuron:
         self.active    = False
         self.dendrites = dendrites(input_shape, cutoff)
 
-    def get_active(self):
+    def get_activity(self):
         return self.active
 
     def get_prognosis(self):

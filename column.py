@@ -1,4 +1,6 @@
-from dedrite_segment import
+from dedrite_segment import dendrite_segment as dendrites
+import numpy as np
+
 
 class column(object):
 
@@ -39,4 +41,10 @@ class column(object):
             self.boost = 1
 
     def get_act_neuron_matrix(self):
-        pass
+        act_arr = np.zeros(column.neuron_num)
+        n = 0
+        for neuron in self.neurons:
+            act_arr[n] = neuron.get_activity()
+            n += 1
+
+        return act_arr
