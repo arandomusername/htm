@@ -28,5 +28,10 @@ class region(object):
     def get_activation(self):
         return self.active_columns
 
-    def update_active_neuron_matrix(self):
-        pass
+    def learn(self):
+        for x in range(self.size):
+            for y in range(self.size):
+                if self.active_columns[x,y] == 1:
+                    self.columns[x][y].dendrites.learn()
+                else
+                    self.columns[x][y].increase_boost()

@@ -4,6 +4,7 @@ import random
 
 class dendrite_segment:
     cutoff = 0.5
+    learning_rate = 0.1  # currently everything is linear
 
     def __init__(self, input_shape):
         self.shape        = input_shape
@@ -12,7 +13,7 @@ class dendrite_segment:
 
     def connect_to_input(self, input_positions):
         for xy in input_positions:
-            self.pot_synapses[xy[0], xy[1]] = 1
+            self.pot_synapses[xy] = 1
 
     def random_permanence(self):
         arr = np.transpose(np.nonzero(self.pot_synapses))
@@ -28,3 +29,9 @@ class dendrite_segment:
     def get_activity_score(self, active_input):
         actives = self.get_active_synapses()
         return np.count_nonzero(np.multiply(actives, active_input))
+
+    def learn(self, active_input):
+        overlap_pot = np.multiply(self.pot_synapses, active_input)
+        perm_inc    = overlap_pot * self.learning_rate * 2
+        self.per_synapses = self.per_synapses - self.learning_rate
+        self.per_synapses = self.per_synapses + perm_inc

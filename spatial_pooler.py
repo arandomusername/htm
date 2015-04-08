@@ -27,13 +27,12 @@ class temporal_pooler:
                 y_max = y + inhibition_y
                 sub_ar = activation[x:x_max, y:y_max]
                 coor_max = np.unravel_index(sub_ar.argmax(), sub_ar.shape)
-
-                coor_max[0] += x
-                coor_max[1] += y
-
-                max_list.append(coor_max)
+                if coor_max != 0:
+                    coor_max[0] += x
+                    coor_max[1] += y
+                    max_list.append(coor_max)
 
         return max_list
 
     def learn(self):
-        pass
+        self.region.learn()
