@@ -1,18 +1,19 @@
 import numpy as np
 
 
-class temporal_pooler:
+class spatial_pooler:
     activ_percent = .3
 
-    def __init__(self, reg):
-        self.region = reg
+    def __init__(self):
+        self.region = 0
 
     def __set_region(self, region):
         self.region = region
 
-    def run(self, region):
+    def run(self, region, active_input):
         self.__set_region(region)
-        region.update_activation(self.select_activated())
+        region.update_activation(self.select_activated(active_input))
+        self.learn(active_input)
 
     def select_activated(self):
         activation = self.region.get_activation_matrix()
@@ -34,5 +35,5 @@ class temporal_pooler:
 
         return max_list
 
-    def learn(self):
-        self.region.learn()
+    def learn(self, active_input):
+        self.region.learn(active_input)
