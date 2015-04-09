@@ -15,10 +15,11 @@ class dendrite_segment:
         for xy in input_positions:
             self.pot_synapses[xy] = 1
 
+    def set_potential_synapses(self, matrix):
+        self.pot_synapses = matrix
+
     def random_permanence(self):
-        arr = np.transpose(np.nonzero(self.pot_synapses))
-        for x in arr:
-            self.synapse_perm[x] = random.random()
+        pass
 
     def get_active_synapses(self):
         actives = np.zeros(self.shape)

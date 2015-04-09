@@ -45,5 +45,5 @@ class region(object):
     def connect_to_input(self, input_shape):
         for column in self.gen_columns():
             connections = np.random.randint(2, size=input_shape)
-            column.dendrites.connect_to_input(connections)
+            column.dendrites.set_potential_synapses(connections)
             column.dendrites.random_permanence()
