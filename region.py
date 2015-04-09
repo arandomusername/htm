@@ -3,15 +3,21 @@ import numpy as np
 
 
 class region(object):
-    def __init__(self, size):
+    def __init__(self, size, input_shape):
         self.size = size
         self.columns = [[]]
         self.active_columns = np.zeros((self.size, self.size))
         self.__add_columns()
+        self.connect_to_input(input_shape)
 
     def __add_columns(self):
         self.columns = [[column([x, y]) for x in range(self.size)]
                                         for y in range(self.size)]
+
+    def gen_columns(self):
+        for col in self.columns:
+            for row in col:
+                yield row
 
     def get_activation_scores(self, active_input):
         act_arr = np.zeros(shape=(self.size, self.size))
@@ -35,3 +41,9 @@ class region(object):
                     self.columns[x][y].dendrites.learn(active_input)
                 else:
                     self.columns[x][y].increase_boost()
+
+    def connect_to_input(self, input_shape):
+        for column in self.gen_columns():
+            connections = np.random.randint(2, size=input_shape)
+            column.dendrites.connect_to_input(connections)
+            column.dendrites.random_permanence()

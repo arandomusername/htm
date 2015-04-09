@@ -4,7 +4,7 @@ import numpy as np
 
 class column(object):
 
-    input_size = 0
+    input_size = 3
     neuron_num = 5                                    # Number of Neurons
     synapse_cutoff = 0.5                              # Pot Synapses Threshold
     boost_step     = 0.1
