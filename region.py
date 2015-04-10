@@ -31,6 +31,7 @@ class region(object):
         self.active_columns.fill(0)
         for coor in active_list:
             self.active_columns[coor[0], coor[1]] = 1
+        print(self.active_columns)
 
     def get_activation(self):
         return self.active_columns
