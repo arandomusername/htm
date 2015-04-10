@@ -1,5 +1,4 @@
 import numpy as np
-import random
 
 
 class dendrite_segment:
@@ -19,7 +18,8 @@ class dendrite_segment:
         self.pot_synapses = matrix
 
     def random_permanence(self):
-        pass
+        rand_arr = np.random.rand(self.shape)
+        self.per_synapses = np.multiply(rand_arr, self.pot_synapses)
 
     def get_active_synapses(self):
         actives = np.zeros(self.shape)
