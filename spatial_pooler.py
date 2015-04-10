@@ -1,8 +1,10 @@
 import numpy as np
+import math
 
 
 class spatial_pooler:
     activ_percent = .5
+    inhibition_rad = 3
 
     def __init__(self):
         self.region = 0
@@ -39,3 +41,21 @@ class spatial_pooler:
 
     def learn(self, active_input):
         self.region.learn(active_input)
+
+
+def gauss(x):
+    if x == 0:
+        return 0
+    else:
+        d = np.exp(-np.power(x, 2.) / 2 * np.power(.5, 2.))
+        return math.ceil(d * 100) / 100.
+
+
+def gauss_matrix(size):
+    m = np.zeros((size, size))
+    for x in range(size):
+        for y in range(size):
+            distance = math.sqrt((x - (size - 1) / 2) ** 2 +
+                                 (y - (size - 1) / 2) ** 2)
+            m[x, y]  = gauss(distance)
+    return m
