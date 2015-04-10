@@ -12,8 +12,9 @@ class region(object):
         self.connect_to_input(input_shape)
 
     def __add_columns(self):
-        self.columns = [[column(self.input_shape) for x in range(self.size)]
-                                        for y in range(self.size)]
+        self.columns = [[column(self.input_shape, self.size)
+                         for x in range(self.size)]
+                         for y in range(self.size)]
 
     def gen_columns(self):
         for col in self.columns:

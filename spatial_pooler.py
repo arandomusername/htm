@@ -34,5 +34,8 @@ class spatial_pooler:
 
         return max_list
 
+    def select_activated_v2(self, active_input):
+        pass
+
     def learn(self, active_input):
         self.region.learn(active_input)

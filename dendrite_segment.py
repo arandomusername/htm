@@ -2,7 +2,7 @@ import numpy as np
 
 
 class dendrite_segment:
-    cutoff = 0.5
+    cutoff = 0.4
     learning_rate = 0.1  # currently everything is linear
 
     def __init__(self, input_shape):
