@@ -15,8 +15,8 @@ class spatial_pooler:
         region.update_activation(self.select_activated(active_input))
         self.learn(active_input)
 
-    def select_activated(self):
-        activation = self.region.get_activation_matrix()
+    def select_activated(self, active_input):
+        activation = self.region.get_activation_scores(active_input)
         inhibition_x = int(activation.shape()[0] * self.activ_percent)
         inhibition_y = int(activation.shape()[1] * self.activ_percent)
         max_list     = []

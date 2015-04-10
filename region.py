@@ -4,6 +4,7 @@ import numpy as np
 
 class region(object):
     def __init__(self, size, input_shape):
+        self.input_shape = input_shape
         self.size = size
         self.columns = [[]]
         self.active_columns = np.zeros((self.size, self.size))
@@ -11,7 +12,7 @@ class region(object):
         self.connect_to_input(input_shape)
 
     def __add_columns(self):
-        self.columns = [[column([x, y]) for x in range(self.size)]
+        self.columns = [[column(self.input_shape) for x in range(self.size)]
                                         for y in range(self.size)]
 
     def gen_columns(self):
@@ -43,7 +44,7 @@ class region(object):
                     self.columns[x][y].increase_boost()
 
     def connect_to_input(self, input_shape):
-        for column in self.gen_columns():
+        for col in self.gen_columns():
             connections = np.random.randint(2, size=input_shape)
-            column.dendrites.set_potential_synapses(connections)
-            column.dendrites.random_permanence()
+            col.dendrites.set_potential_synapses(connections)
+            col.dendrites.random_permanence()

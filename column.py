@@ -4,14 +4,13 @@ import numpy as np
 
 class column(object):
 
-    input_size = 3
     neuron_num = 5                                    # Number of Neurons
     synapse_cutoff = 0.5                              # Pot Synapses Threshold
     boost_step     = 0.1
 
-    def __init__(self, reg_s):
+    def __init__(self, input_shape):
         # Position of Synapses and their resp. Weight
-        self.dendrites = dendrites([column.input_size, column.input_size])
+        self.dendrites = dendrites(input_shape)
         self.neurons  = []
         self.boost    = 1
         self.__add_neurons()
@@ -20,8 +19,7 @@ class column(object):
 
     def __add_neurons(self):
         for x in range(column.neuron_num):
-            self.neurons.append([column.input_size, column.input_size,
-                                 column.neuron_num])
+            self.neurons.append(self.dendrites.shape + (column.neuron_num,))
 
     def get_activity(self):
         return self.activity

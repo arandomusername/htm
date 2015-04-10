@@ -18,13 +18,13 @@ class dendrite_segment:
         self.pot_synapses = matrix
 
     def random_permanence(self):
-        rand_arr = np.random.rand(self.shape)
+        rand_arr = np.random.random(self.shape)
         self.per_synapses = np.multiply(rand_arr, self.pot_synapses)
 
     def get_active_synapses(self):
         actives = np.zeros(self.shape)
-        actives[self.synapse_perm > dendrite_segment.cutoff] = 1
-        actives[self.synapse_perm <= dendrite_segment.cutoff] = 0
+        actives[self.per_synapses > dendrite_segment.cutoff] = 1
+        actives[self.per_synapses <= dendrite_segment.cutoff] = 0
         return actives
 
     def get_activity_score(self, active_input):
