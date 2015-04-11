@@ -47,26 +47,32 @@ class spatial_pooler:
             temp = it[0] * gauss_m
             max_distance = (spatial_pooler.inhibition_rad - 1) / 2
 
-            if it.multi_index[0] < max_distance:
+            x1 = it.multi_index[0] - max_distance
+            y1 = it.multi_index[0] - max_distance
+            x2 = it.multi_index[1] + max_distance
+            y2 = it.multi_index[1] + max_distance
+
+            temp_x1 = 0
+            temp_y1 = 0
+            temp_x2 = spatial_pooler.inhibition_rad - 1
+            temp_y2 = spatial_pooler.inhibition_rad - 1
+
+            if x1 < 0:
+                temp_x1 = -x1
                 x1 = 0
-            else:
-                x1 = it.multi_index[0] - max_distance
-            if it.multi_index[1] < max_distance:
+
+            if y1 < 0:
+                temp_y1 = -y1
                 y1 = 0
-            else:
-                y1 = it.multi_index[1] - max_distance
 
-            if it.multi_index[0] > activation.shape[0] - max_distance:
-                x2 = activation.shape[0]
-            else:
-                x2 = it.multi_index[0] + max_distance
+            if x2 < activation.shape[1]:
+                temp_x2 = activation.shape[1] - x2
+                x2 = activation.shape[1]
 
-            if it.multi_index[1] > activation.shape[1] - max_distance:
-                y2 = activation.shape[1]
-            else:
-                y2 = it.multi_index[1] + max_distance
+            if y2 < activation.shape[1]:
+                y2 = activation.shape[1] - y2
 
-            inhibition[x1:x2, y1:y2] += temp
+            inhibition[x1:x2, y1:y2] += temp[temp_x1: temp_x2, temp_y1: temp_y2]
             it.iternext()
         return activation - inhibition
 
