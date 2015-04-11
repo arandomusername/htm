@@ -14,6 +14,7 @@ class spatial_pooler:
 
     def run(self, region, active_input):
         self.__set_region(region)
+        print(self.select_activated_v2(active_input))
         region.update_activation(self.select_activated(active_input))
         self.learn(active_input)
 
@@ -37,7 +38,37 @@ class spatial_pooler:
         return max_list
 
     def select_activated_v2(self, active_input):
-        pass
+        activation = self.region.get_activation_scores(active_input)
+        gauss_m    = gauss_matrix(spatial_pooler.inhibition_rad)
+        it         = np.nditer(activation, flags=['multi_index'])
+        inhibition = np.zeros(activation.shape)
+
+        while not it.finished:
+            temp = it[0] * gauss_m
+            max_distance = (spatial_pooler.inhibition_rad - 1) / 2
+
+            if it.multi_index[0] < max_distance:
+                x1 = 0
+            else:
+                x1 = it.multi_index[0] - max_distance
+            if it.multi_index[1] < max_distance:
+                y1 = 0
+            else:
+                y1 = it.multi_index[1] - max_distance
+
+            if it.multi_index[0] > activation.shape[0] - max_distance:
+                x2 = activation.shape[0]
+            else:
+                x2 = it.multi_index[0] + max_distance
+
+            if it.multi_index[1] > activation.shape[1] - max_distance:
+                y2 = activation.shape[1]
+            else:
+                y2 = it.multi_index[1] + max_distance
+
+            inhibition[x1:x2, y1:y2] += temp
+            it.iternext()
+        return activation - inhibition
 
     def learn(self, active_input):
         self.region.learn(active_input)
