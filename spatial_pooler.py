@@ -14,6 +14,7 @@ class spatial_pooler:
 
     def run(self, region, active_input):
         self.__set_region(region)
+        self.select_activated_v2(active_input)
         print(self.select_activated_v2(active_input))
         region.update_activation(self.select_activated(active_input))
         self.learn(active_input)
@@ -48,14 +49,14 @@ class spatial_pooler:
             max_distance = (spatial_pooler.inhibition_rad - 1) / 2
 
             x1 = it.multi_index[0] - max_distance
-            y1 = it.multi_index[0] - max_distance
-            x2 = it.multi_index[1] + max_distance
-            y2 = it.multi_index[1] + max_distance
+            y1 = it.multi_index[1] - max_distance
+            x2 = it.multi_index[0] + max_distance + 1
+            y2 = it.multi_index[1] + max_distance + 1
 
             temp_x1 = 0
             temp_y1 = 0
-            temp_x2 = spatial_pooler.inhibition_rad - 1
-            temp_y2 = spatial_pooler.inhibition_rad - 1
+            temp_x2 = spatial_pooler.inhibition_rad
+            temp_y2 = spatial_pooler.inhibition_rad
 
             if x1 < 0:
                 temp_x1 = -x1
@@ -65,16 +66,19 @@ class spatial_pooler:
                 temp_y1 = -y1
                 y1 = 0
 
-            if x2 < activation.shape[1]:
-                temp_x2 = activation.shape[1] - x2
-                x2 = activation.shape[1]
+            if x2 > activation.shape[0]:
+                temp_x2 = activation.shape[0] - x2
+                x2      = activation.shape[0]
 
-            if y2 < activation.shape[1]:
-                y2 = activation.shape[1] - y2
+            if y2 > activation.shape[1]:
+                temp_y2 = activation.shape[1] - y2
+                y2      = activation.shape[1]
 
             inhibition[x1:x2, y1:y2] += temp[temp_x1: temp_x2, temp_y1: temp_y2]
             it.iternext()
-        return activation - inhibition
+
+        inhibited = activation - inhibition
+        return inhibited
 
     def learn(self, active_input):
         self.region.learn(active_input)
@@ -84,8 +88,8 @@ def gauss(x):
     if x == 0:
         return 0
     else:
-        d = np.exp(-np.power(x, 2.) / 2 * np.power(.5, 2.))
-        return math.ceil(d * 100) / 100.
+        d = np.exp(-np.power(x, 2.) / 2 * np.power(1 + 1./x, 2.))
+        return d
 
 
 def gauss_matrix(size):
