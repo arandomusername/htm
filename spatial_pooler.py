@@ -14,9 +14,7 @@ class spatial_pooler:
 
     def run(self, region, active_input):
         self.__set_region(region)
-        self.select_activated_v2(active_input)
-        print(self.select_activated_v2(active_input))
-        region.update_activation(self.select_activated(active_input))
+        region.update_activation(self.select_activated_v2(active_input))
         self.learn(active_input)
 
     def select_activated(self, active_input):
@@ -78,7 +76,12 @@ class spatial_pooler:
             it.iternext()
 
         inhibited = activation - inhibition
-        return inhibited
+        return self.get_biggest_indices(inhibited, 7)
+
+    def get_biggest_indices(self, arr, n):
+        indices = (-arr).argpartition(n, axis=None)[:n]
+        indices = np.vstack(np.unravel_index(indices, arr.shape)).transpose()
+        return indices
 
     def learn(self, active_input):
         self.region.learn(active_input)

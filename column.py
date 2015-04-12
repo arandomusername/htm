@@ -32,6 +32,9 @@ class column(object):
         if(self.boost < 1):
             self.boost = 1
 
+    def reset_boost(self):
+        self.boost = 1
+
     def get_act_neuron_matrix(self):
         # This is incomplete. The activity equals the regions activity.
         # get_activity needs and input.

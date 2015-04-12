@@ -7,7 +7,7 @@ if __name__ == "__main__":
     reg_size   = 5
     reg = region(reg_size, input_shape)
     sp  = spatial_pooler()
-    for x in range(50):
+    for x in range(100):
         active_input = np.random.randint(2, size=input_shape)
         print(active_input)
         sp.run(reg, active_input)

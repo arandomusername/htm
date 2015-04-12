@@ -42,6 +42,7 @@ class region(object):
             for y in range(self.size):
                 if self.active_columns[x, y] == 1:
                     self.columns[x][y].dendrites.learn(active_input)
+                    self.columns[x][y].reset_boost()
                 else:
                     self.columns[x][y].increase_boost()
 
