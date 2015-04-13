@@ -3,7 +3,7 @@ import math
 
 
 class spatial_pooler:
-    activ_percent = .25
+    activ_percent = .2
     inhibition_rad = 3
 
     def __init__(self):

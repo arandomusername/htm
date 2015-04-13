@@ -1,32 +1,49 @@
 import numpy as np
 
 
-class util:
+class idontknowhowtocallyou:
     def __init__(self):
-        self.pair = []
+        self.pairs = []
 
-    def add_pair(self, input_shape, output_shape):
+    def add_pair(self, input_pattern, output_pattern):
+        pair = self.find_pair(input_pattern.shape, output_pattern.shape)
+
+        if pair != False:
+            pair.add_pattern(input_pattern, output_pattern)
+        else:
+            ppat_g = pattern_group(input_pattern.shape, output_pattern.shape)
+            pat_g.add_pattern(input_pattern, output_pattern)
+            self.pairs.append(pat_g)
+
+    def find(self, input_pattern, output_shape):
         pass
 
+    def find_pair(self, in_shape, out_shape):
+        pair = False
+        for p in self.pairs:
+            if p.compare_shape(input_pattern.shape, output_pattern.shape):
+                p = pair
+        return pair
 
-class p_list:
+
+class pattern_group:
     def __init__(self, input_shape, output_shape):
         self.input_shape  = input_shape
         self.output_shape = output_shape
-        self.shapes       = []
+        self.pattern       = []
 
     def add_pattern(self, in, out):
         test = True
 
-        for shape in self.shapes:
-            if shape.in == in:
-                shape.add(out)
+        for pat in self.pattern:
+            if pat.inp == in:
+                pat.add(out)
                 test = False
                 break
 
         if test:
             pat = pattern(in, out)
-            self.append(pat)
+            self.pattern.append(pat)
 
     def compare_shape(self, in_s, out_s):
         return in_s == self.input_shape and out_s = self.output_shape
@@ -35,9 +52,16 @@ class p_list:
 class pattern:
     def __init__(self, inp, out):
        self.count = 0
-       self.in    = inp
+       self.inp   = inp
        self.out   = out
 
     def add(self, output):
        self.out   += output
        self.count += 1
+
+   def add(self, output):
+       self.out   -= output
+       self.count -= 1
+
+    def probability(self):
+        return self.out * 100 / self.count
