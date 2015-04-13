@@ -16,7 +16,15 @@ class idontknowhowtocallyou:
             self.pairs.append(pat_g)
 
     def find(self, input_pattern, output_shape):
-        pass
+        pair = self.find_pair(input_pattern.shape, output_shape.pattern)
+        if pair != False:
+            pattern = pair.find(input_pattern)
+            if pattern != False:
+                return pattern
+            else:
+                return False
+        else:
+            return False
 
     def find_pair(self, in_shape, out_shape):
         pair = False
@@ -34,19 +42,23 @@ class pattern_group:
 
     def add_pattern(self, in, out):
         test = True
-
-        for pat in self.pattern:
-            if pat.inp == in:
-                pat.add(out)
-                test = False
-                break
-
-        if test:
+        p = self.find(in)
+        if p != False:
+            p.add(out)
+        else:
             pat = pattern(in, out)
             self.pattern.append(pat)
 
     def compare_shape(self, in_s, out_s):
         return in_s == self.input_shape and out_s = self.output_shape
+
+    def find(self, in):
+        p = False
+        for pat in self.pattern:
+            if pat.inp == in:
+                p = pat
+                break
+        return p
 
 
 class pattern:
