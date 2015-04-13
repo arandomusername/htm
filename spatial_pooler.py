@@ -57,12 +57,12 @@ class spatial_pooler:
             temp_y2 = spatial_pooler.inhibition_rad
 
             if x1 < 0:
-                x1      = 0
                 temp_x1 = -x1
+                x1      = 0
 
             if y1 < 0:
-                y1      = 0
                 temp_y1 = -y1
+                y1      = 0
 
             if x2 > activation.shape[0]:
                 temp_x2 = activation.shape[0] - x2
