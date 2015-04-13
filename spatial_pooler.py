@@ -3,7 +3,7 @@ import math
 
 
 class spatial_pooler:
-    activ_percent = .5
+    activ_percent = .25
     inhibition_rad = 3
 
     def __init__(self):
@@ -42,6 +42,11 @@ class spatial_pooler:
         it         = np.nditer(activation, flags=['multi_index'])
         inhibition = np.zeros(activation.shape)
 
+        activ_field = np.count_nonzero(active_input) * 1.0 / active_input.size
+        number_activated = math.floor(activation.size * (self.activ_percent *
+                                                         (activ_field + 1)))
+        print(number_activated)
+
         while not it.finished:
             temp = it[0] * gauss_m
             max_distance = (spatial_pooler.inhibition_rad - 1) / 2
@@ -76,7 +81,7 @@ class spatial_pooler:
             it.iternext()
 
         inhibited = activation - inhibition
-        return self.get_biggest_indices(inhibited, 7)
+        return self.get_biggest_indices(inhibited, number_activated)
 
     def get_biggest_indices(self, arr, n):
         indices = (-arr).argpartition(n, axis=None)[:n]

@@ -3,8 +3,8 @@ from region import region
 import numpy as np
 
 if __name__ == "__main__":
-    input_shape = (2, 2)
-    reg_size   = 5
+    input_shape = (3, 3)
+    reg_size   = 6
     reg = region(reg_size, input_shape)
     sp  = spatial_pooler()
     for x in range(100):

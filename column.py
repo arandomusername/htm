@@ -6,7 +6,7 @@ class column(object):
 
     neuron_num = 5                                    # Number of Neurons
     synapse_cutoff = 0.5                              # Pot Synapses Threshold
-    boost_step     = 0.1
+    boost_step     = 0.01
 
     def __init__(self, input_shape, region_size):
         self.dendrites = dendrites(input_shape)

@@ -17,11 +17,13 @@ class p_list:
 
     def add_pattern(self, in, out):
         test = True
+
         for shape in self.shapes:
             if shape.in == in:
                 shape.add(out)
                 test = False
                 break
+
         if test:
             pat = pattern(in, out)
             self.append(pat)
