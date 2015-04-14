@@ -45,8 +45,6 @@ class spatial_pooler:
         activ_field = np.count_nonzero(active_input) * 1.0 / active_input.size
         number_activated = math.floor(activation.size * (self.activ_percent *
                                                          (activ_field + 1)))
-        print(number_activated)
-
         while not it.finished:
             temp = it[0] * gauss_m
             max_distance = (spatial_pooler.inhibition_rad - 1) / 2
