@@ -21,7 +21,7 @@ class column(object):
             self.neurons.append((region_size, region_size, column.neuron_num))
 
     def get_activity_score(self, active_input):
-        return (self.dendrites.get_activity_score(active_input) * self.boost +
+        return (self.dendrites.get_activity_score(active_input) +
                 self.boost)
 
     def increase_boost(self):
