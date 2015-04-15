@@ -1,36 +1,3 @@
-class idontknowhowtocallyou:
-    def __init__(self):
-        self.pairs = []
-
-    def add_pair(self, input_pattern, output_pattern):
-        pair = self.find_pair(input_pattern.shape, output_pattern.shape)
-
-        if pair is not False:
-            pair.add_pattern(input_pattern, output_pattern)
-        else:
-            pat_g = pattern_group(input_pattern.shape, output_pattern.shape)
-            pat_g.add_pattern(input_pattern, output_pattern)
-            self.pairs.append(pat_g)
-
-    def find(self, input_pattern, output_shape):
-        pair = self.find_pair(input_pattern.shape, output_shape.pattern)
-        if pair is not False:
-            pattern = pair.find(input_pattern)
-            if pattern is not False:
-                return pattern
-            else:
-                return False
-        else:
-            return False
-
-    def find_pair(self, in_shape, out_shape):
-        pair = False
-        for p in self.pairs:
-            if p.compare_shape(in_shape, out_shape):
-                p = pair
-        return pair
-
-
 class pattern_group:
     def __init__(self, input_shape, output_shape):
         self.input_shape  = input_shape
