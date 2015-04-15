@@ -4,7 +4,7 @@ class pattern_group:
         self.output_shape = output_shape
         self.pattern      = []
 
-    def add_new_pattern(self, inpt, out):
+    def add_pattern(self, inpt, out):
         p = self.find(inpt)
         if p is not False:
             p.add(out)

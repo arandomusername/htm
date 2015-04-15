@@ -1,4 +1,5 @@
 from column import column
+from util import pattern_group
 import numpy as np
 
 
@@ -10,6 +11,7 @@ class region(object):
         self.active_columns = np.zeros((self.size, self.size))
         self.__add_columns()
         self.connect_to_input(input_shape)
+        self.pattern = pattern_group(input_shape, (self.size, self.size))
 
     def __add_columns(self):
         self.columns = [[column(self.input_shape, self.size)
@@ -50,3 +52,6 @@ class region(object):
             connections = np.random.randint(2, size=input_shape)
             col.dendrites.set_potential_synapses(connections)
             col.dendrites.random_permanence()
+
+    def add_pattern(self, input_pattern):
+        self.pattern.add_pattern(input_pattern, self.active_columns)
