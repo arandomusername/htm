@@ -21,7 +21,7 @@ class pattern_group:
     def find(self, inpt):
         p = False
         for pat in self.pattern:
-            if pat.inp == inpt:
+            if (pat.inp == inpt).all():
                 p = pat
                 break
         return p
@@ -34,6 +34,12 @@ class pattern_group:
         else:
             print("couldn't find that pattern")
 
+    def prt(self, inpt):
+        pat = self.find(inpt)
+        if pat is not False:
+            plt.imshow(pat.out)
+        else:
+            print(0)
 
 class pattern:
     def __init__(self, inp, out):

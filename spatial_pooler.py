@@ -3,7 +3,7 @@ import math
 
 
 class spatial_pooler:
-    activ_percent = .013
+    activ_percent = .2
     inhibition_rad = 3
 
     def __init__(self):
@@ -17,7 +17,6 @@ class spatial_pooler:
         region.update_activation(self.select_activated_v2(active_input))
         self.learn(active_input)
         self.region.pattern.add_pattern(active_input, region.active_columns)
-        self.region.pattern.show(active_input)
 
     def select_activated(self, active_input):
         activation = self.region.get_activation_scores(active_input)
