@@ -13,6 +13,6 @@ if __name__ == "__main__":
         active_input = np.random.randint(2, size=input_shape)
         print(active_input)
         sp.run(reg1, active_input)
-        plt.imshow(reg1.active_columns)
+        plt.imshow(reg1.active_columns, interpolation="nearest")
         print(np.count_nonzero(reg1.active_columns))
-    plt.show()
+        plt.show()

@@ -1,3 +1,6 @@
+import matplotlib.pyplot as plt
+
+
 class pattern_group:
     def __init__(self, input_shape, output_shape):
         self.input_shape  = input_shape
@@ -22,6 +25,14 @@ class pattern_group:
                 p = pat
                 break
         return p
+
+    def show(self, inpt):
+        pat = self.find(inpt)
+        if pat is not False:
+            plt.imshow(pat.out,  interpolation="nearest")
+            plt.show()
+        else:
+            print("couldn't find that pattern")
 
 
 class pattern:

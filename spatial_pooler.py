@@ -16,6 +16,8 @@ class spatial_pooler:
         self.__set_region(region)
         region.update_activation(self.select_activated_v2(active_input))
         self.learn(active_input)
+        self.region.pattern.add_pattern(active_input, region.active_columns)
+        self.region.pattern.show(active_input)
 
     def select_activated(self, active_input):
         activation = self.region.get_activation_scores(active_input)
