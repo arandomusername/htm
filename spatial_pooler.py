@@ -14,7 +14,8 @@ class spatial_pooler:
 
     def run(self, region, active_input):
         self.__set_region(region)
-        region.update_column_activation(self.select_activated_v2(active_input))
+        inhibited = self.select_activated_gauss(active_input)
+        region.update_column_activation(inhibited)
         self.learn(active_input)
         self.region.pattern.add_pattern(active_input, region.active_columns)
 
@@ -37,7 +38,7 @@ class spatial_pooler:
 
         return max_list
 
-    def select_activated_v2(self, active_input):
+    def select_activated_gauss(self, active_input):
         activation = self.region.get_activation_scores(active_input)
         gauss_m    = gauss_matrix(spatial_pooler.inhibition_rad)
         it         = np.nditer(activation, flags=['multi_index'])
@@ -82,6 +83,13 @@ class spatial_pooler:
         inhibited = activation - inhibition
         return self.get_biggest_indices(inhibited, number_activated)
 
+    def select_activated_gauss_v2(self, active_input):
+        dim = len(active_input.shape)
+        activation = self.region.get_activation_scores(active_input)
+        gauss_m    = gauss_matrix(spatial_pooler.inhibition_rad, dim)
+        it         = np.nditer(activation, flags=['multi_index'])
+        inhibition = np.zeros(activation.shape)
+
     def get_biggest_indices(self, arr, n):
         indices = (-arr).argpartition(n, axis=None)[:n]
         indices = np.vstack(np.unravel_index(indices, arr.shape)).transpose()
@@ -99,7 +107,7 @@ def gauss(x):
         return d
 
 
-def gauss_matrix(size):
+def gauss_matrix(size, dim):
     m = np.zeros((size, size))
     for x in range(size):
         for y in range(size):
@@ -107,3 +115,7 @@ def gauss_matrix(size):
                                  (y - (size - 1) / 2) ** 2)
             m[x, y]  = gauss(distance)
     return m
+
+
+def gauss_matrix_v2(size, dim):
+    pass
