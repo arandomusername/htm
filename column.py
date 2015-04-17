@@ -10,8 +10,9 @@ class column(object):
 
     def __init__(self, input_shape, region_size):
         self.dendrites = dendrites(input_shape)
-        self.neurons  = []
-        self.boost    = 1
+        self.neurons   = []
+        self.boost     = 1
+
         self.__add_neurons(region_size)
         self.neuron_activation = np.zeros(column.neuron_num)
         self.neuron_prognosis  = np.zeros(column.neuron_num)
@@ -35,9 +36,9 @@ class column(object):
     def reset_boost(self):
         self.boost = 1
 
-    def get_act_neuron_matrix(self):
+    def get_act_neuron_matrix(self, region_score):
         # This is incomplete. The activity equals the regions activity.
         # get_activity needs and input.
         act_arr = np.zeros(column.neuron_num)
         for n in range(column.neuron_num):
-            act_arr[n] = self.neurons[n].get_activity()
+            act_arr[n] = self.neurons[n].get_activity_score(region_score)

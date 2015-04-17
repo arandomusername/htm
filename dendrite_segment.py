@@ -7,12 +7,15 @@ class dendrite_segment:
 
     def __init__(self, input_shape):
         self.shape        = input_shape
-        self.pot_synapses = np.empty(self.shape)
-        self.per_synapses = np.empty(self.shape)
+        self.pot_synapses = np.zeros(self.shape)
+        self.per_synapses = np.zeros(self.shape)
 
     def connect_to_input(self, input_positions):
-        for xy in input_positions:
-            self.pot_synapses[xy] = 1
+        for pos in input_positions:
+            self.pot_synapses[pos] = 1
+
+    def connect_to_all(self):
+        self.pot_synapses.fill(1)
 
     def set_potential_synapses(self, matrix):
         self.pot_synapses = matrix

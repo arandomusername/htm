@@ -5,13 +5,15 @@ import numpy as np
 
 class region(object):
     def __init__(self, size, input_shape):
-        self.input_shape = input_shape
-        self.size = size
-        self.columns = [[]]
+        self.input_shape    = input_shape
+        self.size           = size
+        self.columns        = [[]]
+        self.pattern        = pattern_group(input_shape, (self.size, self.size))
         self.active_columns = np.zeros((self.size, self.size))
+        self.active_neurons = np.zeros((self.size, self.size, column.neuron_num))
+
         self.__add_columns()
         self.connect_to_input(input_shape)
-        self.pattern = pattern_group(input_shape, (self.size, self.size))
 
     def __add_columns(self):
         self.columns = [[column(self.input_shape, self.size)
@@ -30,12 +32,12 @@ class region(object):
                 act_arr[x, y] = self.columns[x][y].get_activity_score(active_input)
         return act_arr
 
-    def update_activation(self, active_list):
+    def update_column_activation(self, active_list):
         self.active_columns.fill(0)
         for coor in active_list:
             self.active_columns[coor[0], coor[1]] = 1
 
-    def get_activation(self):
+    def get_column_activation(self):
         return self.active_columns
 
     def learn(self, active_input):
