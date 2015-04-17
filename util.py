@@ -19,17 +19,18 @@ class pattern_group:
         return (in_s == self.input_shape and out_s == self.output_shape)
 
     def find(self, inpt):
-        p = False
         for pat in self.pattern:
             if (pat.inp == inpt).all():
-                p = pat
+                return pat
                 break
-        return p
+        else:
+            return False
 
     def show(self, inpt):
         pat = self.find(inpt)
         if pat is not False:
-            plt.imshow(pat.out,  interpolation="nearest")
+            plt.imshow(pat.out, cmap='gray',  interpolation="nearest")
+            plt.colorbar()
             plt.show()
         else:
             print("couldn't find that pattern")
@@ -37,18 +38,19 @@ class pattern_group:
     def prt(self, inpt):
         pat = self.find(inpt)
         if pat is not False:
-            plt.imshow(pat.out)
+            print(pat)
         else:
             print(0)
 
+
 class pattern:
     def __init__(self, inp, out):
-        self.count = 0
+        self.count = 1
         self.inp   = inp
         self.out   = out
 
     def add(self, output):
-        self.out   += output
+        self.out   = self.out + output
         self.count += 1
 
     def sub(self, outpt):
