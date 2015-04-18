@@ -3,7 +3,7 @@ import math
 
 
 class spatial_pooler:
-    activ_percent = .2
+    active_percent = .2
     inhibition_rad = 3
 
     def __init__(self):
@@ -21,8 +21,8 @@ class spatial_pooler:
 
     def select_activated(self, active_input):
         activation = self.region.get_activation_scores(active_input)
-        inhibition_x = int(activation.shape[0] * self.activ_percent)
-        inhibition_y = int(activation.shape[1] * self.activ_percent)
+        inhibition_x = int(activation.shape[0] * self.active_percent)
+        inhibition_y = int(activation.shape[1] * self.active_percent)
         max_list     = []
 
         for x in range(activation.shape[0] - inhibition_x):
@@ -46,7 +46,7 @@ class spatial_pooler:
         inhibition = np.zeros(activation.shape)
 
         activ_field = np.count_nonzero(active_input) * 1.0 / active_input.size
-        number_activated = math.floor(activation.size * (self.activ_percent *
+        number_activated = math.floor(activation.size * (self.active_percent *
                                                          (activ_field + 1)))
         while not it.finished:
             temp = it[0] * gauss_m
@@ -85,11 +85,43 @@ class spatial_pooler:
         return self.get_biggest_indices(inhibited, number_activated)
 
     def select_activated_gauss_v2(self, active_input):
-        dim = len(active_input.shape)
+        # initialize necesarry aid matrizes
+        dim        = len(active_input.shape)
         activation = self.region.get_activation_scores(active_input)
         gauss_m    = gauss_matrix(spatial_pooler.inhibition_rad, dim)
         it         = np.nditer(activation, flags=['multi_index'])
         inhibition = np.zeros(activation.shape)
+
+        # calculate the number of activated neurons
+        active_field = np.count_nonzero(active_input) * 1.0 / active_input.size
+        active_num   = math.floor(activation_size * (self.active_percent *
+                                                     (active_field)))
+
+        # iterate over every position and calculate its inhibition with gauss
+        while not it.finished:
+            temp_pos_start = []
+            temp_pos_end   = []
+            pos_start = []
+            pos_end   = []
+
+            local_inhibition = it[0] * gauss_m
+            max_distance     = (spatial_pooler.inhibition_rad - 1) / 2
+
+            for n in range(dim):
+                temp_pos_start.append(0)
+                temp_pos_end.append(spatial_pooler.inhibition_rad)
+                pos_start.append(it.multi_index[n] - max_distance)
+                pos_end.append(it.multi_index[n] + max_distance + 1)
+
+                if pos_start[n] < 0:
+                    temp_pos_start[n] = -pos_start[n]
+                    pos_start[n]      = 0
+
+                if pos_end[n] > activation.shape[n]:
+                    temp_pos_end[n]   = activation.shape[n] - pos_end[n]
+                    pos_end[n]        = activation.shape[n]
+
+            it.iternext()
 
     def get_biggest_indices(self, arr, n):
         indices = (-arr).argpartition(n, axis=None)[:n]
