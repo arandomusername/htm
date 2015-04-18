@@ -40,7 +40,8 @@ class spatial_pooler:
 
     def select_activated_gauss(self, active_input):
         activation = self.region.get_activation_scores(active_input)
-        gauss_m    = gauss_matrix(spatial_pooler.inhibition_rad)
+        gauss_m    = gauss_matrix(spatial_pooler.inhibition_rad,
+                                  len(activation.shape))
         it         = np.nditer(activation, flags=['multi_index'])
         inhibition = np.zeros(activation.shape)
 
@@ -108,14 +109,17 @@ def gauss(x):
 
 
 def gauss_matrix(size, dim):
-    m = np.zeros((size, size))
-    for x in range(size):
-        for y in range(size):
-            distance = math.sqrt((x - (size - 1) / 2) ** 2 +
-                                 (y - (size - 1) / 2) ** 2)
-            m[x, y]  = gauss(distance)
+    shape   = ()
+    mid_pos = ()
+    for x in range(dim):
+        shape   = shape   + (size,)
+        mid_pos = mid_pos + ((size - 1) / 2.,)
+
+    m = np.zeros(shape)
+    for pos, value  in np.ndenumerate(m):
+        distance = 0
+        for x in range(dim):
+            distance += (pos[x] - mid_pos[x]) ** 2
+        distance = math.sqrt(distance)
+        m[pos]   = gauss(distance)
     return m
-
-
-def gauss_matrix_v2(size, dim):
-    pass
