@@ -15,6 +15,8 @@ class spatial_pooler:
     def run(self, region, active_input):
         self.__set_region(region)
         inhibited = self.select_activated_gauss(active_input)
+        print(inhibited)
+        print(self.select_activated_gauss_v2(active_input))
         region.update_column_activation(inhibited)
         self.learn(active_input)
         self.region.pattern.add_pattern(active_input, region.active_columns)
@@ -49,7 +51,7 @@ class spatial_pooler:
         number_activated = math.floor(activation.size * (self.active_percent *
                                                          (activ_field + 1)))
         while not it.finished:
-            temp = it[0] * gauss_m
+            inh = it[0] * gauss_m
             max_distance = (spatial_pooler.inhibition_rad - 1) / 2
 
             x1 = it.multi_index[0] - max_distance
@@ -78,7 +80,7 @@ class spatial_pooler:
                 temp_y2 = activation.shape[1] - y2
                 y2      = activation.shape[1]
 
-            inhibition[x1:x2, y1:y2] += temp[temp_x1: temp_x2, temp_y1: temp_y2]
+            inhibition[x1:x2, y1:y2] += inh[temp_x1: temp_x2, temp_y1: temp_y2]
             it.iternext()
 
         inhibited = activation - inhibition
@@ -94,34 +96,39 @@ class spatial_pooler:
 
         # calculate the number of activated neurons
         active_field = np.count_nonzero(active_input) * 1.0 / active_input.size
-        active_num   = math.floor(activation_size * (self.active_percent *
+        active_num   = math.floor(activation.size * (self.active_percent *
                                                      (active_field)))
 
         # iterate over every position and calculate its inhibition with gauss
         while not it.finished:
-            temp_pos_start = []
-            temp_pos_end   = []
-            pos_start = []
-            pos_end   = []
-
+            local_pos        = [[] for x in range(2)]
+            inh_pos          = [[] for x in range(2)]
             local_inhibition = it[0] * gauss_m
             max_distance     = (spatial_pooler.inhibition_rad - 1) / 2
 
             for n in range(dim):
-                temp_pos_start.append(0)
-                temp_pos_end.append(spatial_pooler.inhibition_rad)
-                pos_start.append(it.multi_index[n] - max_distance)
-                pos_end.append(it.multi_index[n] + max_distance + 1)
+                local_pos[0].append(0)
+                local_pos[1].append(spatial_pooler.inhibition_rad)
+                inh_pos[0].append(it.multi_index[n] - max_distance)
+                inh_pos[1].append(it.multi_index[n] + max_distance + 1)
 
-                if pos_start[n] < 0:
-                    temp_pos_start[n] = -pos_start[n]
-                    pos_start[n]      = 0
+                if inh_pos[0][n] < 0:
+                    local_pos[0][n] = -inh_pos[0][n]
+                    inh_pos[0][n]     = 0
 
-                if pos_end[n] > activation.shape[n]:
-                    temp_pos_end[n]   = activation.shape[n] - pos_end[n]
-                    pos_end[n]        = activation.shape[n]
+                if inh_pos[1][n] > activation.shape[n]:
+                    local_pos[1][n]   = activation.shape[n] - inh_pos[1][n]
+                    inh_pos[1][n]       = activation.shape[n]
 
+            self.add_inhibited(inhibition, local_inhibition, local_pos, inh_pos)
             it.iternext()
+
+        inhibited = activation - inhibition
+        return self.get_biggest_indices(inhibited, active_num)
+
+    def add_inhibited(self, inhibition, local_inhibition, local_pos, inh_pos):
+        for pospos, value in np.ndenumerate(inh_pos):
+            inhibition[value] += local_inhibition[local_pos[pospos]]
 
     def get_biggest_indices(self, arr, n):
         indices = (-arr).argpartition(n, axis=None)[:n]
