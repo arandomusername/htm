@@ -99,7 +99,7 @@ class spatial_pooler:
         active_num   = math.floor(activation.size * (self.active_percent *
                                                      (active_field)))
 
-        # iterate over every position and calculate its inhibition with gauss
+        # iterate over every position calculate its local inhibition with gauss
         while not it.finished:
             local_pos        = [[] for x in range(2)]
             inh_pos          = [[] for x in range(2)]
@@ -109,16 +109,17 @@ class spatial_pooler:
             for n in range(dim):
                 local_pos[0].append(0)
                 local_pos[1].append(spatial_pooler.inhibition_rad)
+
                 inh_pos[0].append(it.multi_index[n] - max_distance)
                 inh_pos[1].append(it.multi_index[n] + max_distance + 1)
 
                 if inh_pos[0][n] < 0:
                     local_pos[0][n] = -inh_pos[0][n]
-                    inh_pos[0][n]     = 0
+                    inh_pos[0][n]   = 0
 
                 if inh_pos[1][n] > activation.shape[n]:
-                    local_pos[1][n]   = activation.shape[n] - inh_pos[1][n]
-                    inh_pos[1][n]       = activation.shape[n]
+                    local_pos[1][n] = activation.shape[n] - inh_pos[1][n]
+                    inh_pos[1][n]   = activation.shape[n]
 
             self.add_inhibited(inhibition, local_inhibition, local_pos, inh_pos)
             it.iternext()
@@ -126,9 +127,14 @@ class spatial_pooler:
         inhibited = activation - inhibition
         return self.get_biggest_indices(inhibited, active_num)
 
-    def add_inhibited(self, inhibition, local_inhibition, local_pos, inh_pos):
-        for pospos, value in np.ndenumerate(inh_pos):
-            inhibition[value] += local_inhibition[local_pos[pospos]]
+    def add_inhibited(self, dim, inhibition, local_inhibition,
+                      local_pos, inh_pos):
+        #  adds local_inhibition to a global inhibitionmatrix
+        local_perms = create_perms(0, dim, local_pos, [])
+        inh_perms   = create_perms(0, dim, inh_pos,   [])
+
+        for x in range(len(inh_perms)):
+            inhibition.index(inh_perms[x]) += local_inhibition.index(local_perms[x])
 
     def get_biggest_indices(self, arr, n):
         indices = (-arr).argpartition(n, axis=None)[:n]
@@ -137,6 +143,24 @@ class spatial_pooler:
 
     def learn(self, active_input):
         self.region.learn(active_input)
+
+
+def create_perms(n, dim, pos, old_list):
+    #  create list of permutations in given dimension
+    if n < dim:
+        new_list = []
+        if len(old_list) == 0:
+            for x in range(pos[n][0], pos[n][1]):
+                new_list.append([x])
+        else:
+            for element in old_list:
+                for x in range(pos[n][0], pos[n][1]):
+                    new_list.append(element + [x])
+
+        return create_perms(n+1, dim, pos, new_list)
+
+    else:
+        return old_list
 
 
 def gauss(x):
