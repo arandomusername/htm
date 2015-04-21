@@ -121,7 +121,8 @@ class spatial_pooler:
                     local_pos[1][n] = activation.shape[n] - inh_pos[1][n]
                     inh_pos[1][n]   = activation.shape[n]
 
-            self.add_inhibited(inhibition, local_inhibition, local_pos, inh_pos)
+            self.add_inhibited(dim, inhibition, local_inhibition, local_pos,
+                               inh_pos)
             it.iternext()
 
         inhibited = activation - inhibition
@@ -132,9 +133,16 @@ class spatial_pooler:
         #  adds local_inhibition to a global inhibitionmatrix
         local_perms = create_perms(0, dim, local_pos, [])
         inh_perms   = create_perms(0, dim, inh_pos,   [])
+        count       = len(local_perms)
 
-        for x in range(len(inh_perms)):
-            inhibition.index(inh_perms[x]) += local_inhibition.index(local_perms[x])
+        for x in range(count):
+            local  = local_inhibition
+            inh    = inhibition
+            for n in range(dim):
+                local = local[local_perms[x][n]]
+                inh   = inh[inh_perms[x][n]]
+
+            inh = inh + local
 
     def get_biggest_indices(self, arr, n):
         indices = (-arr).argpartition(n, axis=None)[:n]
