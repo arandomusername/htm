@@ -138,6 +138,8 @@ class spatial_pooler:
         return indices
 
 
+    def learn(self, active_input)
+        self.region.learn(active_input)
 def gauss(x):
     if x == 0:
         return 0
