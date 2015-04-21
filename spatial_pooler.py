@@ -15,6 +15,7 @@ class spatial_pooler:
     def run(self, region, active_input):
         self.__set_region(region)
         inhibited = self.select_activated_gauss(active_input)
+        import pdb; pdb.set_trace()  # XXX BREAKPOINT
         print(inhibited)
         print(self.select_activated_gauss_v2(active_input))
         region.update_column_activation(inhibited)
@@ -97,14 +98,15 @@ class spatial_pooler:
         # calculate the number of activated neurons
         active_field = np.count_nonzero(active_input) * 1.0 / active_input.size
         active_num   = math.floor(activation.size * (self.active_percent *
-                                                     (active_field)))
+                                                     (active_field + 1)))
 
         # iterate over every position calculate its local inhibition with gauss
         while not it.finished:
-            local_pos        = [[] for x in range(2)]
-            global_pos          = [[] for x in range(2)]
+            local_pos  = [[] for x in range(2)]
+            global_pos = [[] for x in range(2)]
             # [0] --> start
             # [1] --> end
+
             local_inhibition = it[0] * gauss_m
             max_distance     = (spatial_pooler.inhibition_rad - 1) / 2
 
@@ -137,9 +139,10 @@ class spatial_pooler:
         indices = np.vstack(np.unravel_index(indices, arr.shape)).transpose()
         return indices
 
-
-    def learn(self, active_input)
+    def learn(self, active_input):
         self.region.learn(active_input)
+
+
 def gauss(x):
     if x == 0:
         return 0
