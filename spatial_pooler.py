@@ -106,6 +106,7 @@ class spatial_pooler:
             local_inhibition = it[0] * gauss_m
             max_distance     = (spatial_pooler.inhibition_rad - 1) / 2
 
+
             for n in range(dim):
                 local_pos[0].append(0)
                 local_pos[1].append(spatial_pooler.inhibition_rad)
@@ -128,21 +129,15 @@ class spatial_pooler:
         inhibited = activation - inhibition
         return self.get_biggest_indices(inhibited, active_num)
 
-    def add_inhibited(self, dim, inhibition, local_inhibition,
+    def add_inhibited(self, dim, global_inhibition, local_inhibition,
                       local_pos, inh_pos):
-        #  adds local_inhibition to a global inhibitionmatrix
-        local_perms = create_perms(0, dim, local_pos, [])
-        inh_perms   = create_perms(0, dim, inh_pos,   [])
-        count       = len(local_perms)
+        local_pos  = np.array(local_pos).transpose()
+        global_pos = np.array(inh_pos).transpose()
+        count = len(local_pos)
 
+        import pdb; pdb.set_trace()  # XXX BREAKPOINT
         for x in range(count):
-            local  = local_inhibition
-            inh    = inhibition
-            for n in range(dim):
-                local = local[local_perms[x][n]]
-                inh   = inh[inh_perms[x][n]]
-
-            inh = inh + local
+            global_inhibition[global_pos[x]] = global_inhibition[global_pos[x]] + local_inhibition[local_pos[x]]
 
     def get_biggest_indices(self, arr, n):
         indices = (-arr).argpartition(n, axis=None)[:n]
@@ -158,11 +153,11 @@ def create_perms(n, dim, pos, old_list):
     if n < dim:
         new_list = []
         if len(old_list) == 0:
-            for x in range(pos[n][0], pos[n][1]):
+            for x in range(pos[0][n], pos[1][n]):
                 new_list.append([x])
         else:
             for element in old_list:
-                for x in range(pos[n][0], pos[n][1]):
+                for x in range(pos[0][n], pos[1][n]):
                     new_list.append(element + [x])
 
         return create_perms(n+1, dim, pos, new_list)
@@ -193,4 +188,4 @@ def gauss_matrix(size, dim):
             distance += (pos[x] - mid_pos[x]) ** 2
         distance = math.sqrt(distance)
         m[pos]   = gauss(distance)
-    return m
+    return np.array(m)
