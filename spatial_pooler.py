@@ -102,68 +102,40 @@ class spatial_pooler:
         # iterate over every position calculate its local inhibition with gauss
         while not it.finished:
             local_pos        = [[] for x in range(2)]
-            inh_pos          = [[] for x in range(2)]
+            global_pos          = [[] for x in range(2)]
+            # [0] --> start
+            # [1] --> end
             local_inhibition = it[0] * gauss_m
             max_distance     = (spatial_pooler.inhibition_rad - 1) / 2
 
-
             for n in range(dim):
                 local_pos[0].append(0)
-                local_pos[1].append(spatial_pooler.inhibition_rad)
+                local_pos[1].append(spatial_pooler.inhibition_rad - 1)
 
-                inh_pos[0].append(it.multi_index[n] - max_distance)
-                inh_pos[1].append(it.multi_index[n] + max_distance + 1)
+                global_pos[0].append(it.multi_index[n] - max_distance)
+                global_pos[1].append(it.multi_index[n] + max_distance)
 
-                if inh_pos[0][n] < 0:
-                    local_pos[0][n] = -inh_pos[0][n]
-                    inh_pos[0][n]   = 0
+                if global_pos[0][n] < 0:
+                    local_pos[0][n] = -global_pos[0][n]
+                    global_pos[0][n]   = 0
 
-                if inh_pos[1][n] > activation.shape[n]:
-                    local_pos[1][n] = activation.shape[n] - inh_pos[1][n]
-                    inh_pos[1][n]   = activation.shape[n]
+                if global_pos[1][n] >= activation.shape[n]:
+                    local_pos[1][n]  = activation.shape[n] - global_pos[1][n]
+                    global_pos[1][n] = activation.shape[n] - 1
 
-            self.add_inhibited(dim, inhibition, local_inhibition, local_pos,
-                               inh_pos)
+            local_pos = np.array(local_pos).transpose()
+            global_pos = np.array(global_pos).transpose()
+
+            inhibition[np.ix_(*global_pos)] += local_inhibition[np.ix_(*local_pos)]
             it.iternext()
 
         inhibited = activation - inhibition
         return self.get_biggest_indices(inhibited, active_num)
 
-    def add_inhibited(self, dim, global_inhibition, local_inhibition,
-                      local_pos, inh_pos):
-        local_pos  = np.array(local_pos).transpose()
-        global_pos = np.array(inh_pos).transpose()
-        count = len(local_pos)
-
-        import pdb; pdb.set_trace()  # XXX BREAKPOINT
-        for x in range(count):
-            global_inhibition[global_pos[x]] = global_inhibition[global_pos[x]] + local_inhibition[local_pos[x]]
-
     def get_biggest_indices(self, arr, n):
         indices = (-arr).argpartition(n, axis=None)[:n]
         indices = np.vstack(np.unravel_index(indices, arr.shape)).transpose()
         return indices
-
-    def learn(self, active_input):
-        self.region.learn(active_input)
-
-
-def create_perms(n, dim, pos, old_list):
-    #  create list of permutations in given dimension
-    if n < dim:
-        new_list = []
-        if len(old_list) == 0:
-            for x in range(pos[0][n], pos[1][n]):
-                new_list.append([x])
-        else:
-            for element in old_list:
-                for x in range(pos[0][n], pos[1][n]):
-                    new_list.append(element + [x])
-
-        return create_perms(n+1, dim, pos, new_list)
-
-    else:
-        return old_list
 
 
 def gauss(x):
