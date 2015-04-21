@@ -4,8 +4,8 @@ import numpy as np
 
 
 if __name__ == "__main__":
-    input_shape = (2, 2)
-    reg_size     = 4
+    input_shape = (2, 2, 2)
+    reg_size     = 5
     reg1 = region(reg_size, input_shape)
     sp  = spatial_pooler()
     for x in range(500):
@@ -13,7 +13,7 @@ if __name__ == "__main__":
         print(active_input)
         sp.run(reg1, active_input)
 
-    for x in range(10):
+    for x in range(40):
         active_input = np.random.randint(2, size=input_shape)
         print(active_input)
         reg1.pattern.show(active_input)

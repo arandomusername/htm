@@ -3,7 +3,7 @@ import math
 
 
 class spatial_pooler:
-    active_percent = .2
+    active_percent = .1515
     inhibition_rad = 3
 
     def __init__(self):
@@ -15,9 +15,6 @@ class spatial_pooler:
     def run(self, region, active_input):
         self.__set_region(region)
         inhibited = self.select_activated_gauss(active_input)
-        import pdb; pdb.set_trace()  # XXX BREAKPOINT
-        print(inhibited)
-        print(self.select_activated_gauss_v2(active_input))
         region.update_column_activation(inhibited)
         self.learn(active_input)
         self.region.pattern.add_pattern(active_input, region.active_columns)
@@ -42,56 +39,9 @@ class spatial_pooler:
         return max_list
 
     def select_activated_gauss(self, active_input):
-        activation = self.region.get_activation_scores(active_input)
-        gauss_m    = gauss_matrix(spatial_pooler.inhibition_rad,
-                                  len(activation.shape))
-        it         = np.nditer(activation, flags=['multi_index'])
-        inhibition = np.zeros(activation.shape)
-
-        activ_field = np.count_nonzero(active_input) * 1.0 / active_input.size
-        number_activated = math.floor(activation.size * (self.active_percent *
-                                                         (activ_field + 1)))
-        while not it.finished:
-            inh = it[0] * gauss_m
-            max_distance = (spatial_pooler.inhibition_rad - 1) / 2
-
-            x1 = it.multi_index[0] - max_distance
-            y1 = it.multi_index[1] - max_distance
-            x2 = it.multi_index[0] + max_distance + 1
-            y2 = it.multi_index[1] + max_distance + 1
-
-            temp_x1 = 0
-            temp_y1 = 0
-            temp_x2 = spatial_pooler.inhibition_rad
-            temp_y2 = spatial_pooler.inhibition_rad
-
-            if x1 < 0:
-                temp_x1 = -x1
-                x1      = 0
-
-            if y1 < 0:
-                temp_y1 = -y1
-                y1      = 0
-
-            if x2 > activation.shape[0]:
-                temp_x2 = activation.shape[0] - x2
-                x2      = activation.shape[0]
-
-            if y2 > activation.shape[1]:
-                temp_y2 = activation.shape[1] - y2
-                y2      = activation.shape[1]
-
-            inhibition[x1:x2, y1:y2] += inh[temp_x1: temp_x2, temp_y1: temp_y2]
-            it.iternext()
-
-        inhibited = activation - inhibition
-        return self.get_biggest_indices(inhibited, number_activated)
-
-    def select_activated_gauss_v2(self, active_input):
         # initialize necesarry aid matrizes
-        dim        = len(active_input.shape)
         activation = self.region.get_activation_scores(active_input)
-        gauss_m    = gauss_matrix(spatial_pooler.inhibition_rad, dim)
+        gauss_m    = gauss_matrix(spatial_pooler.inhibition_rad, 2)
         it         = np.nditer(activation, flags=['multi_index'])
         inhibition = np.zeros(activation.shape)
 
@@ -110,7 +60,7 @@ class spatial_pooler:
             local_inhibition = it[0] * gauss_m
             max_distance     = (spatial_pooler.inhibition_rad - 1) / 2
 
-            for n in range(dim):
+            for n in range(2):
                 local_pos[0].append(0)
                 local_pos[1].append(spatial_pooler.inhibition_rad - 1)
 
