@@ -1,4 +1,5 @@
-Trying to implement a Cortical Learning Algorithm (CLA) based on the White Paper released by Jeff Hawking(Numenta) using git as versioncontrol and backup
+Trying to implement a Cortical Learning Algorithm (CLA) based on the White
+Paper released by Jeff Hawking(Numenta).
 White Paper: http://numenta.org/cla-white-paper.html
 
 FYI: Nothing works and nothing will work, ever
