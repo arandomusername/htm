@@ -10,20 +10,16 @@ class region(object):
         self.columns        = [[]]
         self.pattern        = pattern_group(input_shape, (self.size, self.size))
         self.active_columns = np.zeros((self.size, self.size))
-        self.active_neurons = np.zeros((self.size, self.size, column.neuron_num))
+        self.active_neurons = np.zeros((self.size, self.size,
+                                        column.neuron_num))
 
         self.__add_columns()
         self.connect_to_input(input_shape)
 
     def __add_columns(self):
-        self.columns = [[column(self.input_shape, self.size)
-                         for x in range(self.size)]
-                         for y in range(self.size)]
-
-    def gen_columns(self):
-        for col in self.columns:
-            for row in col:
-                yield row
+        self.columns = np.array([[column(self.input_shape, self.size)
+                                  for x in range(self.size)]
+                                  for y in range(self.size)])
 
     def get_activation_scores(self, active_input):
         act_arr = np.zeros(shape=(self.size, self.size))
@@ -37,7 +33,15 @@ class region(object):
         for coor in active_list:
             self.active_columns[coor[0], coor[1]] = 1
 
+    def update_neuron_activation(self):
+        for pos, value in np.ndemurate(self.columns):
+            col = self.columns[pos].get_active_neurons()
+            self.active_columns[pos] = col
+
     def get_column_activation(self):
+        return self.active_neurons
+
+    def get_neuron_activation(self):
         return self.active_columns
 
     def learn(self, active_input):

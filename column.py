@@ -36,9 +36,12 @@ class column(object):
     def reset_boost(self):
         self.boost = 1
 
-    def get_act_neuron_matrix(self, region_score):
+    def get_active_neuron(self, region_score):
         # This is incomplete. The activity equals the regions activity.
         # get_activity needs and input.
         act_arr = np.zeros(column.neuron_num)
         for n in range(column.neuron_num):
             act_arr[n] = self.neurons[n].get_activity_score(region_score)
+
+    def get_neuron_activation(self):
+        return self.neuron_activation
