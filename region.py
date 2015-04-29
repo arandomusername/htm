@@ -28,6 +28,17 @@ class region(object):
                 act_arr[x, y] = self.columns[x][y].get_activity_score(active_input)
         return act_arr
 
+    def get_column_activation(self):
+        return self.active_neurons
+
+    def get_neuron_activation(self):
+        return self.active_columns
+
+    def get_columns(self):
+        for x in range(self.size):
+            for y in range(self.size):
+                yield self.columns[x][y]
+
     def update_column_activation(self, active_list):
         self.active_columns.fill(0)
         for coor in active_list:
@@ -37,12 +48,6 @@ class region(object):
         for pos, value in np.ndemurate(self.columns):
             col = self.columns[pos].get_active_neurons()
             self.active_columns[pos] = col
-
-    def get_column_activation(self):
-        return self.active_neurons
-
-    def get_neuron_activation(self):
-        return self.active_columns
 
     def learn(self, active_input):
         for x in range(self.size):
@@ -54,7 +59,7 @@ class region(object):
                     self.columns[x][y].increase_boost()
 
     def connect_to_input(self, input_shape):
-        for col in self.gen_columns():
+        for col in self.get_columns():
             connections = np.random.randint(2, size=input_shape)
             col.dendrites.set_potential_synapses(connections)
             col.dendrites.random_permanence()
